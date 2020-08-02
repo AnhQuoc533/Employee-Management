@@ -5,6 +5,15 @@
 #include "RecordHeader.h"
 
 int main() {
-
+	/*Login Menu Test*/
+	//
+	/*Info Menu Test*/
+	//
+	/*Record Menu Test*/
+	//
+	/*Salary Menu Test*/
+	//
+	/*Employee Menu Test*/
+	//
 	return 0;
 }
