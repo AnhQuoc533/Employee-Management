@@ -1,0 +1,3 @@
+Pass: ddmmyyyy
+Remove employee: remove all info in info.txt and record.txt
+Clear record: set all record to 0
