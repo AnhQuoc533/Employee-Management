@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{A8AA1874-45B7-4D05-99A4-3B000D788167}</ProjectGuid>
+    <ProjectGuid>{24627F5D-38D9-4613-904C-80B8C0B775FD}</ProjectGuid>
     <RootNamespace>EmployeeManagement</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -123,12 +123,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="EmployeeHeader.h" />
-    <ClInclude Include="InfoHeader.h" />
-    <ClInclude Include="LoginHeader.h" />
-    <ClInclude Include="RecordHeader.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Employee.cpp" />
     <ClCompile Include="EmployeeFunction.cpp" />
     <ClCompile Include="FakeMain.cpp" />
@@ -139,6 +133,12 @@
     <ClCompile Include="Record.cpp" />
     <ClCompile Include="RecordFunction.cpp" />
     <ClCompile Include="Salary.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EmployeeHeader.h" />
+    <ClInclude Include="InfoHeader.h" />
+    <ClInclude Include="LoginHeader.h" />
+    <ClInclude Include="RecordHeader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
