@@ -53,13 +53,13 @@ private:
 	vector<Employee> ListEmpl;
 public:
 	Staff();
-	void ImportListEmpfromCsv(ifstream& fload);
-	void input_List_of_Empl_Manually();
+	void ImportListEmpfromCsv();
+	void Add_List_of_Empl_Manually();
 	void Edit_Infor_of_an_Empl();
 	void View_list_of_Empl();
-	void View_Infor_of_an_Empl() {}
-	void View_check_in_of_an_employee();
-	void Reset_password_for_empl() {}
+	void View_Infor_of_an_Empl();
+	void View_check_in_of_an_employee() {}//not touch yet
+	void Reset_password_for_empl() {}//not touch yet
 	void StaffMenu();
 };
 

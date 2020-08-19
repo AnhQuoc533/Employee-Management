@@ -6,8 +6,9 @@ Staff::Staff()
 	StInfor = anInfor;
 }
 
-void Staff::ImportListEmpfromCsv(ifstream& fload)
+void Staff::ImportListEmpfromCsv()
 {
+	ifstream fload;
 	string filename;
 	string temp;
 	Employee anEmpl;
@@ -47,7 +48,7 @@ void Staff::ImportListEmpfromCsv(ifstream& fload)
 	}
 }
 
-void Staff::input_List_of_Empl_Manually()
+void Staff::Add_List_of_Empl_Manually()
 {
 	int n;
 	do
@@ -170,7 +171,8 @@ void Staff::Edit_Infor_of_an_Empl()
 			choice = 0;
 		}
 	} while (choice != 0);
-	cout << "Editing is canceled." << endl;
+	cout << "The employee after edited:" << endl;
+	ListEmpl[index].outputEmpl();
 }
 
 void Staff::View_list_of_Empl()
@@ -183,7 +185,7 @@ void Staff::View_list_of_Empl()
 	}
 }
 
-void Staff::View_check_in_of_an_employee()
+void Staff::View_Infor_of_an_Empl()
 {
 	int id;
 	cout << "Input the ID of the employee who you want to view his/her information: ";
@@ -222,5 +224,13 @@ void Staff::View_check_in_of_an_employee()
 
 void Staff::StaffMenu()
 {
+	//Test import xong comment lai nhu luc dau r test tiep ham add, xong r tu do test luon cac ham khac
+	//Gop y gi nhan lien qua Mess giup^^.
+	/*ImportListEmpfromCsv();
+	View_list_of_Empl();
+	ListEmpl.clear();*/
 
+	/*Add_List_of_Empl_Manually();
+	View_list_of_Empl();
+	Edit_Infor_of_an_Empl();*/
 }
