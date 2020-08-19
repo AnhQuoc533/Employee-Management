@@ -40,7 +40,7 @@ private:
 	Infor StInfor;
 	vector<Employee> ListEmpl;
 public:
-
+	// StaffMenu();
 };
 
 
