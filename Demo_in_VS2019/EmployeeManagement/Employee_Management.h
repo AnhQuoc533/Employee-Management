@@ -4,6 +4,7 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<fstream>
 #include"Date.h"
 using namespace std;
 
@@ -30,9 +31,16 @@ class Employee {
 private:
 	Infor EInfor;
 	int record;
-	double salary;
+	double Salary;
 public:
-
+	Date getDoB() { return EInfor.getDoB(); }
+	int getID() { return EInfor.getID(); }
+	string getName() { return EInfor.getName(); }
+	double getSalary() { return Salary; }
+	void setDoB(Date& dob) { EInfor.setDoB(dob); }
+	void setID(int id) { EInfor.setID(id); }
+	void setName(string name) { EInfor.setName(name); }
+	void setSalary(double salary) { Salary = salary; }
 };
 
 class Staff {
@@ -40,6 +48,7 @@ private:
 	Infor StInfor;
 	vector<Employee> ListEmpl;
 public:
+	void ImportListEmpfromCsv(ifstream& fload);
 	// StaffMenu();
 };
 
