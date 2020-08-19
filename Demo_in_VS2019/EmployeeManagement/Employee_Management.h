@@ -16,6 +16,7 @@ private:
 	//Login or Account ACC;
 public:
 	//getter:
+	Infor();
 	Date getDoB() { return DoB; }
 	int getID() { return ID; }
 	string getName() { return Name; }
@@ -30,9 +31,10 @@ public:
 class Employee {
 private:
 	Infor EInfor;
-	int record;
+	//int record;
 	double Salary;
 public:
+	Employee();
 	Date getDoB() { return EInfor.getDoB(); }
 	int getID() { return EInfor.getID(); }
 	string getName() { return EInfor.getName(); }
@@ -41,6 +43,8 @@ public:
 	void setID(int id) { EInfor.setID(id); }
 	void setName(string name) { EInfor.setName(name); }
 	void setSalary(double salary) { Salary = salary; }
+	void inputEmpl();
+	void outputEmpl();
 };
 
 class Staff {
@@ -48,8 +52,15 @@ private:
 	Infor StInfor;
 	vector<Employee> ListEmpl;
 public:
+	Staff();
 	void ImportListEmpfromCsv(ifstream& fload);
-	// StaffMenu();
+	void input_List_of_Empl_Manually();
+	void Edit_Infor_of_an_Empl();
+	void View_list_of_Empl();
+	void View_Infor_of_an_Empl() {}
+	void View_check_in_of_an_employee();
+	void Reset_password_for_empl() {}
+	void StaffMenu();
 };
 
 

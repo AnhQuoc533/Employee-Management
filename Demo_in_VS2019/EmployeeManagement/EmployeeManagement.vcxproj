@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Employee.cpp" />
+    <ClCompile Include="Infor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Staff.cpp" />
   </ItemGroup>
