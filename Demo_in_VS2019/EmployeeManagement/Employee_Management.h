@@ -6,6 +6,7 @@
 #include<string>
 #include<fstream>
 #include"Date.h"
+#include<sstream>
 using namespace std;
 
 class Infor {
@@ -53,6 +54,7 @@ public:
 	void inputEmpl();
 	void editEmplInfor() { EInfor.EditInfor(); }
 	void View_Infor_Empl();
+	void loadEmplData();
 	friend class Staff;
 };
 
