@@ -28,13 +28,13 @@ void Staff::ImportListEmpfromCsv()
 		cout << "Starting load its data to the program...." << endl;
 		while (getline(fload, temp, ','))
 		{
-			anEmpl.setNo(stoi(temp));
+			anEmpl.EInfor.setNo(stoi(temp));
 			getline(fload, temp, ',');
-			anEmpl.setID(stoi(temp));
+			anEmpl.EInfor.setID(stoi(temp));
 			getline(fload, temp, ',');
-			anEmpl.setName(temp);
+			anEmpl.EInfor.setName(temp);
 			getline(fload, temp, ',');
-			anEmpl.setGender(temp[0]);
+			anEmpl.EInfor.setGender(temp[0]);
 			getline(fload, temp, '/');
 			tempd = stoi(temp);
 			getline(fload, temp, '/');
@@ -42,11 +42,11 @@ void Staff::ImportListEmpfromCsv()
 			getline(fload, temp, ',');
 			tempy = stoi(temp);
 			Date tempDate(tempy, tempm, tempd);
-			anEmpl.setDoB(tempDate);
+			anEmpl.EInfor.setDoB(tempDate);
 			getline(fload, temp, ',');
-			anEmpl.setPhone(temp);
+			anEmpl.EInfor.setPhone(temp);
 			getline(fload, temp);
-			anEmpl.setAddress(temp);
+			anEmpl.EInfor.setAddress(temp);
 			ListEmpl.push_back(anEmpl);
 		}
 		cout << endl << "Finished importing " << filename << "." << endl;
@@ -54,6 +54,19 @@ void Staff::ImportListEmpfromCsv()
 		fload.close();
 		cout << "The file " << filename << " was closed successedfully." << endl;
 	}
+}
+
+int Staff::findEmplWithID(int id)
+{
+	int n = ListEmpl.size();
+	for (int i = 0; i < n; i++)
+	{
+		if (ListEmpl[i].EInfor.getID() == id)
+		{
+			return i;
+		}
+	}
+	return -1;
 }
 
 void Staff::Add_an_Empl_Manually()
@@ -64,24 +77,22 @@ void Staff::Add_an_Empl_Manually()
 	anEmpl.inputEmpl();
 	do
 	{
-		for (int i = 0; i < n; i++)
+		int index = findEmplWithID(anEmpl.EInfor.getID());
+		if (index != -1)
 		{
-			if (ListEmpl[i].getID() == anEmpl.getID())
+			cout << endl << "ERROR: The employee with the ID " << anEmpl.EInfor.getID() << "is already existed." << endl;
+			cout << "Here is his/her information:" << endl;
+			ListEmpl[index].View_Infor_Empl();
+			cout << "Enter 1 to input the ID again or any key to cancel the addition: ";
+			cin >> choice;
+			if (cin.fail())
 			{
-				cout << "The employee with the ID " << anEmpl.getID() << "is already existed." << endl;
-				cout << "Here is his/her information:" << endl;
-				ListEmpl[i].outputEmpl();
-				cout << "Enter 1 to input the ID again or any key to cancel the addition: ";
-				cin >> choice;
-				if (cin.fail())
-				{
-					cin.clear();
-					cin.ignore(2000, '\n');
-					choice = -1;
-				}
-				break;
+				cin.clear();
+				cin.ignore(2000, '\n');
+				choice = -1;
 			}
 		}
+		else break;
 		if (choice == 1)
 		{
 			int id;
@@ -100,7 +111,7 @@ void Staff::Add_an_Empl_Manually()
 					cout << "Invalid input. Please input again." << endl << endl;
 				}
 			} while (id <= 0);
-			anEmpl.setID(id);
+			anEmpl.EInfor.setID(id);
 		}
 		else
 		{
@@ -108,15 +119,14 @@ void Staff::Add_an_Empl_Manually()
 			return;
 		}
 	} while (choice == 1);
-	anEmpl.setNo(ListEmpl.size() + 1);
+	anEmpl.EInfor.setNo(ListEmpl.size() + 1);
 	ListEmpl.push_back(anEmpl);
 }
 
 void Staff::Edit_Infor_of_an_Empl()
 {
-	cout << "Start editing...." << endl;
 	int id;
-	cout << "Input the ID of the employee who you want to edit his/her information: ";
+	cout << "Please input the ID of the employee who you want to edit his/her information first: ";
 	cin >> id;
 	if (cin.fail() || id <= 0)
 	{
@@ -130,123 +140,51 @@ void Staff::Edit_Infor_of_an_Empl()
 		cout << "The editing will be canceled." << endl;
 		return;
 	}
-	int n = ListEmpl.size();
-	int index = -1;
-	for (int i = 0; i < n; i++)
-	{
-		if (id == ListEmpl[i].getID())
-		{
-			index = i;
-			break;
-		}
-	}
+	int index = findEmplWithID(id);
 	if (index == -1)
 	{
 		cout << "There is no employee that has the ID " << id << "in this list." << endl;
 		cout << "The editing will be canceled." << endl;
 		return;
 	}
-	int choice = -1;
-	do
-	{
-		cout << endl << "Which infor of this employee do you want to edit?" << endl;
-		cout << "Enter 0 to cancel." << endl;
-		cout << "Enter 1 to edit name." << endl;
-		cout << "Enter 2 to edit gender." << endl;
-		cout << "Enter 3 to edit date of birth." << endl;
-		cout << "Enter 4 to edit phone." << endl;
-		cout << "Enter 5 to edit address." << endl;
-		cout << "Your choice: ";
-		cin >> choice;
-		if (cin.fail() || choice < 0)
-		{
-			if (cin.fail())
-			{
-				cin.clear();
-				cin.ignore(2000, '\n');
-				choice = -1;
-			}
-			cout << "Invalid choice. Please choose again." << endl << endl;
-		}
-		cout << endl;
-		switch (choice)
-		{
-		case 0:
-		{
-			cout << "Editing is canceled." << endl;
-			break;
-		}
-		case 1:
-		{
-			cout << "Editing the name of the employee." << endl;
-			string name;
-			cout << "Input the new name for this employee: ";
-			cin.ignore(1);
-			getline(cin, name);
-			ListEmpl[index].setName(name);
-			break;
-		}
-		case 2:
-		{
-			cin.ignore(1);
-			char gender;
-			cout << "Editing the gender of the employee." << endl;
-			cout << "Input new gender: ";
-			gender = getchar();
-			ListEmpl[index].setGender(gender);
-			break;
-		}
-		case 3:
-		{
-			cout << "Editing the date of birth of the employee." << endl;
-			Date aDate;
-			cout << "Input the new date of birth for this employee:" << endl;
-			cin >> aDate;
-			ListEmpl[index].setDoB(aDate);
-			break;
-		}
-		case 4:
-		{
-			cout << "Editing the phone of the employee." << endl;
-			string phone;
-			cout << "Input the new phone for this employee: ";
-			cin.ignore(1);
-			getline(cin, phone);
-			ListEmpl[index].setPhone(phone);
-			break;
-		}
-		case 5:
-		{
-			cout << "Editing the address of the employee." << endl;
-			string address;
-			cout << "Input the new address for this employee: ";
-			cin.ignore(1);
-			getline(cin, address);
-			ListEmpl[index].setAddress(address);
-			break;
-		}
-		default:
-		{
-			cout << "Invalid choice." << endl;
-			break;
-		}
-		}
-		cout << "Do you still want to edit this employee?" << endl;
-		cout << "Enter 1 to continue or any key to exit: ";
-		cin >> choice;
-		if (cin.fail() || choice != 1)
-		{
-			if (cin.fail())
-			{
-				cin.clear();
-				cin.ignore(2000, '\n');
-			}
-			choice = 0;
-		}
-	} while (choice != 0);
+	cout << "Start editing...." << endl;
+	ListEmpl[index].editEmplInfor();
 	cout << "The employee after edited:" << endl;
-	ListEmpl[index].outputEmpl();
+	ListEmpl[index].View_Infor_Empl();
 	cout << endl;
+}
+
+void Staff::Remove_an_Empl()
+{
+	int id;
+	cout << "Please input the ID of the employee who you want to remove his/her information first: ";
+	cin >> id;
+	if (cin.fail() || id <= 0)
+	{
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(2000, '\n');
+			id = 0;
+		}
+		cout << "Invalid ID." << endl;
+		cout << "The removing will be canceled." << endl;
+		return;
+	}
+	int index = findEmplWithID(id);
+	if (index == -1)
+	{
+		cout << "There is no employee that has the ID " << id << "in this list." << endl;
+		cout << "The removing will be canceled." << endl;
+		return;
+	}
+	cout << "Start removing...." << endl;
+	int n = ListEmpl.size();
+	for (int i = index + 1; i < n; i++)
+	{
+		ListEmpl[i].EInfor.setNo(ListEmpl[i].EInfor.getNo() - 1);
+	}
+	ListEmpl.erase(ListEmpl.begin() + index);
 }
 
 void Staff::View_list_of_Empl()
@@ -254,7 +192,7 @@ void Staff::View_list_of_Empl()
 	int n = ListEmpl.size();
 	for (int i = 0; i < n; i++)
 	{
-		ListEmpl[i].outputEmpl();
+		ListEmpl[i].View_Infor_Empl();
 		cout << endl;
 	}
 }
@@ -280,7 +218,7 @@ void Staff::View_Infor_of_an_Empl()
 	int index = -1;
 	for (int i = 0; i < n; i++)
 	{
-		if (id == ListEmpl[i].getID())
+		if (id == ListEmpl[i].EInfor.getID())
 		{
 			index = i;
 			break;
@@ -293,7 +231,7 @@ void Staff::View_Infor_of_an_Empl()
 		return;
 	}
 	cout << "The information of this employee is:" << endl;
-	ListEmpl[index].outputEmpl();
+	ListEmpl[index].View_Infor_Empl();
 }
 
 void Staff::StaffMenu()
@@ -302,5 +240,13 @@ void Staff::StaffMenu()
 	//Gop y gi nhan lien qua Mess giup^^.
 	ImportListEmpfromCsv();
 	cout << endl;
+	View_list_of_Empl();
+	cout << endl;
+	Add_an_Empl_Manually();
+	Edit_Infor_of_an_Empl();
+	View_list_of_Empl();
+	cout << endl;
+	Remove_an_Empl();
+	cout << endl << "List of Empl after remove an Employee:" << endl;
 	View_list_of_Empl();
 }

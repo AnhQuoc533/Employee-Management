@@ -38,6 +38,9 @@ public:
 	void setAddress(string address) { Address = address; }
 	void setGender(char gender) { Gender = gender; }
 	//void setACC(Login or Account& acc) { ACC=acc; }
+	void InputInfor();
+	void EditInfor();
+	void OutputInfor();
 };
 
 class Employee {
@@ -47,26 +50,10 @@ private:
 	double Salary;
 public:
 	Employee();
-	//getter:
-	int getNo() { return EInfor.getNo(); }
-	Date getDoB() { return EInfor.getDoB(); }
-	int getID() { return EInfor.getID(); }
-	string getName() { return EInfor.getName(); }
-	string getPhone() { return EInfor.getPhone(); }
-	string getAddress() { return EInfor.getAddress(); }
-	char getGender() { return EInfor.getGender(); }
-	double getSalary() { return Salary; }
-	//setter:
-	void setNo(int no) { EInfor.setNo(no); }
-	void setDoB(Date& dob) { EInfor.setDoB(dob); }
-	void setID(int id) { EInfor.setID(id); }
-	void setName(string name) { EInfor.setName(name); }
-	void setPhone(string phone) { EInfor.setPhone(phone); }
-	void setAddress(string address) { EInfor.setAddress(address); }
-	void setGender(char gender) { EInfor.setGender(gender); }
-	void setSalary(double salary) { Salary = salary; }
 	void inputEmpl();
-	void outputEmpl();
+	void editEmplInfor() { EInfor.EditInfor(); }
+	void View_Infor_Empl();
+	friend class Staff;
 };
 
 class Staff {
@@ -76,8 +63,10 @@ private:
 public:
 	Staff();
 	void ImportListEmpfromCsv();
+	int findEmplWithID(int id);
 	void Add_an_Empl_Manually();
 	void Edit_Infor_of_an_Empl();
+	void Remove_an_Empl();
 	void View_list_of_Empl();
 	void View_Infor_of_an_Empl();
 	void View_check_in_of_an_employee() {}//not touch yet
