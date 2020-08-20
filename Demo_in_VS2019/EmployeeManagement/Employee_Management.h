@@ -45,6 +45,16 @@ public:
 	void OutputInfor();
 };
 
+class Record
+{
+public:
+	Record();
+	~Record();
+	int* getRecord(int ID);
+private:
+	vector<int*> records;
+};
+
 class Employee {
 private:
 	Infor EInfor;
@@ -78,6 +88,14 @@ public:
 	void Reset_password_for_empl() {}//not touch yet
 	void Manage_Employee_Menu();
 	void StaffMenu();
+	void createRecords();
+	void editRecords();
+	void removeRecords();
+	void importRecords();
+	void addRecord();
+	void editRecord();
+	void clearRecord();
+	void viewRecords();
 };
 
 

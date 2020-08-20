@@ -38,5 +38,8 @@
     <ClCompile Include="Infor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Record.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
