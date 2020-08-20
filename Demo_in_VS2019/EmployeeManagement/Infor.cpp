@@ -2,8 +2,11 @@
 
 Infor::Infor()
 {
-	Date aDate(1, 1, 1900);
+	No = 0;
+	Date aDate(1900, 1, 1);
 	DoB = aDate;
 	ID = 0;
 	Name = "Unkown";
+	Phone= "Unkown";
+	Address= "Unkown";
 }

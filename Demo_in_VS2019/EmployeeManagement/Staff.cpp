@@ -28,9 +28,13 @@ void Staff::ImportListEmpfromCsv()
 		cout << "Starting load its data to the program...." << endl;
 		while (getline(fload, temp, ','))
 		{
+			anEmpl.setNo(stoi(temp));
+			getline(fload, temp, ',');
 			anEmpl.setID(stoi(temp));
 			getline(fload, temp, ',');
 			anEmpl.setName(temp);
+			getline(fload, temp, ',');
+			anEmpl.setGender(temp[0]);
 			getline(fload, temp, '/');
 			tempd = stoi(temp);
 			getline(fload, temp, '/');
@@ -42,7 +46,6 @@ void Staff::ImportListEmpfromCsv()
 			getline(fload, temp);
 			anEmpl.setSalary(stod(temp));
 			ListEmpl.push_back(anEmpl);
-			
 		}
 		fload.close();
 	}
