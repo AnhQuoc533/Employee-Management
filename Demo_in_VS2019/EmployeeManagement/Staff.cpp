@@ -6,53 +6,107 @@ Staff::Staff()
 	StInfor = anInfor;
 }
 
-void Staff::ImportListEmpfromCsv()
+void Staff::SavetoTextfile()
+{
+	ofstream fsave;
+	string namefile;
+	cout << "Input the name of the file (please do not put the type of file): ";
+	getline(cin, namefile);
+	namefile.append(".txt");
+	fsave.open(namefile);
+	if (!fsave.is_open())
+	{
+		cout << "Cannot create file." << endl;
+		cout << "Canceled saving." << endl;
+		return;
+	}
+	else
+	{
+		cout << "Saving data to file " << namefile << "...." << endl;
+		cout << "Do not shutdown the program while we are saving for you." << endl;
+		int n = ListEmpl.size();
+		for (int i = 0; i < n; i++)
+		{
+			fsave << ListEmpl[i].EInfor.getNo() << ",";
+			fsave << ListEmpl[i].EInfor.getID() << ",";
+			fsave << ListEmpl[i].EInfor.getName() << ",";
+			fsave << ListEmpl[i].EInfor.getGender() << ",";
+			fsave << ListEmpl[i].EInfor.getDoB() << ",";
+			fsave << ListEmpl[i].EInfor.getPhone() << ",";
+			fsave << ListEmpl[i].EInfor.getAddress();
+			if (i < n - 1)
+			{
+				fsave << endl;
+			}
+		}
+		cout << "Finished saving data to file " << namefile << " successed." << endl;
+		cout << "Closing the file...." << endl;
+		fsave.close();
+		cout << "The file " << namefile << " was closed successfully." << endl;
+	}
+}
+
+void Staff::LoadfromTextfile()
 {
 	ifstream fload;
-	string filename;
-	string temp;
+	string namefile;
 	Employee anEmpl;
-	int tempd = 0, tempm = 0, tempy = 0;
-	cout << "Input the name of the csv file: ";
-	getline(cin, filename);
-	fload.open(filename);
+	cout << "Input the name of the file you want to load its data (do not input the type of the file): ";
+	getline(cin, namefile);
+	namefile.append(".txt");
+	fload.open(namefile);
 	if (!fload.is_open())
 	{
-		cout << "Cannot find the file " << filename << "." << endl;
+		cout << "Cannot find the file " << namefile << "." << endl;
 		cout << "Maybe it was deleted or changed the location." << endl;
 		return;
 	}
 	else
 	{
-		cout << "Openned file " << filename << " successed." << endl;
-		cout << "Starting load its data to the program...." << endl;
-		while (getline(fload, temp, ','))
+		while (!fload.eof())
 		{
-			anEmpl.EInfor.setNo(stoi(temp));
-			getline(fload, temp, ',');
-			anEmpl.EInfor.setID(stoi(temp));
-			getline(fload, temp, ',');
-			anEmpl.EInfor.setName(temp);
-			getline(fload, temp, ',');
-			anEmpl.EInfor.setGender(temp[0]);
-			getline(fload, temp, '/');
-			tempd = stoi(temp);
-			getline(fload, temp, '/');
-			tempm = stoi(temp);
-			getline(fload, temp, ',');
-			tempy = stoi(temp);
-			Date tempDate(tempy, tempm, tempd);
-			anEmpl.EInfor.setDoB(tempDate);
-			getline(fload, temp, ',');
-			anEmpl.EInfor.setPhone(temp);
-			getline(fload, temp);
-			anEmpl.EInfor.setAddress(temp);
+			anEmpl.EInfor.LoadInforfrom(fload);
 			ListEmpl.push_back(anEmpl);
 		}
-		cout << endl << "Finished importing " << filename << "." << endl;
+		cout << endl << "Finished loading " << namefile << "." << endl;
 		cout << "Closing the file...." << endl;
 		fload.close();
-		cout << "The file " << filename << " was closed successedfully." << endl;
+		cout << "The file " << namefile << " was closed successfully." << endl;
+	}
+}
+
+void Staff::ImportListEmpfromCsv()
+{
+	ifstream fload;
+	string namefile;
+	string temp;
+	Employee anEmpl;
+	int tempd = 0, tempm = 0, tempy = 0;
+	cout << "Input the name of the csv file (do not input the type of the file): ";
+	getline(cin, namefile);
+	namefile.append(".csv");
+	fload.open(namefile);
+	if (!fload.is_open())
+	{
+		cout << "Cannot find the file " << namefile << "." << endl;
+		cout << "Maybe it was deleted or changed the location." << endl;
+		return;
+	}
+	else
+	{
+		cout << "Openned file " << namefile << " successed." << endl;
+		cout << "Starting load its data to the program...." << endl;
+		while (!fload.eof())
+		{
+			anEmpl.EInfor.LoadInforfrom(fload);
+			ListEmpl.push_back(anEmpl);
+		}
+		cout << endl << "Finished importing " << namefile << "." << endl;
+		cout << "Closing the file...." << endl;
+		fload.close();
+		cout << "The file " << namefile << " was closed successfully." << endl;
+		cout << "Your data will be saved to a text file now." << endl << endl;
+		SavetoTextfile();
 	}
 }
 
@@ -234,19 +288,107 @@ void Staff::View_Infor_of_an_Empl()
 	ListEmpl[index].View_Infor_Empl();
 }
 
+void Staff::View_Profile()
+{
+	StInfor.OutputInfor();
+}
+
+void Staff::Manage_Employee_Menu()
+{
+	int choice;
+	cout << "Welcome to *Manage employee menu* of staff";
+	do
+	{
+		cout << "0.Exit\n1.Import new list of employee from .csv file\n2.Load existed list of employee from your device\n3.Create new list of employee manually\n";
+		cout << "Your choice: ";
+		cin >> choice;
+		switch (choice)
+		{
+		case 0:
+		{
+			cout << "Returning to *Staff menu*....\n";
+			break;
+		}
+		case 1:
+		{
+			ImportListEmpfromCsv();
+			break;
+		}
+		case 2:
+		{
+			LoadfromTextfile();
+			cout << "Here is your list:" << endl;
+			View_list_of_Empl();
+			break;
+		}
+		case 3:
+		{
+			int n;
+			do
+			{
+				cout << "Input the number of employees you would like to add in this new list: ";
+				cin >> n;
+				if (cin.fail() || n <= 0)
+				{
+					if (cin.fail())
+					{
+						cin.clear();
+						cin.ignore(2000, '\n');
+						n = 0;
+					}
+					cout << "Invalid input. Please input again." << endl;
+				}
+			} while (n <= 0);
+			Employee anEmpl;
+			for (int i = 0; i < n; i++)
+			{
+				cout << "Input information of employee number " << i + 1 << ":" << endl;
+				anEmpl.inputEmpl();
+				ListEmpl.push_back(anEmpl);
+			}
+			cout << "Here is your list:" << endl;
+			View_list_of_Empl();
+			break;
+		}
+		}
+		if (choice == 0)
+		{
+			return;
+		}
+	} while (choice != 0);
+}
+
 void Staff::StaffMenu()
 {
-	//Test import xong comment lai nhu luc dau r test tiep ham add, xong r tu do test luon cac ham khac
-	//Gop y gi nhan lien qua Mess giup^^.
-	ImportListEmpfromCsv();
-	cout << endl;
-	View_list_of_Empl();
-	cout << endl;
-	Add_an_Empl_Manually();
-	Edit_Infor_of_an_Empl();
-	View_list_of_Empl();
-	cout << endl;
-	Remove_an_Empl();
-	cout << endl << "List of Empl after remove an Employee:" << endl;
-	View_list_of_Empl();
+	int choice;
+	do
+	{
+		cout << "Staff menu:\n1.View profile\n2.Change password\n3.Change to manage employee menu\n4.Log out\n";
+		cout << "Your choice: ";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+		{
+			cout << "Your profile:" << endl;
+			break;
+		}
+		case 2:
+		{
+			cout << "Start changing your password." << endl;
+			break;
+		}
+		case 3:
+		{
+			cout << "Changing to manage employee menu...." << endl;
+			Manage_Employee_Menu();
+			break;
+		}
+		default:
+		{
+			cout << "Invalid choice." << endl;
+			break;
+		}
+		}
+	} while (choice != 0);
 }

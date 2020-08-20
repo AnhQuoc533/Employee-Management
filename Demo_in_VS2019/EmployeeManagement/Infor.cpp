@@ -11,6 +11,32 @@ Infor::Infor()
 	Address= "Unkown";
 }
 
+void Infor::LoadInforfrom(ifstream& fload)
+{
+	string temp;
+	int tempd = 0, tempm = 0, tempy = 0;
+	getline(fload, temp, ',');
+	setNo(stoi(temp));
+	getline(fload, temp, ',');
+	setID(stoi(temp));
+	getline(fload, temp, ',');
+	setName(temp);
+	getline(fload, temp, ',');
+	setGender(temp[0]);
+	getline(fload, temp, '/');
+	tempd = stoi(temp);
+	getline(fload, temp, '/');
+	tempm = stoi(temp);
+	getline(fload, temp, ',');
+	tempy = stoi(temp);
+	Date tempDate(tempy, tempm, tempd);
+	setDoB(tempDate);
+	getline(fload, temp, ',');
+	setPhone(temp);
+	getline(fload, temp);
+	setAddress(temp);
+}
+
 void Infor::InputInfor()
 {
 	do

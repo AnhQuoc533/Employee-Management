@@ -39,6 +39,7 @@ public:
 	void setAddress(string address) { Address = address; }
 	void setGender(char gender) { Gender = gender; }
 	//void setACC(Login or Account& acc) { ACC=acc; }
+	void LoadInforfrom(ifstream& fload);
 	void InputInfor();
 	void EditInfor();
 	void OutputInfor();
@@ -65,14 +66,17 @@ private:
 public:
 	Staff();
 	void ImportListEmpfromCsv();
+	void SavetoTextfile();
+	void LoadfromTextfile();
 	int findEmplWithID(int id);
 	void Add_an_Empl_Manually();
 	void Edit_Infor_of_an_Empl();
 	void Remove_an_Empl();
 	void View_list_of_Empl();
 	void View_Infor_of_an_Empl();
-	void View_check_in_of_an_employee() {}//not touch yet
+	void View_Profile();
 	void Reset_password_for_empl() {}//not touch yet
+	void Manage_Employee_Menu();
 	void StaffMenu();
 };
 
