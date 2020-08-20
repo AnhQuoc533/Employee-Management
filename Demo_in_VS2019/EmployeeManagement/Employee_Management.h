@@ -52,8 +52,8 @@ public:
 	Date getDoB() { return EInfor.getDoB(); }
 	int getID() { return EInfor.getID(); }
 	string getName() { return EInfor.getName(); }
-	string getPhone() { EInfor.getPhone(); }
-	string getAddress() { EInfor.getAddress(); }
+	string getPhone() { return EInfor.getPhone(); }
+	string getAddress() { return EInfor.getAddress(); }
 	char getGender() { return EInfor.getGender(); }
 	double getSalary() { return Salary; }
 	//setter:

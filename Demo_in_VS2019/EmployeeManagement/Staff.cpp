@@ -47,7 +47,10 @@ void Staff::ImportListEmpfromCsv()
 			anEmpl.setSalary(stod(temp));
 			ListEmpl.push_back(anEmpl);
 		}
+		cout << endl << "Finished importing " << filename << "." << endl;
+		cout << "Closing the file...." << endl;
 		fload.close();
+		cout << "The file " << filename << " was closed successedfully." << endl;
 	}
 }
 
@@ -229,9 +232,9 @@ void Staff::StaffMenu()
 {
 	//Test import xong comment lai nhu luc dau r test tiep ham add, xong r tu do test luon cac ham khac
 	//Gop y gi nhan lien qua Mess giup^^.
-	/*ImportListEmpfromCsv();
+	ImportListEmpfromCsv();
 	View_list_of_Empl();
-	ListEmpl.clear();*/
+	ListEmpl.clear();
 
 	/*Add_List_of_Empl_Manually();
 	View_list_of_Empl();

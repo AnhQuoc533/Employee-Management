@@ -29,14 +29,32 @@ void Employee::inputEmpl()
 	} while (id <= 0);
 	setID(id);
 	cin.ignore(1);
-	string name;
+	string temp;
 	cout << "Input the name: ";
-	getline(cin, name);
-	setName(name);
+	getline(cin, temp);
+	setName(temp);
+	char gender;
+	do
+	{
+		cout << "Input the gender: ";
+		gender = getchar();
+		if (gender != 'M' && gender != 'F')
+		{
+			cout << "Invalid gender. Please input again." << endl << endl;
+		}
+	} while (gender != 'M' && gender != 'F');
+	setGender(gender);
 	Date aDate;
 	cout << "Input date of birth:" << endl;
 	cin >> aDate;
 	setDoB(aDate);
+	cin.ignore(1);
+	cout << "Input phonenumber: ";
+	getline(cin, temp);
+	setPhone(temp);
+	cout << "Input address: ";
+	getline(cin, temp);
+	setAddress(temp);
 	setSalary(0.0);
 }
 
@@ -44,6 +62,9 @@ void Employee::outputEmpl()
 {
 	cout << "ID: " << getID() << endl;
 	cout << "Name: " << getName() << endl;
+	cout << "Gender: " << getGender() << endl;
 	cout << "Date of birth: " << getDoB() << endl;
-	cout << "Salary: " << getSalary() << endl;
+	cout << "Phone: " << getPhone() << endl;
+	cout << "Address: " << getAddress() << endl;
+	//cout << "Salary: " << getSalary() << endl;
 }

@@ -2,6 +2,6 @@
 int main()
 {
 	Staff aStaff;
-	//aStaff.StaffMenu();
+	aStaff.StaffMenu();
 	return 0;
 }
