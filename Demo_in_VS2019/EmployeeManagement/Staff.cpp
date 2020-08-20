@@ -24,7 +24,7 @@ void Staff::ImportListEmpfromCsv()
 	}
 	else
 	{
-		cout << "Openned file " << filename << "successed." << endl;
+		cout << "Openned file " << filename << " successed." << endl;
 		cout << "Starting load its data to the program...." << endl;
 		while (getline(fload, temp, ','))
 		{
@@ -43,8 +43,10 @@ void Staff::ImportListEmpfromCsv()
 			tempy = stoi(temp);
 			Date tempDate(tempy, tempm, tempd);
 			anEmpl.setDoB(tempDate);
+			getline(fload, temp, ',');
+			anEmpl.setPhone(temp);
 			getline(fload, temp);
-			anEmpl.setSalary(stod(temp));
+			anEmpl.setAddress(temp);
 			ListEmpl.push_back(anEmpl);
 		}
 		cout << endl << "Finished importing " << filename << "." << endl;
@@ -54,34 +56,65 @@ void Staff::ImportListEmpfromCsv()
 	}
 }
 
-void Staff::Add_List_of_Empl_Manually()
+void Staff::Add_an_Empl_Manually()
 {
-	int n;
+	cout << "Start adding...." << endl;
+	int choice = 0, n = ListEmpl.size();;
+	Employee anEmpl;
+	anEmpl.inputEmpl();
 	do
 	{
-		cout << "Input the number of the employee: ";
-		cin >> n;
-		if (cin.fail() || n < 0)
+		for (int i = 0; i < n; i++)
 		{
-			if (cin.fail())
+			if (ListEmpl[i].getID() == anEmpl.getID())
 			{
-				cin.clear();
-				cin.ignore(2000, '\n');
-				n = -1;
+				cout << "The employee with the ID " << anEmpl.getID() << "is already existed." << endl;
+				cout << "Here is his/her information:" << endl;
+				ListEmpl[i].outputEmpl();
+				cout << "Enter 1 to input the ID again or any key to cancel the addition: ";
+				cin >> choice;
+				if (cin.fail())
+				{
+					cin.clear();
+					cin.ignore(2000, '\n');
+					choice = -1;
+				}
+				break;
 			}
-			cout << "Invalid input. Please input again." << endl << endl;
 		}
-	} while (n < 0);
-	Employee anEmpl;
-	for (int i = 0; i < n; i++)
-	{
-		anEmpl.inputEmpl();
-		ListEmpl.push_back(anEmpl);
-	}
+		if (choice == 1)
+		{
+			int id;
+			do
+			{
+				cout << "Input the ID: ";
+				cin >> id;
+				if (cin.fail() || id <= 0)
+				{
+					if (cin.fail())
+					{
+						cin.clear();
+						cin.ignore(2000, '\n');
+						id = 0;
+					}
+					cout << "Invalid input. Please input again." << endl << endl;
+				}
+			} while (id <= 0);
+			anEmpl.setID(id);
+		}
+		else
+		{
+			cout << "The addition was canceled." << endl;
+			return;
+		}
+	} while (choice == 1);
+	anEmpl.setNo(ListEmpl.size() + 1);
+	ListEmpl.push_back(anEmpl);
 }
 
 void Staff::Edit_Infor_of_an_Empl()
 {
+	cout << "Start editing...." << endl;
 	int id;
 	cout << "Input the ID of the employee who you want to edit his/her information: ";
 	cin >> id;
@@ -116,10 +149,13 @@ void Staff::Edit_Infor_of_an_Empl()
 	int choice = -1;
 	do
 	{
-		cout << "Which infor of this employee do you want to edit?" << endl;
+		cout << endl << "Which infor of this employee do you want to edit?" << endl;
 		cout << "Enter 0 to cancel." << endl;
 		cout << "Enter 1 to edit name." << endl;
-		cout << "Enter 2 to edit date of birth" << endl;
+		cout << "Enter 2 to edit gender." << endl;
+		cout << "Enter 3 to edit date of birth." << endl;
+		cout << "Enter 4 to edit phone." << endl;
+		cout << "Enter 5 to edit address." << endl;
 		cout << "Your choice: ";
 		cin >> choice;
 		if (cin.fail() || choice < 0)
@@ -132,6 +168,7 @@ void Staff::Edit_Infor_of_an_Empl()
 			}
 			cout << "Invalid choice. Please choose again." << endl << endl;
 		}
+		cout << endl;
 		switch (choice)
 		{
 		case 0:
@@ -151,11 +188,41 @@ void Staff::Edit_Infor_of_an_Empl()
 		}
 		case 2:
 		{
+			cin.ignore(1);
+			char gender;
+			cout << "Editing the gender of the employee." << endl;
+			cout << "Input new gender: ";
+			gender = getchar();
+			ListEmpl[index].setGender(gender);
+			break;
+		}
+		case 3:
+		{
 			cout << "Editing the date of birth of the employee." << endl;
 			Date aDate;
-			cout << "Input new date of birth for this employee:" << endl;
+			cout << "Input the new date of birth for this employee:" << endl;
 			cin >> aDate;
 			ListEmpl[index].setDoB(aDate);
+			break;
+		}
+		case 4:
+		{
+			cout << "Editing the phone of the employee." << endl;
+			string phone;
+			cout << "Input the new phone for this employee: ";
+			cin.ignore(1);
+			getline(cin, phone);
+			ListEmpl[index].setPhone(phone);
+			break;
+		}
+		case 5:
+		{
+			cout << "Editing the address of the employee." << endl;
+			string address;
+			cout << "Input the new address for this employee: ";
+			cin.ignore(1);
+			getline(cin, address);
+			ListEmpl[index].setAddress(address);
 			break;
 		}
 		default:
@@ -179,6 +246,7 @@ void Staff::Edit_Infor_of_an_Empl()
 	} while (choice != 0);
 	cout << "The employee after edited:" << endl;
 	ListEmpl[index].outputEmpl();
+	cout << endl;
 }
 
 void Staff::View_list_of_Empl()
@@ -233,10 +301,6 @@ void Staff::StaffMenu()
 	//Test import xong comment lai nhu luc dau r test tiep ham add, xong r tu do test luon cac ham khac
 	//Gop y gi nhan lien qua Mess giup^^.
 	ImportListEmpfromCsv();
+	cout << endl;
 	View_list_of_Empl();
-	ListEmpl.clear();
-
-	/*Add_List_of_Empl_Manually();
-	View_list_of_Empl();
-	Edit_Infor_of_an_Empl();*/
 }

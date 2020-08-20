@@ -60,6 +60,7 @@ void Employee::inputEmpl()
 
 void Employee::outputEmpl()
 {
+	cout << "No: " << getNo() << endl;
 	cout << "ID: " << getID() << endl;
 	cout << "Name: " << getName() << endl;
 	cout << "Gender: " << getGender() << endl;

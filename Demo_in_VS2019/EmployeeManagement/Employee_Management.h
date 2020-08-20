@@ -76,7 +76,7 @@ private:
 public:
 	Staff();
 	void ImportListEmpfromCsv();
-	void Add_List_of_Empl_Manually();
+	void Add_an_Empl_Manually();
 	void Edit_Infor_of_an_Empl();
 	void View_list_of_Empl();
 	void View_Infor_of_an_Empl();
