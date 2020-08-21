@@ -2,11 +2,12 @@
 
 Date::Date()
 {
-	SYSTEMTIME now;
-	GetSystemTime(&now);
-	day = now.wDay;
-	month = now.wMonth;
-	year = now.wYear;
+	time_t now = time(NULL);
+	tm cdate;
+	localtime_s(&cdate, &now);
+	day = cdate.tm_mday;
+	month = cdate.tm_mon + 1;
+	year = cdate.tm_year + 1900;
 }
 
 Date::Date(int y)

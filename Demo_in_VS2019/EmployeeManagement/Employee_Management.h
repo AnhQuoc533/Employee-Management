@@ -53,6 +53,8 @@ public:
 	int* getRecord(int ID);
 private:
 	vector<int*> records;
+	string filename;
+	int nCol;
 };
 
 class Employee {
