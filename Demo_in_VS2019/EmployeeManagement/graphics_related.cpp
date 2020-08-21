@@ -13,19 +13,17 @@ void graphics_abstract::charColorate(int x, int y)
 {
 	SetConsoleTextAttribute(console, x | y);
 }
-void graphics_abstract::evaluate(string bstr, int& m, int& n)
+void graphics_abstract::evaluate(string s, int& m, int& n)
 {
-	const char* s = bstr.c_str();
-	char* p, * ntok = 0, * str = new char[strlen(s) + 1];
-	strcpy_s(str, strlen(s) + 1, s);
-	p = strtok_s(str, "\n", &ntok);
+	istringstream iss(s);
+	string tok;
+	getline(iss, tok, '\n');
 	m = 0; n = 0;
-	while (p)
+	while (tok!="")
 	{
-		int l = strlen(p);
+		int l = tok.length();
 		if (l > m) m = l;
-		p = strtok_s(0, "\n", &ntok);
+		getline(iss, tok, '\n');
 		n++;
 	}
-	delete[] str;
 }
