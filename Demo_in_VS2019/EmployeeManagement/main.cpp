@@ -1,8 +1,8 @@
 #include"Employee_Management.h"
 int main()
 {
-	Employee test;
-	test.loadEmplData();
+	/*Employee test;
+	test.loadEmplData();*/
 
 	Staff aStaff;
 	aStaff.StaffMenu();

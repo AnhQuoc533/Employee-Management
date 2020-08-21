@@ -79,9 +79,7 @@ void Staff::ImportListEmpfromCsv()
 {
 	ifstream fload;
 	string namefile;
-	string temp;
 	Employee anEmpl;
-	int tempd = 0, tempm = 0, tempy = 0;
 	cout << "Input the name of the csv file (do not input the type of the file): ";
 	getline(cin, namefile);
 	namefile.append(".csv");
@@ -360,7 +358,7 @@ void Staff::Manage_Employee_Menu()
 
 void Staff::StaffMenu()
 {
-	int choice;
+	/*int choice;
 	do
 	{
 		cout << "Staff menu:\n1.View profile\n2.Change password\n3.Change to manage employee menu\n4.Log out\n";
@@ -390,5 +388,7 @@ void Staff::StaffMenu()
 			break;
 		}
 		}
-	} while (choice != 0);
+	} while (choice != 0);*/
+	ImportListEmpfromCsv();
+	View_list_of_Empl();
 }

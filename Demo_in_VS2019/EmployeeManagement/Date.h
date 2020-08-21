@@ -2,6 +2,7 @@
 #define _DATE_H_
 
 #include<iostream>
+#include<string>
 #include<Windows.h>
 using namespace std;
 
@@ -34,6 +35,8 @@ public:
 	void ConverLongtoDate(const long a);
 	Date& operator+=(const int a);
 	Date& operator-=(const int a);
+	Date& stoDate(string str);
+	string toStr();
 private:
 	int month, day, year;
 };

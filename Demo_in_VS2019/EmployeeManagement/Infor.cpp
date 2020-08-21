@@ -23,13 +23,16 @@ void Infor::LoadInforfrom(ifstream& fload)
 	setName(temp);
 	getline(fload, temp, ',');
 	setGender(temp[0]);
-	getline(fload, temp, '/');
+	/*getline(fload, temp, '/');
 	tempd = stoi(temp);
 	getline(fload, temp, '/');
 	tempm = stoi(temp);
 	getline(fload, temp, ',');
-	tempy = stoi(temp);
-	Date tempDate(tempy, tempm, tempd);
+	tempy = stoi(temp);*/
+	getline(fload, temp, ',');
+	//Date tempDate(tempy, tempm, tempd);
+	Date tempDate;
+	tempDate.stoDate(temp);
 	setDoB(tempDate);
 	getline(fload, temp, ',');
 	setPhone(temp);

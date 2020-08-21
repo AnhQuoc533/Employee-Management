@@ -439,3 +439,66 @@ Date& Date::operator-=(const int a)
 	day = tempd.day;
 	return *this;
 }
+
+Date& Date::stoDate(string str)
+{
+	int index = 0, d = 0, m = 0, y = 0, n = str.length();
+	string tempd, tempm, tempy;
+	for (index; index < n; index++)
+	{
+		if (str[index] == '/')
+		{
+			index++;
+			break;
+		}
+		else tempd += str[index];
+	}
+	d = stoi(tempd);
+	for (index; index < n; index++)
+	{
+		if (str[index] == '/')
+		{
+			index++;
+			break;
+		}
+		else tempm += str[index];
+	}
+	m = stoi(tempm);
+	for (index; index < n; index++)
+	{
+		tempy += str[index];
+	}
+	y = stoi(tempy);
+	Date aDate(y, m, d);
+	*this = aDate;
+	return *this;
+}
+
+string Date::toStr()
+{
+	string str;
+	if (day < 10)
+	{
+		str += '0';
+	}
+	str.append(to_string(day));
+	if (month < 10)
+	{
+		str += '0';
+	}
+	str.append(to_string(month));
+	if (year < 1000)
+	{
+		str.append("0");
+	}
+	if (year < 100)
+	{
+		str.append("0");
+	}
+	if (year < 10)
+	{
+		str.append("0");
+	}
+	str.append(to_string(year));
+	return str;
+}
