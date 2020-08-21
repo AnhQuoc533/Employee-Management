@@ -36,7 +36,12 @@ void graphics_abstract::turnCursor(bool on)
 	SetConsoleCursorInfo(console, &cursor);
 }
 
-void graphical_menu::display()
+void graphical_menu::set(string t, string s)
+{
+	title = t; content = s;
+}
+
+void graphical_menu::display(string title, string content)
 {
 	istringstream iss(content);
 	string tok;
@@ -120,4 +125,60 @@ int graphical_menu::operate()
 			return sel;
 		}
 	}
+}
+
+void graphical_textbox::wipe()
+{
+	for (int i = 0; i < h - 1; i++)
+	{
+		warp(x + 1, y + 1 + i);
+		for (int j = 0; j < w - 2; j++) cout << " ";
+	}
+}
+void graphical_textbox::display(string s)
+{
+	s += " ";
+	graphical_menu z(x, y, w, h, border);
+	z.formoutline(0xF);
+	wipe();	int w = this->w-5;
+	warp(x + 1, y + 1);	cout << " * ";
+	int delay_time = 50;
+	for (int i = 0, line_index = 0, chara_count = 0; i < s.length(); i++)
+	{
+		if (s[i] == '\n')
+		{
+			line_index++; chara_count = 0;
+			warp(x + 1, y + 1 + line_index);
+			cout << " * ";
+			continue;
+		}
+		cout << s[i];
+		chara_count++;
+		if (s[i] == ' ')
+		{
+			int location = s.find(' ', i + 1) - 1;
+			if (chara_count + location - i > w)
+			{
+				line_index++; chara_count = 0;
+				warp(x + 1, y + 1 + line_index);
+				if (line_index > h-2)
+				{
+					z.resize(w, h + 1);
+					z.formoutline(0xF);
+					warp(x + 1, y + 1 + line_index);
+					h++;
+				}
+				cout << "   ";
+			}
+		}
+		if (i > 5 && GetAsyncKeyState(VK_RETURN) < 0) delay_time = 0;
+		Sleep(delay_time);
+	}
+	if (!delay_time) cin.ignore();
+	while (_getch() != 13);
+}
+
+void graphical_textbox::display()
+{
+	display(content);
 }
