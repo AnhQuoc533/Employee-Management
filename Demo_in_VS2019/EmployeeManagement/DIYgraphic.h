@@ -25,7 +25,9 @@ public:
 	graphical_menu(int posx, int posy, int width, int height, int bor) :
 		x(posx), y(posy), w(width), h(height), border(bor) {}
 	void set(string t, string s);
-	void display();
+	void resize(int ww, int hh) { w=ww; h=hh; }
+	void display() { display(title, content); }
+	void display(string title, string content);
 	void formoutline(int color);
 	int operate();
 };
@@ -40,5 +42,6 @@ public:
 		x(posx), y(posy), w(width), h(height), border(bor) {}
 	void set(string s) { content = s; }
 	void wipe();
+	void display(string s);
 	void display();
 };
