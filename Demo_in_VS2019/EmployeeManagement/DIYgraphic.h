@@ -22,7 +22,23 @@ private:
 	string content, title;
 	int x, y, w, h, select, border;
 public:
+	graphical_menu(int posx, int posy, int width, int height, int bor) :
+		x(posx), y(posy), w(width), h(height), border(bor) {}
+	void set(string t, string s);
 	void display();
 	void formoutline(int color);
 	int operate();
+};
+
+class graphical_textbox : public graphics_abstract
+{
+private:
+	string content;
+	int x, y, w, h, select, border;
+public:
+	graphical_textbox(int posx, int posy, int width, int height, int bor) :
+		x(posx), y(posy), w(width), h(height), border(bor) {}
+	void set(string s) { content = s; }
+	void wipe();
+	void display();
 };

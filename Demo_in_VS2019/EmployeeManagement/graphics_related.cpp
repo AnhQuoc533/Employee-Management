@@ -36,6 +36,11 @@ void graphics_abstract::turnCursor(bool on)
 	SetConsoleCursorInfo(console, &cursor);
 }
 
+void graphical_menu::set(string t, string s)
+{
+	title = t; content = s;
+}
+
 void graphical_menu::display()
 {
 	istringstream iss(content);
@@ -120,4 +125,48 @@ int graphical_menu::operate()
 			return sel;
 		}
 	}
+}
+
+void graphical_textbox::wipe()
+{
+	for (int i = 0; i < h - 1; i++)
+	{
+		warp(x + 1, y + 1 + i);
+		for (int j = 0; j < w - 2; j++) cout << " ";
+	}
+}
+void graphical_textbox::display()
+{
+	//formoutline(0xF);
+	wipe();
+	w -= 5;
+	warp(x + 1, y + 1);	cout << " * ";
+	int delay_time = 50;
+	string s = content;
+	for (int i = 0, line_index = 0, chara_count = 0; i < s.length(); i++)
+	{
+		if (s[i] == '\n')
+		{
+			line_index++; chara_count = 0;
+			warp(x + 1, y + 1 + line_index);
+			cout << " * ";
+			continue;
+		}
+		cout << s[i];
+		chara_count++;
+		if (s[i] == ' ')
+		{
+			int location = s.find(' ', i + 1) - 1;
+			if (chara_count + location - i > w)
+			{
+				line_index++; chara_count = 0;
+				warp(x + 1, y + 1 + line_index);
+				cout << "   ";
+			}
+		}
+		if (i > 5 && GetAsyncKeyState(VK_RETURN) < 0) delay_time = 0;
+		Sleep(delay_time);
+	}
+	if (!delay_time) cin.ignore();
+	while (_getch() != 13);
 }
