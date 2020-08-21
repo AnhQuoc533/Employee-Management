@@ -6,6 +6,7 @@
 #include<fstream>
 #include"Date.h"
 #include<sstream>
+#include<Windows.h>
 using namespace std;
 
 class Infor {
@@ -95,6 +96,17 @@ public:
 	void editRecord();
 	void clearRecord();
 	void viewRecords();*/
+};
+
+class graphics_abstract
+{
+protected:
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+public:
+	void warp(int x, int y);	
+	void charColorate(int x);
+	void charColorate(int x, int y);
+	void evaluate(string bstr, int& m, int& n);
 };
 
 
