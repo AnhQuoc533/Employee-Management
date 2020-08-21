@@ -28,7 +28,15 @@ void graphics_abstract::evaluate(string s, int& m, int& n)
 	}
 }
 
-void graphical_menu::display(int select, int width)
+void graphics_abstract::turnCursor(bool on)
+{
+	CONSOLE_CURSOR_INFO cursor;
+	cursor.bVisible = on;
+	cursor.dwSize = 1;
+	SetConsoleCursorInfo(console, &cursor);
+}
+
+void graphical_menu::display()
 {
 	istringstream iss(content);
 	string tok;
@@ -40,14 +48,14 @@ void graphical_menu::display(int select, int width)
 		if (line_offset == select)
 		{
 			SetConsoleTextAttribute(console, 15 | BACKGROUND_BLUE);
-			for (int i = 0; i < width; i++) cout << " ";
+			for (int i = 0; i < w; i++) cout << " ";
 			warp(x, y + line_offset);
 			cout << tok << endl;
 		}
 		else
 		{
 			charColorate(0xF);
-			for (int i = 0; i < width; i++) cout << " ";
+			for (int i = 0; i < w; i++) cout << " ";
 			warp(x, y + line_offset);
 			cout << tok << endl;
 		}
@@ -57,11 +65,11 @@ void graphical_menu::display(int select, int width)
 	charColorate(0xF);
 }
 
-void graphical_menu::formoutline(int b, int color)
+void graphical_menu::formoutline(int color)
 {
 	charColorate(color);
 	char hl = 196, vl = 179, c1 = 218, c2 = 191, c3 = 192, c4 = 217;
-	if (b) hl = 205, vl = 186, c1 = 201, c2 = 187, c3 = 200, c4 = 188;
+	if (border) hl = 205, vl = 186, c1 = 201, c2 = 187, c3 = 200, c4 = 188;
 	for (int i = 1; i < w; i++)
 	{
 		warp(x + i, y); cout << hl;
@@ -76,4 +84,40 @@ void graphical_menu::formoutline(int b, int color)
 	warp(x + w, y); cout << c2;
 	warp(x, y + h); cout << c3;
 	warp(x + w, y + h); cout << c4;
+}
+
+int graphical_menu::operate()
+{
+	turnCursor(0);
+	evaluate(content, w, h);
+	formoutline(TONE2);
+	int sel = 0;
+
+	while (1)
+	{
+		display();
+		charColorate(TONE1);
+		warp(x, y - border);  cout << title;
+		char c = _getch();
+		if (c == -32)
+		{
+			c = _getch();
+			switch (c)
+			{
+			case 72: sel = (sel > 0) ? sel - 1 : 0; break;
+			case 80: sel = (sel < h - 1) ? sel + 1 : h - 1; break;
+			}
+		}
+		if ((c >= 48) && (c <= 57))
+		{
+			int x = c - 48;
+			if ((x >= 0) && (x < h)) sel = x;
+		}
+		if (c == '\r')
+		{
+			charColorate(15);
+			turnCursor(1);
+			return sel;
+		}
+	}
 }

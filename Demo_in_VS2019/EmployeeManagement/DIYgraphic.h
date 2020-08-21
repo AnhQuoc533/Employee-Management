@@ -1,4 +1,5 @@
 #include<Windows.h>
+#include<conio.h>
 #define TONE1 1
 #define TONE2 9
 #define GOOD A
@@ -12,14 +13,16 @@ public:
 	void charColorate(int x);
 	void charColorate(int x, int y);
 	void evaluate(string bstr, int& m, int& n);
+	void turnCursor(bool on);
 };
 
 class graphical_menu : public graphics_abstract
 {
 private:
-	string content;
-	int x, y, w, h;
+	string content, title;
+	int x, y, w, h, select, border;
 public:
-	void display(int select, int width);
-	void formoutline(int b, int color);
+	void display();
+	void formoutline(int color);
+	int operate();
 };
