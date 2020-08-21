@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Date.h" />
+    <ClInclude Include="DIYgraphic.h" />
     <ClInclude Include="Employee_Management.h" />
   </ItemGroup>
   <ItemGroup>

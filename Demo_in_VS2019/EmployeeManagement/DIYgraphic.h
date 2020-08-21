@@ -13,3 +13,13 @@ public:
 	void charColorate(int x, int y);
 	void evaluate(string bstr, int& m, int& n);
 };
+
+class graphical_menu : public graphics_abstract
+{
+private:
+	string content;
+	int x, y, w, h;
+public:
+	void display(int select, int width);
+	void formoutline(int b, int color);
+};
