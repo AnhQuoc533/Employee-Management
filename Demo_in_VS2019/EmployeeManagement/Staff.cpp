@@ -63,6 +63,8 @@ void Staff::LoadfromTextfile()
 	}
 	else
 	{
+		cout << "Openned file " << namefile << " successed." << endl;
+		cout << "Starting load its data to the program...." << endl;
 		while (!fload.eof())
 		{
 			anEmpl.EInfor.LoadInforfrom(fload);
@@ -389,6 +391,6 @@ void Staff::StaffMenu()
 		}
 		}
 	} while (choice != 0);*/
-	ImportListEmpfromCsv();
+	LoadfromTextfile();
 	View_list_of_Empl();
 }
