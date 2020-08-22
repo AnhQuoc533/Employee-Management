@@ -31,6 +31,27 @@ Record::Record()
 
 Record::~Record()
 {
+	ofstream fout;
+	fout.open(filename);
+	if (!fout.is_open())
+	{
+		fout.close();
+		cout << "Cannot save data.\n";
+		cout << "Current data is now backed up in \"tmp.txt\"\n";
+		fout.open("tmp.txt");
+	}
+	for (size_t i = 0; i < records.size(); i++)
+	{
+		fout << records[i][0];
+		for (size_t j = 1; j < nCol; j++)
+		{
+			fout << "," << records[i][j];
+		}
+		delete[] records[i];
+		records[i] = nullptr;
+		fout << endl;
+	}
+	fout.close();
 }
 
 int* Record::getRecord(int ID)
