@@ -111,6 +111,7 @@ void Infor::EditInfor()
 		{
 		case 0:
 		{
+			cin.ignore(1);
 			cout << "Editing is canceled." << endl;
 			break;
 		}

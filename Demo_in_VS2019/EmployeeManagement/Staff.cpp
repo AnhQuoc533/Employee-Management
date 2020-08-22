@@ -142,12 +142,15 @@ void Staff::ImportListEmpfromCsv()
 
 int Staff::findEmplWithID(int id)
 {
-	int n = ListEmpl.size();
-	for (int i = 0; i < n; i++)
+	if (id > 0)
 	{
-		if (ListEmpl[i].EInfor.getID() == id)
+		int n = ListEmpl.size();
+		for (int i = 0; i < n; i++)
 		{
-			return i;
+			if (ListEmpl[i].EInfor.getID() == id)
+			{
+				return i;
+			}
 		}
 	}
 	return -1;
@@ -212,14 +215,11 @@ void Staff::Edit_Infor_of_an_Empl()
 	int id;
 	cout << "Please input the ID of the employee who you want to edit his/her information first: ";
 	cin >> id;
-	if (cin.fail() || id <= 0)
+	if (cin.fail())
 	{
-		if (cin.fail())
-		{
-			cin.clear();
-			cin.ignore(2000, '\n');
-			id = 0;
-		}
+		cin.clear();
+		cin.ignore(2000, '\n');
+		id = 0;
 		cout << "Invalid ID." << endl;
 		cout << "The editing will be canceled." << endl;
 		return;
@@ -229,6 +229,7 @@ void Staff::Edit_Infor_of_an_Empl()
 	{
 		cout << "There is no employee that has the ID " << id << "in this list." << endl;
 		cout << "The editing will be canceled." << endl;
+		cin.ignore(1);
 		return;
 	}
 	cout << "Start editing...." << endl;
@@ -243,14 +244,11 @@ void Staff::Remove_an_Empl()
 	int id;
 	cout << "Please input the ID of the employee who you want to remove his/her information first: ";
 	cin >> id;
-	if (cin.fail() || id <= 0)
+	if (cin.fail())
 	{
-		if (cin.fail())
-		{
-			cin.clear();
-			cin.ignore(2000, '\n');
-			id = 0;
-		}
+		cin.clear();
+		cin.ignore(2000, '\n');
+		id = 0;
 		cout << "Invalid ID." << endl;
 		cout << "The removing will be canceled." << endl;
 		return;
@@ -260,6 +258,7 @@ void Staff::Remove_an_Empl()
 	{
 		cout << "There is no employee that has the ID " << id << "in this list." << endl;
 		cout << "The removing will be canceled." << endl;
+		cin.ignore(1);
 		return;
 	}
 	cout << "Start removing...." << endl;
@@ -325,7 +324,8 @@ void Staff::View_Profile()
 
 void Staff::Manage_Employee_Menu()
 {
-	int choice;
+	int choice, choice2;
+	char PresstoCon;
 	cout << "Welcome to *Manage employee menu* of staff";
 	do
 	{
@@ -380,11 +380,89 @@ void Staff::Manage_Employee_Menu()
 			View_list_of_Empl();
 			break;
 		}
+		default:
+		{
+			choice = 0;
+			break;
+		}
 		}
 		if (choice == 0)
 		{
+			system("CLS");
 			return;
 		}
+		do
+		{		
+			do
+			{
+				cout << endl << "What do you want to do next:" << endl;
+				cout << "0. Exit ";
+				cout << "1. Add an employee to the list manually." << endl;
+				cout << "2. Edit an employee's information." << endl;
+				cout << "3. Remove an employee from the list." << endl;
+				cout << "4. View list of employees." << endl;
+				cout << "5. View information of an employee." << endl;
+				cout << "6. Reset password for an employee." << endl;
+				cout << "7. Save." << endl;
+				cout << "Your choice: ";
+				cin >> choice2;
+				if (cin.fail() || choice2 < 0 && choice2>6)
+				{
+					if (cin.fail())
+					{
+						cin.clear();
+						cin.ignore(2000, '\n');
+						choice2 = -1;
+					}
+					cout << "Invalid choice. Please chosse again." << endl;
+				}
+			} while (choice < 0 || choice>6);
+			switch (choice2)
+			{
+			case 0:
+			{
+				cin.ignore(1);
+				break;
+			}
+			case 1:
+			{
+				cout << "Start adding an employee to the list manually." << endl;
+				break;
+			}
+			case 2:
+			{
+				cout << "Start editing an employee's information." << endl;
+				break;
+			}
+			case 3:
+			{
+				cout << "Start removing an employee from the list." << endl;
+				break;
+			}
+			case 4:
+			{
+				break;
+			}
+			case 5:
+			{
+				break;
+			}
+			case 6:
+			{
+				break;
+			}
+			case 7:
+			{
+				break;
+			}
+			}
+			if (choice2 != 0)
+			{
+				cout << "Press any key to continue...." << endl;
+				PresstoCon = getchar();
+			}
+			system("CLS");
+		} while (choice2 != 0);
 	} while (choice != 0);
 }
 
