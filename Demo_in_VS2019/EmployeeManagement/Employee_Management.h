@@ -78,7 +78,7 @@ private:
 public:
 	Staff();
 	void ImportListEmpfromCsv();
-	void SavetoTextfile();
+	void SaveInfortoTextfile();
 	void LoadfromTextfile();
 	int findEmplWithID(int id);
 	void Add_an_Empl_Manually();

@@ -6,7 +6,7 @@ Staff::Staff()
 	StInfor = anInfor;
 }
 
-void Staff::SavetoTextfile()
+void Staff::SaveInfortoTextfile()
 {
 	ifstream fload;
 	ofstream fsave;
@@ -136,7 +136,7 @@ void Staff::ImportListEmpfromCsv()
 		fload.close();
 		cout << "The file " << namefile << " was closed successfully." << endl;
 		cout << "Your data will be saved to a text file now." << endl << endl;
-		SavetoTextfile();
+		SaveInfortoTextfile();
 	}
 }
 
