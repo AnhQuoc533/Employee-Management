@@ -8,11 +8,41 @@ Staff::Staff()
 
 void Staff::SavetoTextfile()
 {
+	ifstream fload;
 	ofstream fsave;
 	string namefile;
+	int choice = 0;
 	cout << "Input the name of the file (please do not put the type of file): ";
 	getline(cin, namefile);
 	namefile.append(".txt");
+	fload.open(namefile);
+	if (fload.is_open())
+	{
+		fload.close();
+		cout << "The file " << namefile << " has already existed." << endl;
+		cout << "Do you want to overwrite it?" << endl;
+		cout << "1.Yes\n2.No (Cancel save)\n";
+		do
+		{
+			cout << "Your choice: ";
+			cin >> choice;
+			if (cin.fail() || choice < 1 || choice > 2)
+			{
+				if (cin.fail())
+				{
+					cin.clear();
+					cin.ignore(2000, '\n');
+					choice = 0;
+				}
+				cout << "Invalid choice. Please choose again" << endl << endl;
+			}
+		} while (choice < 1 || choice>2);
+		if (choice == 2)
+		{
+			cout << "The file was not saved." << endl;
+			return;
+		}
+	}
 	fsave.open(namefile);
 	if (!fsave.is_open())
 	{

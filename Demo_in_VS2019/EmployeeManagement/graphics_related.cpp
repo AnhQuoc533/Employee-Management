@@ -142,8 +142,8 @@ void graphical_textbox::display(string s)
 	z.formoutline(0xF);
 	wipe();	int w = this->w-5;
 	warp(x + 1, y + 1);	cout << " * ";
-	int delay_time = 50;
-	for (int i = 0, line_index = 0, chara_count = 0; i < s.length(); i++)
+	int delay_time = 50, n = s.length();
+	for (int i = 0, line_index = 0, chara_count = 0; i < n; i++)
 	{
 		if (s[i] == '\n')
 		{
