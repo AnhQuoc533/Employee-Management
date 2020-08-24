@@ -82,6 +82,7 @@ public:
 	void LoadfromTextfile();
 	int findEmplWithID(int id);
 	void Add_an_Empl_Manually();
+	void Create_List_Empl_Manually();
 	void Edit_Infor_of_an_Empl();
 	void Remove_an_Empl();
 	void View_list_of_Empl();

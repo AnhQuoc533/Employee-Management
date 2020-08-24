@@ -55,13 +55,14 @@ void Infor::InputInfor()
 	getline(cin, Name);
 	do
 	{
-		cout << "Input the gender: ";
+		cout << "Input the gender (please input m or M for Male and f or F for female): ";
 		Gender = getchar();
-		if (Gender != 'M' && Gender != 'F')
+		if (Gender != 'M' && Gender != 'F' && Gender != 'm' && Gender != 'f')
 		{
 			cout << "Invalid gender. Please input again." << endl << endl;
+			cin.ignore(1);
 		}
-	} while (Gender != 'M' && Gender != 'F');
+	} while (Gender != 'M' && Gender != 'F' && Gender != 'm' && Gender != 'f');
 	cout << "Input date of birth:" << endl;
 	cin >> DoB;
 	cin.ignore(1);
