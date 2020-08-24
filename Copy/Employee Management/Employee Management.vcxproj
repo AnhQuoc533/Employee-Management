@@ -123,19 +123,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Date.cpp" />
     <ClCompile Include="Employee.cpp" />
     <ClCompile Include="EmployeeFunction.cpp" />
-    <ClCompile Include="FakeMain.cpp" />
+    <ClCompile Include="graphics_related.cpp" />
     <ClCompile Include="Info.cpp" />
     <ClCompile Include="InfoFunction.cpp" />
+    <ClCompile Include="Infor.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="LoginFunction.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Record.cpp" />
     <ClCompile Include="RecordFunction.cpp" />
     <ClCompile Include="Salary.cpp" />
+    <ClCompile Include="Staff.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Date.h" />
+    <ClInclude Include="DIYgraphic.h" />
     <ClInclude Include="EmployeeHeader.h" />
+    <ClInclude Include="Employee_Management.h" />
     <ClInclude Include="InfoHeader.h" />
     <ClInclude Include="LoginHeader.h" />
     <ClInclude Include="RecordHeader.h" />
