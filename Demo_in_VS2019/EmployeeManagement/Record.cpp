@@ -38,6 +38,7 @@ Record::Record()
 Record::~Record()
 {
 	ofstream fout;
+	int size = records.size();
 	fout.open(filename);
 	if (!fout.is_open())
 	{
@@ -46,7 +47,7 @@ Record::~Record()
 		cout << "Current data is now backed up in \"tmp.txt\"\n";
 		fout.open("tmp.txt");
 	}
-	for (int i = 0; i < records.size(); i++)
+	for (int i = 0; i < size; i++)
 	{
 		fout << records[i][0];
 		for (int j = 1; j < nCol; j++)
@@ -62,40 +63,38 @@ Record::~Record()
 
 void Record::import(ifstream& fin)
 {
-	int* p, i = 0;
+	int* p;
 	string str, tok;
 	istringstream iss;
-	nCol = 0;
 	getline(fin, str);
 	while (getline(fin, str))
 	{
 		iss.str("");
 		iss.clear();
 		iss.str(str);
+		getline(iss, tok, ',');
 		p = new int[nCol];
-		while (getline(iss, tok, ','))
+		for (int i = 0; i < nCol; i++)
 		{
+			getline(iss, tok, ',');
 			p[i] = stoi(tok);
-			++i;
-			++nCol;
 		}
 		records.push_back(p);
 		p = 0;
 	}
 }
 
-void Record::edit(int ID, unsigned day, bool status)
+void Record::edit(int index, unsigned day, bool status)
 {
-	records[findByID(ID)][day] = status;
+	records[index][day] = status;
 }
 
-void Record::clear(int ID)
+void Record::clear(int index)
 {
-	unsigned index = findByID(ID);
-	for (int i = 1; i < nCol; i++)
-	{
-		records[index][i] = 0;
-	}
+	int tmp = records[index][0];
+	delete[] records[index];
+	records[index] = new int[nCol]();
+	records[index][0] = tmp;
 }
 
 int* Record::getRecord(int ID)
@@ -103,13 +102,15 @@ int* Record::getRecord(int ID)
 	return nullptr;
 }
 
-unsigned Record::findByID(int ID)
+int Record::getIndex(int ID)
 {
-	for (unsigned i = 0; i < records.size(); ++i)
+	int size = records.size();
+	for (int i = 0; i < size; ++i)
 	{
 		if (records[i][0] == ID)
 		{
 			return i;
 		}
 	}
+	return -1;
 }

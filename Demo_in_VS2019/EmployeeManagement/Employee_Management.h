@@ -51,14 +51,14 @@ public:
 	Record();
 	~Record();
 	void import(ifstream& fin);
-	void edit(int ID, unsigned day, bool status);
-	void clear(int ID);
+	void edit(int index, unsigned day, bool status);
+	void clear(int index);
 	int* getRecord(int ID);
+	int getIndex(int ID);
 private:
 	vector<int*> records;
 	string filename;
 	int nCol;
-	unsigned findByID(int ID);
 };
 
 class Employee {
