@@ -50,11 +50,12 @@ class Record
 public:
 	Record();
 	~Record();
+	void import(ifstream& fin);
 	void edit(int ID, unsigned day, bool status);
 	void clear(int ID);
 	int* getRecord(int ID);
 private:
-	vector<bool*> records;
+	vector<int*> records;
 	string filename;
 	int nCol;
 	unsigned findByID(int ID);

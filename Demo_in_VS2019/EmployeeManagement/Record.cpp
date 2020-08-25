@@ -4,7 +4,7 @@ Record::Record()
 {
 	Date today;
 	ifstream fin;
-	bool* p;
+	int* p;
 	filename = "Records-" + (today.toStr()).substr(2, 2) + "-" + (today.toStr()).substr(4, 4) + ".txt";
 	fin.open(filename);
 	string str, tok;
@@ -17,7 +17,7 @@ Record::Record()
 			iss.str("");
 			iss.clear();
 			iss.str(str);
-			p = new bool[nCol];
+			p = new int[nCol];
 			for (int i = 0; i < nCol; i++)
 			{
 				getline(iss, tok, ',');
@@ -58,6 +58,30 @@ Record::~Record()
 		fout << endl;
 	}
 	fout.close();
+}
+
+void Record::import(ifstream& fin)
+{
+	int* p, i = 0;
+	string str, tok;
+	istringstream iss;
+	nCol = 0;
+	getline(fin, str);
+	while (getline(fin, str))
+	{
+		iss.str("");
+		iss.clear();
+		iss.str(str);
+		p = new int[nCol];
+		while (getline(iss, tok, ','))
+		{
+			p[i] = stoi(tok);
+			++i;
+			++nCol;
+		}
+		records.push_back(p);
+		p = 0;
+	}
 }
 
 void Record::edit(int ID, unsigned day, bool status)
