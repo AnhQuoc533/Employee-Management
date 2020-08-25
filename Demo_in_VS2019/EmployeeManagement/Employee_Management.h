@@ -50,9 +50,10 @@ class Record
 public:
 	Record();
 	~Record();
+	void edit(int ID, unsigned day, bool status);
 	int* getRecord(int ID);
 private:
-	vector<int*> records;
+	vector<bool*> records;
 	string filename;
 	int nCol;
 };
@@ -75,6 +76,7 @@ class Staff {
 private:
 	Infor StInfor;
 	vector<Employee> ListEmpl;
+	Record* employeeRecords;
 public:
 	Staff();
 	void ImportListEmpfromCsv();
@@ -91,14 +93,14 @@ public:
 	void Reset_password_for_empl() {}//not touch yet
 	void Manage_Employee_Menu();
 	void StaffMenu();
-	/*void createRecords();
+	void createRecords();
 	void editRecords();
 	void removeRecords();
 	void importRecords();
 	void addRecord();
 	void editRecord();
 	void clearRecord();
-	void viewRecords();*/
+	void viewRecords();
 };
 
 
