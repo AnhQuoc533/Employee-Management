@@ -51,11 +51,13 @@ public:
 	Record();
 	~Record();
 	void edit(int ID, unsigned day, bool status);
+	void clear(int ID);
 	int* getRecord(int ID);
 private:
 	vector<bool*> records;
 	string filename;
 	int nCol;
+	unsigned findByID(int ID);
 };
 
 class Employee {

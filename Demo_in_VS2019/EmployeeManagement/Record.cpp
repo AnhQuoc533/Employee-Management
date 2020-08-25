@@ -62,17 +62,30 @@ Record::~Record()
 
 void Record::edit(int ID, unsigned day, bool status)
 {
-	for (int i = 0; i < records.size(); ++i)
+	records[findByID(ID)][day] = status;
+}
+
+void Record::clear(int ID)
+{
+	unsigned index = findByID(ID);
+	for (int i = 1; i < nCol; i++)
 	{
-		if (records[i][0] == ID)
-		{
-			records[i][day] = status;
-			return;
-		}
+		records[index][i] = 0;
 	}
 }
 
 int* Record::getRecord(int ID)
 {
 	return nullptr;
+}
+
+unsigned Record::findByID(int ID)
+{
+	for (unsigned i = 0; i < records.size(); ++i)
+	{
+		if (records[i][0] == ID)
+		{
+			return i;
+		}
+	}
 }
