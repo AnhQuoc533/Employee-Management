@@ -56,6 +56,7 @@ public:
 	int getIndex(int ID);
 	bool hasData() { return records.size(); }
 	void newBlank(int* arr, int n);
+	void clearData();
 private:
 	vector<int*> records;
 	string filename;

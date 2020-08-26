@@ -121,3 +121,13 @@ void Record::newBlank(int* arr, int n)
 		p = 0;
 	}
 }
+
+void Record::clearData()
+{
+	int size = records.size();
+	for (int i = 0; i < size; ++i)
+	{
+		delete[] records[i];
+	}
+	records.clear();
+}

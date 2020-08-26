@@ -566,3 +566,40 @@ void Staff::createRecords()
 	employeeRecords->newBlank(arr, n);
 	cout << "A blank record has been created\n";
 }
+
+void Staff::editRecords()
+{
+}
+
+void Staff::removeRecords()
+{
+	if (employeeRecords->hasData())
+	{
+		employeeRecords->clearData();
+		cout << "Removed records data successfully\n";
+	}
+	else
+	{
+		cout << "There's no records data to remove\n";
+	}
+}
+
+void Staff::importRecords()
+{
+}
+
+void Staff::addRecord()
+{
+}
+
+void Staff::editRecord()
+{
+}
+
+void Staff::clearRecord()
+{
+}
+
+void Staff::viewRecords()
+{
+}
