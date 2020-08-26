@@ -6,8 +6,18 @@
 #include<fstream>
 #include"Date.h"
 #include<sstream>
+#include<iomanip>
 #include "DIYgraphic.h"
 using namespace std;
+
+class Account {
+private:
+	string Username;
+	string Password;
+public:
+	void setUsername(string username) { Username = username; }
+	void setPass(string password) { Password = password; }
+};
 
 class Infor {
 private:
@@ -18,7 +28,7 @@ private:
 	string Phone;
 	string Address;
 	char Gender;
-	//Login or Account ACC;
+	Account ACC;
 public:
 	//getter:
 	Infor();
@@ -29,7 +39,6 @@ public:
 	string getPhone() { return Phone; }
 	string getAddress() { return Address; }
 	char getGender() { return Gender; }
-	//Login or Account getACC() { return ACC; }
 	//setter:
 	void setNo(int no) { No = no; }
 	void setDoB(Date& aDate) { DoB = aDate; }
@@ -38,10 +47,11 @@ public:
 	void setPhone(string phone) { Phone=phone; }
 	void setAddress(string address) { Address = address; }
 	void setGender(char gender) { Gender = gender; }
-	//void setACC(Login or Account& acc) { ACC=acc; }
+	void setUS(string username) { ACC.setUsername(username); }
+	void setPASS(string password) { ACC.setPass(password); }
 	void LoadInforfrom(ifstream& fload);
 	void InputInfor();
-	void EditInfor();
+	void EditInfor(int checkifBeChanged);
 	void OutputInfor();
 };
 
@@ -65,11 +75,9 @@ class Employee {
 private:
 	Infor EInfor;
 	//int record;
-	double Salary;
+	double Salary = 0;
 public:
 	Employee();
-	void inputEmpl();
-	void editEmplInfor() { EInfor.EditInfor(); }
 	void View_Infor_Empl();
 	void loadEmplData();
 	friend class Staff;
@@ -83,27 +91,27 @@ private:
 public:
 	Staff();
 	void ImportListEmpfromCsv();
-	void SaveInfortoTextfile();
+	void SaveInfortoTextfile(int& checkifBeChanged);
 	void LoadfromTextfile();
 	int findEmplWithID(int id);
-	void Add_an_Empl_Manually();
-	void Create_List_Empl_Manually();
-	void Edit_Infor_of_an_Empl();
-	void Remove_an_Empl();
+	void Add_an_Empl_Manually(int& checkifBeChanged);
+	void Create_List_Empl_Manually(int& checkifBeChanged);
+	void Edit_Infor_of_an_Empl(int& checkifBeChanged);
+	void Remove_an_Empl(int& checkifBeChanged);
 	void View_list_of_Empl();
 	void View_Infor_of_an_Empl();
 	void View_Profile();
-	void Reset_password_for_empl() {}//not touch yet
+	void Reset_password_for_empl();
 	void Manage_Employee_Menu();
 	void StaffMenu();
-	void createRecords();
-	void editRecords();
-	void removeRecords();
-	void importRecords();
-	void addRecord();
-	void editRecord();
-	void clearRecord();
-	void viewRecords();
+	void createRecords(){}
+	void editRecords(){}
+	void removeRecords(){}
+	void importRecords(){}
+	void addRecord(){}
+	void editRecord(){}
+	void clearRecord(){}
+	void viewRecords(){}
 };
 
 

@@ -70,6 +70,8 @@ void Infor::InputInfor()
 	getline(cin, Phone);
 	cout << "Input address: ";
 	getline(cin, Address);
+	ACC.setUsername(to_string(ID));
+	ACC.setPass(DoB.toStr());
 }
 
 void Infor::OutputInfor()
@@ -83,12 +85,12 @@ void Infor::OutputInfor()
 	cout << "Address: " << Address << endl;
 }
 
-void Infor::EditInfor()
+void Infor::EditInfor(int checkifBeChanged)
 {
 	int choice = -1;
 	do
 	{
-		cout << endl << "Which infor of this employee do you want to edit?" << endl;
+		cout << "Which infor of this employee do you want to edit?" << endl;
 		cout << "Enter 0 to cancel." << endl;
 		cout << "Enter 1 to edit name." << endl;
 		cout << "Enter 2 to edit gender." << endl;
@@ -108,6 +110,10 @@ void Infor::EditInfor()
 			cout << "Invalid choice. Please choose again." << endl << endl;
 		}
 		cout << endl;
+		if (choice != 0)
+		{
+			checkifBeChanged = 1;
+		}
 		switch (choice)
 		{
 		case 0:
@@ -161,17 +167,21 @@ void Infor::EditInfor()
 			break;
 		}
 		}
-		cout << "Do you still want to edit this employee?" << endl;
-		cout << "Enter 1 to continue or any key to exit: ";
-		cin >> choice;
-		if (cin.fail() || choice != 1)
+		if (choice != 0)
 		{
-			if (cin.fail())
+			cout << "Do you still want to edit this employee?" << endl;
+			cout << "Enter 1 to continue or any key to exit: ";
+			cin >> choice;
+			if (cin.fail() || choice != 1)
 			{
-				cin.clear();
-				cin.ignore(2000, '\n');
+				if (cin.fail())
+				{
+					cin.clear();
+					cin.ignore(2000, '\n');
+				}
+				choice = 0;
 			}
-			choice = 0;
 		}
+		system("CLS");
 	} while (choice != 0);
 }

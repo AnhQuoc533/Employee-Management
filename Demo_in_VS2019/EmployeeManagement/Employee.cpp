@@ -6,11 +6,6 @@ Employee::Employee()
 	EInfor = anInfor;
 	Salary = 0;
 }
-void Employee::inputEmpl()
-{
-	EInfor.InputInfor();
-	Salary = 0.;
-}
 
 void Employee::View_Infor_Empl()
 {
