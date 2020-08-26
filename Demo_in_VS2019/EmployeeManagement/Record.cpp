@@ -97,11 +97,6 @@ void Record::clear(int index)
 	records[index][0] = tmp;
 }
 
-int* Record::getRecord(int ID)
-{
-	return nullptr;
-}
-
 int Record::getIndex(int ID)
 {
 	int size = records.size();
@@ -113,4 +108,16 @@ int Record::getIndex(int ID)
 		}
 	}
 	return -1;
+}
+
+void Record::newBlank(int* arr, int n)
+{
+	int* p;
+	for (int i = 0; i < n; ++i)
+	{
+		p = new int[nCol]();
+		p[0] = arr[i];
+		records.push_back(p);
+		p = 0;
+	}
 }

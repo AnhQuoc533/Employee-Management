@@ -4,6 +4,7 @@ Staff::Staff()
 {
 	Infor anInfor;
 	StInfor = anInfor;
+	employeeRecords = new Record;
 }
 
 void Staff::SaveInfortoTextfile()
@@ -546,4 +547,22 @@ void Staff::StaffMenu()
 	} while (choice != 4);
 	//LoadfromTextfile();
 	//View_list_of_Empl();
+}
+
+void Staff::createRecords()
+{
+	if (employeeRecords->hasData())
+	{
+		cout << "There's existing records data of this month. You cannot create new records.\n";
+		cout << "Remove records data of this month If you really want to create new records.\n";
+		return;
+	}
+	int n = ListEmpl.size();
+	int* arr = new int[n];
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = ListEmpl[i].EInfor.getID();
+	}
+	employeeRecords->newBlank(arr, n);
+	cout << "A blank record has been created\n";
 }
