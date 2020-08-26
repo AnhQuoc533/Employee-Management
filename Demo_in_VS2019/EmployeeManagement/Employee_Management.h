@@ -63,8 +63,10 @@ public:
 	void import(ifstream& fin);
 	void edit(int index, unsigned day, bool status);
 	void clear(int index);
-	int* getRecord(int ID);
 	int getIndex(int ID);
+	bool hasData() { return records.size(); }
+	void newBlank(int* arr, int n);
+	void clearData();
 private:
 	vector<int*> records;
 	string filename;
@@ -90,6 +92,7 @@ private:
 	Record* employeeRecords;
 public:
 	Staff();
+	~Staff() { delete employeeRecords; }
 	void ImportListEmpfromCsv();
 	void SaveInfortoTextfile(int& checkifBeChanged);
 	void LoadfromTextfile();
