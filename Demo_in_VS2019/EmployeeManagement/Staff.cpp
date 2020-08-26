@@ -677,8 +677,19 @@ void Staff::editRecord()
 {
 }
 
-void Staff::clearRecord()
+void Staff::clearRecordOfAnEmployee()
 {
+	int ID, index;
+	cout << "Input the ID of the employee tat you want to clear record: ";
+	cin >> ID;
+	index = employeeRecords->getIndex(ID);
+	if (index == -1)
+	{
+		cout << "There is no employee that has the ID " << ID << " in records database." << endl;
+		cout << "You should recheck the data." << endl;
+		return;
+	}
+	employeeRecords->clear(index);
 }
 
 void Staff::viewRecords()
