@@ -107,14 +107,14 @@ public:
 	void Reset_password_for_empl();
 	void Manage_Employee_Menu();
 	void StaffMenu();
-	void createRecords(){}
-	void editRecords(){}
-	void removeRecords(){}
-	void importRecords(){}
-	void addRecord(){}
-	void editRecord(){}
-	void clearRecord(){}
-	void viewRecords(){}
+	void createRecords();
+	void editRecords();
+	void removeRecords();
+	void importRecords();
+	void addRecord();
+	void editRecord();
+	void clearRecord();
+	void viewRecords();
 };
 
 
