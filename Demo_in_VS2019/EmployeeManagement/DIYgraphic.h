@@ -20,8 +20,9 @@ class graphical_menu : public graphics_abstract
 {
 private:
 	string content, title;
-	int x, y, w, h, select, border;
+	int x, y, w, h, select = -1, border;
 public:
+	graphical_menu();
 	graphical_menu(int posx, int posy, int width, int height, int bor) :
 		x(posx), y(posy), w(width), h(height), border(bor) {}
 	void set(string t, string s);
@@ -36,8 +37,9 @@ class graphical_textbox : public graphics_abstract
 {
 private:
 	string content;
-	int x, y, w, h, select, border;
+	int x, y, w, h, select = -1, border;
 public:
+	graphical_textbox();
 	graphical_textbox(int posx, int posy, int width, int height, int bor) :
 		x(posx), y(posy), w(width), h(height), border(bor) {}
 	void set(string s) { content = s; }
