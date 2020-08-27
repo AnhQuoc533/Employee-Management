@@ -667,6 +667,25 @@ void Staff::removeRecords()
 
 void Staff::importRecords()
 {
+	ifstream fin;
+	string filename;
+	cout << "Input the name of the csv file (do not input the type of the file): ";
+	getline(cin, filename);
+	filename.append(".csv");
+	fin.open(filename);
+	if (!fin.is_open())
+	{
+		cout << "Cannot find the file " << filename << ".\n";
+		cout << "Cannot import data.\n";
+	}
+	else
+	{
+		cout << "Openned file " << filename << " successfully.\n";
+		cout << "Starting load its data to the program...\n";
+		employeeRecords->import(fin);
+		cout << endl << "Finished importing " << filename << ".\n";
+	}
+	fin.close();
 }
 
 void Staff::addRecord()
@@ -690,6 +709,7 @@ void Staff::clearRecordOfAnEmployee()
 		return;
 	}
 	employeeRecords->clear(index);
+	cout << "Cleared record of an employee\n";
 }
 
 void Staff::viewRecords()
