@@ -21,7 +21,7 @@ void graphics_abstract::evaluate(string s, int& m, int& n)
 	m = 0; n = 0;
 	while (tok!="")
 	{
-		int l = tok.length();
+		int l = (int)tok.length();
 		if (l > m) m = l;
 		getline(iss, tok, '\n');
 		n++;
@@ -34,6 +34,13 @@ void graphics_abstract::turnCursor(bool on)
 	cursor.bVisible = on;
 	cursor.dwSize = 1;
 	SetConsoleCursorInfo(console, &cursor);
+}
+
+graphical_menu::graphical_menu()
+{
+	x = y = w = h = 0;
+	select = border = -1;
+	title = content = "";
 }
 
 void graphical_menu::set(string t, string s)
@@ -73,8 +80,8 @@ void graphical_menu::display(string title, string content)
 void graphical_menu::formoutline(int color)
 {
 	charColorate(color);
-	char hl = 196, vl = 179, c1 = 218, c2 = 191, c3 = 192, c4 = 217;
-	if (border) hl = 205, vl = 186, c1 = 201, c2 = 187, c3 = 200, c4 = 188;
+	char hl = (char)196, vl = (char)179, c1 = (char)218, c2 = (char)191, c3 = (char)192, c4 = (char)217;
+	if (border) hl = char(205), vl = char(186), c1 = char(201), c2 = char(187), c3 = char(200), c4 = char(188);
 	for (int i = 1; i < w; i++)
 	{
 		warp(x + i, y); cout << hl;
@@ -127,6 +134,13 @@ int graphical_menu::operate()
 	}
 }
 
+graphical_textbox::graphical_textbox()
+{
+	x = y = w = h = 0;
+	select = border = -1;
+	content = "";
+}
+
 void graphical_textbox::wipe()
 {
 	for (int i = 0; i < h - 1; i++)
@@ -142,7 +156,8 @@ void graphical_textbox::display(string s)
 	z.formoutline(0xF);
 	wipe();	int w = this->w-5;
 	warp(x + 1, y + 1);	cout << " * ";
-	int delay_time = 50, n = s.length();
+	int delay_time = 50;
+	size_t n = s.length();
 	for (int i = 0, line_index = 0, chara_count = 0; i < n; i++)
 	{
 		if (s[i] == '\n')
@@ -156,7 +171,8 @@ void graphical_textbox::display(string s)
 		chara_count++;
 		if (s[i] == ' ')
 		{
-			int location = s.find(' ', i + 1) - 1;
+			size_t offset = i + (size_t)1;
+			size_t location = s.find(' ', offset) - 1;
 			if (chara_count + location - i > w)
 			{
 				line_index++; chara_count = 0;
