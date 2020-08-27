@@ -645,6 +645,7 @@ void Staff::createRecords()
 		arr[i] = ListEmpl[i].EInfor.getID();
 	}
 	employeeRecords->newBlank(arr, n);
+	delete[] arr;
 	cout << "A blank record has been created\n";
 }
 
@@ -704,8 +705,8 @@ void Staff::clearRecordOfAnEmployee()
 	index = employeeRecords->getIndex(ID);
 	if (index == -1)
 	{
-		cout << "There is no employee that has the ID " << ID << " in records database." << endl;
-		cout << "You should recheck the data." << endl;
+		cout << "There is no employee that has the ID " << ID << " in records database.\n";
+		cout << "You should recheck the data.\n";
 		return;
 	}
 	employeeRecords->clear(index);
@@ -714,4 +715,25 @@ void Staff::clearRecordOfAnEmployee()
 
 void Staff::viewRecords()
 {
+	Date today;
+	int index;
+	int n = ListEmpl.size();
+	int maxDay = today.Maxdayintmonth();
+	cout << "Day" << setw(8);
+	for (int i = 1; i <= maxDay; ++i)
+	{
+		cout << i << setw(3);
+	}
+	cout << endl;
+	for (int i = 0; i < n; ++i)
+	{
+		index = employeeRecords->getIndex(ListEmpl[i].EInfor.getID());
+		if (index == -1)
+		{
+			cout << "There is no employee that has the ID " << ListEmpl[i].EInfor.getID() << " in records database.\n";
+			cout << "You should recheck the data." << endl;
+			continue;
+		}
+		employeeRecords->view(index);
+	}
 }

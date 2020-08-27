@@ -67,6 +67,7 @@ public:
 	bool hasData() { return records.size(); }
 	void newBlank(int* arr, int n);
 	void clearData();
+	void view(int index);
 private:
 	vector<int*> records;
 	string filename;

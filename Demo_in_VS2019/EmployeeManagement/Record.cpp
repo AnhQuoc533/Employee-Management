@@ -131,3 +131,12 @@ void Record::clearData()
 	}
 	records.clear();
 }
+
+void Record::view(int index)
+{
+	for (int i = 0; i < nCol; ++i)
+	{
+		cout << records[index][i] << setw(3);
+	}
+	cout << endl;
+}
