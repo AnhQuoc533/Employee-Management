@@ -43,12 +43,7 @@ public:
 	Account getAccount() { return ACC; }
 	//setter:
 	void setNo(int no) { No = no; }
-	void setDoB(Date& aDate) { DoB = aDate; }
 	void setID(int id) { ID = id; }
-	void setName(string name) { Name = name; }
-	void setPhone(string phone) { Phone=phone; }
-	void setAddress(string address) { Address = address; }
-	void setGender(char gender) { Gender = gender; }
 	void setUS(string username) { ACC.setUsername(username); }
 	void setPASS(string password) { ACC.setPass(password); }
 	void LoadInforfrom(ifstream& fload);
