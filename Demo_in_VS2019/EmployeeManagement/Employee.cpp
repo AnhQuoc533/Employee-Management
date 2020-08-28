@@ -16,26 +16,35 @@ void Employee::View_Infor_Empl()
 void Employee::loadEmplData()
 {
 	ifstream fi("Employee.txt");
+	bool fail = 1;
 	if (fi)
 	{
 		while (fi.peek() != EOF)
 		{
-			string s, tok; getline(fi, s);
-			istringstream iss(s);
-			getline(iss, tok, ',');
-			getline(iss, tok, ',');
-			if (stoi(tok) == EInfor.getID())
+			EInfor.LoadInforfrom(fi);
+			Account z = EInfor.getAccount();
+			if (EInfor.getID() == stoi(z.getUsername()))
 			{
-				iss.str(s);
-				getline(iss, tok, ','); EInfor.setNo(stoi(tok));
-				getline(iss, tok, ','); EInfor.setID(stoi(tok));
-				getline(iss, tok, ','); EInfor.setName(tok);
-				getline(iss, tok, ','); EInfor.setGender(tok[0]);
-				getline(iss, tok, ','); //EInfor.setDoB({ 0,0,0 });
-				getline(iss, tok, ','); EInfor.setPhone(tok);
-				getline(iss, tok, ','); EInfor.setAddress(tok);
+				break;
+				fail = 0;
 			}
+			//string s, tok; getline(fi, s);
+			//istringstream iss(s);
+			//getline(iss, tok, ',');
+			//getline(iss, tok, ',');
+			//if (stoi(tok) == EInfor.getID())
+			//{
+			//	iss.str(s);
+			//	getline(iss, tok, ','); EInfor.setNo(stoi(tok));
+			//	getline(iss, tok, ','); EInfor.setID(stoi(tok));
+			//	getline(iss, tok, ','); EInfor.setName(tok);
+			//	getline(iss, tok, ','); EInfor.setGender(tok[0]);
+			//	getline(iss, tok, ','); //EInfor.setDoB({ 0,0,0 });
+			//	getline(iss, tok, ','); EInfor.setPhone(tok);
+			//	getline(iss, tok, ','); EInfor.setAddress(tok);
+			//}
 		}		
 		fi.close();
 	}
+	if (fail) cout << "'Load failed!\n";
 }
