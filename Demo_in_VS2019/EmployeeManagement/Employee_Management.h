@@ -113,8 +113,8 @@ public:
 	void editRecords();
 	void removeRecords();
 	void importRecords();
-	void addRecord();
-	void editRecord();
+	void addRecord(); // no implementation
+	void editRecord(); // no implementation
 	void clearRecordOfAnEmployee();
 	void viewRecords();
 };

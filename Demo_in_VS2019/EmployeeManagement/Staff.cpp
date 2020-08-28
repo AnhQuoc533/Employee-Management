@@ -659,6 +659,28 @@ void Staff::createRecords()
 
 void Staff::editRecords()
 {
+	int ID, index, day, status;
+	Date today;
+	cout << "Input the ID of the employee that you want to edit record: ";
+	cin >> ID;
+	index = employeeRecords->getIndex(ID);
+	if (index == -1)
+	{
+		cout << "There is no employee that has the ID " << ID << " in records database.\n";
+		cout << "You should recheck the data.\n";
+		return;
+	}
+	cout << "Input the day of month: ";
+	cin >> day;
+	if (day < 1 || day>today.Maxdayintmonth())
+	{
+		cout << "Invalid input day. (1 - " << today.Maxdayintmonth() << ")\n";
+		return;
+	}
+	cout << "Input the status of the employee (1 - Present; 0 - Absent): ";
+	cin >> status;
+	employeeRecords->edit(index, day, status);
+	cout << "Updated record of an employee\n";
 }
 
 void Staff::removeRecords()
@@ -708,7 +730,7 @@ void Staff::editRecord()
 void Staff::clearRecordOfAnEmployee()
 {
 	int ID, index;
-	cout << "Input the ID of the employee tat you want to clear record: ";
+	cout << "Input the ID of the employee that you want to clear record: ";
 	cin >> ID;
 	index = employeeRecords->getIndex(ID);
 	if (index == -1)
