@@ -17,6 +17,7 @@ private:
 public:
 	void setUsername(string username) { Username = username; }
 	void setPass(string password) { Password = password; }
+	string getUsername() { return Username; }
 };
 
 class Infor {
@@ -39,6 +40,7 @@ public:
 	string getPhone() { return Phone; }
 	string getAddress() { return Address; }
 	char getGender() { return Gender; }
+	Account getAccount() { return ACC; }
 	//setter:
 	void setNo(int no) { No = no; }
 	void setDoB(Date& aDate) { DoB = aDate; }
