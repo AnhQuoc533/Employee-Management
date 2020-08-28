@@ -13,7 +13,7 @@ void Employee::View_Infor_Empl()
 	//cout << "Salary: " << getSalary() << endl;
 }
 
-void Employee::loadEmplData()
+void Employee::loadEmplData(Account checker)
 {
 	ifstream fi("Employee.txt");
 	bool fail = 1;
@@ -22,11 +22,10 @@ void Employee::loadEmplData()
 		while (fi.peek() != EOF)
 		{
 			EInfor.LoadInforfrom(fi);
-			Account z = EInfor.getAccount();
-			if (EInfor.getID() == stoi(z.getUsername()))
+			if (EInfor.getID() == stoi(checker.getUsername()))
 			{
-				break;
 				fail = 0;
+				break;
 			}
 			//string s, tok; getline(fi, s);
 			//istringstream iss(s);
