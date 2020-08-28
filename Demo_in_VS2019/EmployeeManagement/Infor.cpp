@@ -16,21 +16,21 @@ void Infor::LoadInforfrom(ifstream& fload)
 	string temp;
 	int tempd = 0, tempm = 0, tempy = 0;
 	getline(fload, temp, ',');
-	setNo(stoi(temp));
+	No = stoi(temp);
 	getline(fload, temp, ',');
-	setID(stoi(temp));
+	ID = stoi(temp);
 	getline(fload, temp, ',');
-	setName(temp);
+	Name = temp;
 	getline(fload, temp, ',');
-	setGender(temp[0]);
+	Gender = temp[0];
 	getline(fload, temp, ',');
 	Date tempDate;
 	tempDate.stoDate(temp);
-	setDoB(tempDate);
+	DoB = tempDate;
 	getline(fload, temp, ',');
-	setPhone(temp);
+	Phone = temp;
 	getline(fload, temp);
-	setAddress(temp);
+	Address = temp;
 }
 
 void Infor::InputInfor()
