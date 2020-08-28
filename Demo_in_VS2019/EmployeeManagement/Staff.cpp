@@ -304,6 +304,13 @@ void Staff::Remove_an_Empl(int& checkifBeChanged)
 		cin.ignore(1);
 		return;
 	}
+	int idx = employeeRecords->getIndex(id);
+	if (idx == -1)
+	{
+		cout << "There is no employee that has the ID " << id << " in records database.\n";
+		cout << "You should recheck the data." << endl;
+		return;
+	}
 	cout << "Start removing...." << endl;
 	int n = ListEmpl.size();
 	for (int i = index + 1; i < n; i++)
@@ -311,6 +318,7 @@ void Staff::Remove_an_Empl(int& checkifBeChanged)
 		ListEmpl[i].EInfor.setNo(ListEmpl[i].EInfor.getNo() - 1);
 	}
 	ListEmpl.erase(ListEmpl.begin() + index);
+	employeeRecords->remove(idx);
 	checkifBeChanged = 1;
 }
 

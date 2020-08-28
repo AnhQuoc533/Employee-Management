@@ -140,3 +140,9 @@ void Record::view(int index)
 	}
 	cout << endl;
 }
+
+void Record::remove(int index)
+{
+	delete[] records[index];
+	records.erase(records.begin() + index);
+}
