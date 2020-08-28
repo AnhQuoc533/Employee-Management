@@ -85,7 +85,7 @@ void Infor::OutputInfor()
 	cout << "Address: " << Address << endl;
 }
 
-void Infor::EditInfor(int checkifBeChanged)
+void Infor::EditInfor()
 {
 	int choice = -1;
 	do
@@ -110,10 +110,6 @@ void Infor::EditInfor(int checkifBeChanged)
 			cout << "Invalid choice. Please choose again." << endl << endl;
 		}
 		cout << endl;
-		if (choice != 0)
-		{
-			checkifBeChanged = 1;
-		}
 		switch (choice)
 		{
 		case 0:

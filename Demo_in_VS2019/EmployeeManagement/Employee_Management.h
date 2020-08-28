@@ -49,7 +49,7 @@ public:
 	void setPASS(string password) { ACC.setPass(password); }
 	void LoadInforfrom(ifstream& fload);
 	void InputInfor();
-	void EditInfor(int checkifBeChanged);
+	void EditInfor();
 	void OutputInfor();
 };
 
@@ -94,13 +94,13 @@ public:
 	Staff();
 	~Staff() { delete employeeRecords; }
 	void ImportListEmpfromCsv();
-	void SaveInfortoTextfile(int& checkifBeChanged);
+	void SaveInfortoTextfile();
 	void LoadfromTextfile();
 	int findEmplWithID(int id);
-	void Add_an_Empl_Manually(int& checkifBeChanged);
-	void Create_List_Empl_Manually(int& checkifBeChanged);
-	void Edit_Infor_of_an_Empl(int& checkifBeChanged);
-	void Remove_an_Empl(int& checkifBeChanged);
+	void Add_an_Empl_Manually();
+	void Create_List_Empl_Manually();
+	void Edit_Infor_of_an_Empl();
+	void Remove_an_Empl();
 	void View_list_of_Empl();
 	void View_Infor_of_an_Empl();
 	void View_Profile();
