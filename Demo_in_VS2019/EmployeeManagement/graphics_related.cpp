@@ -18,14 +18,14 @@ void graphics_abstract::evaluate(string s, int& m, int& n)
 	istringstream iss(s);
 	string tok;
 	getline(iss, tok, '\n');
-	m = 0; n = 0;
-	while (tok!="")
+	m = 0; n = 1;
+	while (tok != "")
 	{
 		int l = (int)tok.length();
 		if (l > m) m = l;
 		getline(iss, tok, '\n');
 		n++;
-	}
+	} m += 2;
 }
 
 void graphics_abstract::turnCursor(bool on)
@@ -38,9 +38,14 @@ void graphics_abstract::turnCursor(bool on)
 
 graphical_menu::graphical_menu()
 {
-	x = y = w = h = 0;
-	select = border = -1;
+	x = y = w = h = border = 0;
 	title = content = "";
+}
+
+void graphical_menu::init(int posx, int posy, int width, int height)
+{
+	x = posx; y = posy;
+	w = width; h = height;
 }
 
 void graphical_menu::set(string t, string s)
@@ -48,26 +53,34 @@ void graphical_menu::set(string t, string s)
 	title = t; content = s;
 }
 
+void graphical_menu::resize(int width, int height)
+{
+	w = width; h = height;
+	warp(x, y + h-1);
+	for (int i = 0; i < w; i++) cout << " ";
+	warp(x, y + h-1);
+}
+
 void graphical_menu::display(string title, string content)
 {
 	istringstream iss(content);
 	string tok;
 	getline(iss, tok, '\n');
-	int line_offset = 0;
+	int line_offset = 0, x = this->x + 1, y = this->y + 1;
 	while (tok != "")
 	{
 		warp(x, y + line_offset);
 		if (line_offset == select)
 		{
 			SetConsoleTextAttribute(console, 15 | BACKGROUND_BLUE);
-			for (int i = 0; i < w; i++) cout << " ";
+			for (int i = 0; i < w-1; i++) cout << " ";
 			warp(x, y + line_offset);
 			cout << tok << endl;
 		}
 		else
 		{
 			charColorate(0xF);
-			for (int i = 0; i < w; i++) cout << " ";
+			for (int i = 0; i < w-1; i++) cout << " ";
 			warp(x, y + line_offset);
 			cout << tok << endl;
 		}
@@ -103,33 +116,33 @@ int graphical_menu::operate()
 	turnCursor(0);
 	evaluate(content, w, h);
 	formoutline(TONE2);
-	int sel = 0;
+	select = 0;
 
 	while (1)
 	{
 		display();
-		charColorate(TONE1);
-		warp(x, y - border);  cout << title;
+		charColorate(TONE2);
+		warp(x+1, y - border);  cout << title;
 		char c = _getch();
 		if (c == -32)
 		{
 			c = _getch();
 			switch (c)
 			{
-			case 72: sel = (sel > 0) ? sel - 1 : 0; break;
-			case 80: sel = (sel < h - 1) ? sel + 1 : h - 1; break;
+			case 72: select = (select > 0) ? select - 1 : 0; break;
+			case 80: select = (select < h - 2) ? select + 1 : h - 2; break;
 			}
 		}
 		if ((c >= 48) && (c <= 57))
 		{
 			int x = c - 48;
-			if ((x >= 0) && (x < h)) sel = x;
+			if ((x >= 0) && (x < h)) select = x;
 		}
 		if (c == '\r')
 		{
 			charColorate(15);
 			turnCursor(1);
-			return sel;
+			return select;
 		}
 	}
 }
@@ -137,8 +150,14 @@ int graphical_menu::operate()
 graphical_textbox::graphical_textbox()
 {
 	x = y = w = h = 0;
-	select = border = -1;
+	select = border = 0;
 	content = "";
+}
+
+void graphical_textbox::init(int posx, int posy, int width, int height)
+{
+	x = posx; y = posy;
+	w = width; h = height;
 }
 
 void graphical_textbox::wipe()
@@ -173,13 +192,14 @@ void graphical_textbox::display(string s)
 		{
 			size_t offset = i + (size_t)1;
 			size_t location = s.find(' ', offset) - 1;
+			if (i!=s.length()-1)
 			if (chara_count + location - i > w)
 			{
 				line_index++; chara_count = 0;
 				warp(x + 1, y + 1 + line_index);
 				if (line_index > h-2)
 				{
-					z.resize(w, h + 1);
+					z.resize(this->w, h + 1);
 					z.formoutline(0xF);
 					warp(x + 1, y + 1 + line_index);
 					h++;
