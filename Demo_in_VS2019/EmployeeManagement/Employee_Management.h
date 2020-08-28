@@ -14,6 +14,7 @@ class Account {
 private:
 	string Username;
 	string Password;
+	int type = 0;
 public:
 	void setUsername(string username) { Username = username; }
 	void setPass(string password) { Password = password; }
