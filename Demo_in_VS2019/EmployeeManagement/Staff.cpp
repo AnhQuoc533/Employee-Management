@@ -767,3 +767,21 @@ void Staff::viewRecords()
 		employeeRecords->view(index);
 	}
 }
+
+void Staff::viewSalaryTable()
+{
+	int n = ListEmpl.size();
+	int total = 0;
+	cout << "\n\tSalary table of all employees\n\n";
+	cout << left << setw(12) << "ID" << setw(30) << "Name" << right << setw(12) << "Salary" << endl;
+	cout << "______________________________________________________\n";
+	for (int i = 0; i < n; ++i)
+	{
+		cout << left << setw(12) << ListEmpl[i].EInfor.getID();
+		cout << setw(30) << ListEmpl[i].EInfor.getName();
+		cout << right << setw(12) << ListEmpl[i].Salary << endl;
+		total += ListEmpl[i].Salary;
+	}
+	cout << "______________________________________________________\n";
+	cout << "Total salary: " << setw(39) << total << endl;
+}
