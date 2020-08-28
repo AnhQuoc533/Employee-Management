@@ -20,13 +20,14 @@ class graphical_menu : public graphics_abstract
 {
 private:
 	string content, title;
-	int x, y, w, h, select = -1, border;
+	int x, y, w, h, border, select = 0;
 public:
 	graphical_menu();
 	graphical_menu(int posx, int posy, int width, int height, int bor) :
 		x(posx), y(posy), w(width), h(height), border(bor) {}
+	void init(int posx, int posy, int width, int height);
 	void set(string t, string s);
-	void resize(int ww, int hh) { w=ww; h=hh; }
+	void resize(int width, int height);
 	void display() { display(title, content); }
 	void display(string title, string content);
 	void formoutline(int color);
@@ -37,11 +38,12 @@ class graphical_textbox : public graphics_abstract
 {
 private:
 	string content;
-	int x, y, w, h, select = -1, border;
+	int x, y, w, h, border, select = 0;
 public:
 	graphical_textbox();
 	graphical_textbox(int posx, int posy, int width, int height, int bor) :
 		x(posx), y(posy), w(width), h(height), border(bor) {}
+	void init(int posx, int posy, int width, int height);
 	void set(string s) { content = s; }
 	void wipe();
 	void display(string s);
