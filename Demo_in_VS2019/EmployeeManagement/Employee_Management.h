@@ -80,7 +80,7 @@ private:
 public:
 	Employee();
 	void View_Infor_Empl();
-	void loadEmplData();
+	void loadEmplData(Account);
 	friend class Staff;
 };
 
