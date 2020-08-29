@@ -7,7 +7,7 @@ Infor::Infor()
 	DoB = aDate;
 	ID = 0;
 	Name = "Unkown";
-	Phone= "Unkown";
+	Phone = "Unknown";
 	Address= "Unkown";
 }
 
@@ -99,6 +99,7 @@ void Infor::EditInfor()
 		cout << "Enter 5 to edit address." << endl;
 		cout << "Your choice: ";
 		cin >> choice;
+		system("CLS");
 		if (cin.fail() || choice < 0)
 		{
 			if (cin.fail())
@@ -143,8 +144,8 @@ void Infor::EditInfor()
 		}
 		case 4:
 		{
-			cout << "Editing the phone of the employee." << endl;
-			cout << "Input the new phone for this employee: ";
+			cout << "Editing the phonenumber of the employee." << endl;
+			cout << "Input the new phonenumber for this employee: ";
 			cin.ignore(1);
 			getline(cin, Phone);
 			break;

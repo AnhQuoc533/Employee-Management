@@ -9,41 +9,8 @@ Staff::Staff()
 
 void Staff::SaveInfortoTextfile()
 {
-	ifstream fload;
 	ofstream fsave;
-	string namefile;
-	int choice = 0;
-	cout << "Input the name of the file (please do not put the type of file): ";
-	getline(cin, namefile);
-	namefile.append(".txt");
-	fload.open(namefile);
-	if (fload.is_open())
-	{
-		fload.close();
-		cout << "The file " << namefile << " has already existed." << endl;
-		cout << "Do you want to overwrite it?" << endl;
-		cout << "1.Yes\n2.No (Cancel save)\n";
-		do
-		{
-			cout << "Your choice: ";
-			cin >> choice;
-			if (cin.fail() || choice < 1 || choice > 2)
-			{
-				if (cin.fail())
-				{
-					cin.clear();
-					cin.ignore(2000, '\n');
-					choice = 0;
-				}
-				cout << "Invalid choice. Please choose again" << endl << endl;
-			}
-		} while (choice < 1 || choice>2);
-		if (choice == 2)
-		{
-			cout << "The file was not saved." << endl;
-			return;
-		}
-	}
+	string namefile = "Employee.txt";
 	fsave.open(namefile);
 	if (!fsave.is_open())
 	{
@@ -87,11 +54,8 @@ void Staff::SaveInfortoTextfile()
 void Staff::LoadfromTextfile()
 {
 	ifstream fload;
-	string namefile;
+	string namefile = "Employee.txt";
 	Employee anEmpl;
-	cout << "Input the name of the file you want to load its data (do not input the type of the file): ";
-	getline(cin, namefile);
-	namefile.append(".txt");
 	fload.open(namefile);
 	if (!fload.is_open())
 	{
@@ -146,6 +110,7 @@ void Staff::ImportListEmpfromCsv()
 			anEmpl.EInfor.LoadInforfrom(fload);
 			anEmpl.EInfor.setUS(to_string(anEmpl.EInfor.getID()));
 			anEmpl.EInfor.setPASS(anEmpl.EInfor.getDoB().toStr());
+			anEmpl.EInfor.setType(1);
 			ListEmpl.push_back(anEmpl);
 		}
 		cout << endl << "Finished importing " << namefile << "." << endl;
@@ -191,7 +156,7 @@ void Staff::Add_an_Empl_Manually()
 		int index = findEmplWithID(anEmpl.EInfor.getID());
 		if (index != -1)
 		{
-			cout << endl << "ERROR: The employee with the ID " << anEmpl.EInfor.getID() << "is already existed." << endl;
+			cout << "ERROR: The employee with the ID " << anEmpl.EInfor.getID() << "is already existed." << endl;
 			cout << "Here is his/her information:" << endl;
 			ListEmpl[index].View_Infor_Empl();
 			system("pause");
@@ -236,6 +201,7 @@ void Staff::Add_an_Empl_Manually()
 	anEmpl.EInfor.setNo(ListEmpl.size() + 1);
 	anEmpl.EInfor.setUS(to_string(anEmpl.EInfor.getID()));
 	anEmpl.EInfor.setPASS(anEmpl.EInfor.getDoB().toStr());
+	anEmpl.EInfor.setType(1);
 	ListEmpl.push_back(anEmpl);
 	cout << "New employee was added successfully." << endl;
 }
@@ -380,6 +346,7 @@ void Staff::Remove_an_Empl()
 		return;
 	}*/
 	cout << "Start removing...." << endl;
+	ListEmpl[index].EInfor.setType(0);
 	int n = ListEmpl.size();
 	for (int i = index + 1; i < n; i++)
 	{
@@ -465,7 +432,7 @@ void Staff::Reset_password_for_empl()
 			return;
 		}
 		system("CLS");
-		cout << "Are you sure that you want to delete the employee with the ID " << id << "?" << endl;
+		cout << "Are you sure that you want to reset the password of employee with the ID " << id << "?" << endl;
 		do
 		{
 			cout << "Enter 1 to continue or 2 to input the ID again." << endl;
@@ -598,12 +565,12 @@ void Staff::Manage_Employee_Menu()
 				{
 				case 0:
 				{
-					cin.ignore(1);
+					/*cin.ignore(1);
 					cout << "Please save your work before return to the previous menu." << endl;
 					SaveInfortoTextfile();
 					ListEmpl.clear();
 					system("pause");
-					system("CLS");
+					system("CLS");*/
 					cout << "Returning to previous menu." << endl;
 					break;
 				}
@@ -833,7 +800,7 @@ void Staff::viewRecords()
 void Staff::viewSalaryTable()
 {
 	int n = ListEmpl.size();
-	int total = 0;
+	double total = 0;
 	cout << "\n\tSalary table of all employees\n\n";
 	cout << left << setw(12) << "ID" << setw(30) << "Name" << right << setw(12) << "Salary" << endl;
 	cout << "______________________________________________________\n";

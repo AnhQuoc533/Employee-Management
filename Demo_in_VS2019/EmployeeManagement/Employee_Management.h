@@ -14,10 +14,11 @@ class Account {
 private:
 	string Username;
 	string Password;
-	int type = 0;
+	int Type = 0;
 public:
 	void setUsername(string username) { Username = username; }
 	void setPass(string password) { Password = password; }
+	void setType(int type) { Type = type; }
 	string getUsername() { return Username; }
 };
 
@@ -47,6 +48,7 @@ public:
 	void setID(int id) { ID = id; }
 	void setUS(string username) { ACC.setUsername(username); }
 	void setPASS(string password) { ACC.setPass(password); }
+	void setType(int type) { ACC.setType(type); }
 	void LoadInforfrom(ifstream& fload);
 	void InputInfor();
 	void EditInfor();
