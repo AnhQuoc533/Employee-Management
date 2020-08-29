@@ -78,12 +78,13 @@ private:
 class Employee {
 private:
 	Infor EInfor;
-	//int record;
 	double Salary = 0;
+	int logday, logmonth, logyear;
 public:
 	Employee();
 	void View_Infor_Empl();
 	void loadEmplData(Account);
+	void checkin();
 	friend class Staff;
 };
 
