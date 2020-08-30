@@ -119,6 +119,11 @@ int graphical_menu::operate()
 {
 	turnCursor(0);
 	evaluate(content, w, h);
+	if (x + w > scrw)
+	{
+		x = orix;
+		y += h + 2;
+	}
 	formoutline(TONE2);
 	select = 0;
 

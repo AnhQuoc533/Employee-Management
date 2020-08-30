@@ -22,11 +22,11 @@ class graphical_menu : public graphics_abstract
 {
 private:
 	string content, title;
-	int x, y, w, h, border, select = 0;
+	int x, y, w, h, border, select = 0, orix;
 public:
 	graphical_menu();
 	graphical_menu(int posx, int posy, int bor) :
-		x(posx), y(posy), w(0), h(0), border(bor) {}
+		x(posx), orix(posx), y(posy), w(0), h(0), border(bor) {}
 	void init(int posx, int posy, int width, int height);
 	void set(string t, string s);
 	void resize(int width, int height);
