@@ -25,8 +25,8 @@ private:
 	int x, y, w, h, border, select = 0;
 public:
 	graphical_menu();
-	graphical_menu(int posx, int posy, int width, int height, int bor) :
-		x(posx), y(posy), w(width), h(height), border(bor) {}
+	graphical_menu(int posx, int posy, int bor) :
+		x(posx), y(posy), w(0), h(0), border(bor) {}
 	void init(int posx, int posy, int width, int height);
 	void set(string t, string s);
 	void resize(int width, int height);
@@ -34,6 +34,7 @@ public:
 	void display(string title, string content);
 	void formoutline(int color);
 	int operate();
+	int operate(string tit, string con);
 };
 
 class graphical_textbox : public graphics_abstract

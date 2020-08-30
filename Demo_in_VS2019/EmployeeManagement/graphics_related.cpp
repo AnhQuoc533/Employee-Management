@@ -18,6 +18,7 @@ void graphics_abstract::charColorate(int x, int y)
 }
 void graphics_abstract::evaluate(string s, int& m, int& n)
 {
+	if (s[s.length()] != '\n') s += '\n';
 	istringstream iss(s);
 	string tok;
 	getline(iss, tok, '\n');
@@ -70,7 +71,7 @@ void graphical_menu::display(string title, string content)
 	string tok;
 	getline(iss, tok, '\n');
 	int line_offset = 0, x = this->x + 1, y = this->y + 1;
-	while (tok != "")
+	for (int j = 0;j<h-1;j++)
 	{
 		warp(x, y + line_offset);
 		if (line_offset == select)
@@ -145,9 +146,16 @@ int graphical_menu::operate()
 		{
 			charColorate(15);
 			turnCursor(1);
+			x += w + 2;
 			return select;
 		}
 	}
+}
+
+int graphical_menu::operate(string tit, string con)
+{
+	title = tit; content = con;
+	return operate();
 }
 
 graphical_textbox::graphical_textbox()
@@ -174,7 +182,8 @@ void graphical_textbox::wipe()
 void graphical_textbox::display(string s)
 {
 	s += " ";
-	graphical_menu z(x, y, w, h, border);
+	graphical_menu z;
+	z.init(x, y, w, h);
 	z.formoutline(0xF);
 	wipe();	int w = this->w-5;
 	warp(x + 1, y + 1);	cout << " * ";
