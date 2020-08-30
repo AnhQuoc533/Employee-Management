@@ -29,8 +29,12 @@ void Infor::LoadInforfrom(ifstream& fload)
 	DoB = tempDate;
 	getline(fload, temp, ',');
 	Phone = temp;
-	getline(fload, temp);
+	getline(fload, temp,',');
 	Address = temp;
+	getline(fload, temp, ',');
+	ACC.setUsername(temp);
+	getline(fload, temp);
+	ACC.setPass(temp);
 }
 
 void Infor::InputInfor()
