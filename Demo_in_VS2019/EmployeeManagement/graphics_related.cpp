@@ -1,5 +1,8 @@
 #include "Employee_Management.h"
 
+graphical_textbox outputbox;
+int scrw, scrh;
+
 void graphics_abstract::warp(int x, int y)
 {
 	COORD Cursor; Cursor.X = x; Cursor.Y = y;
@@ -217,4 +220,14 @@ void graphical_textbox::display(string s)
 void graphical_textbox::display()
 {
 	display(content);
+}
+
+void getscrsize(int& width, int& height)
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	int columns, rows;
+
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	width = csbi.srWindow.Right - csbi.srWindow.Left;
+	height = csbi.srWindow.Bottom - csbi.srWindow.Top;
 }

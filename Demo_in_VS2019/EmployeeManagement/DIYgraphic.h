@@ -1,3 +1,5 @@
+#ifndef GRAPHICS_HEADER
+#define GRAPHICS_HEADER
 #include<Windows.h>
 #include<conio.h>
 #define TONE1 1
@@ -49,3 +51,8 @@ public:
 	void display(string s);
 	void display();
 };
+
+extern graphical_textbox outputbox;
+extern int scrw, scrh;
+void getscrsize(int& width, int& height);
+#endif
