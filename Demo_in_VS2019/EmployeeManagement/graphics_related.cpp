@@ -152,6 +152,7 @@ int graphical_menu::operate()
 			charColorate(15);
 			turnCursor(1);
 			x += w + 2;
+			warp(0, 0);
 			return select;
 		}
 	}
@@ -229,6 +230,7 @@ void graphical_textbox::display(string s)
 	}
 	if (!delay_time) cin.ignore();
 	while (_getch() != 13);
+	warp(0, 0);
 }
 
 void graphical_textbox::display()
@@ -239,9 +241,21 @@ void graphical_textbox::display()
 void getscrsize(int& width, int& height)
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	int columns, rows;
-
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 	width = csbi.srWindow.Right - csbi.srWindow.Left;
 	height = csbi.srWindow.Bottom - csbi.srWindow.Top;
+}
+
+void scrinit()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	COORD newsize;
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	HWND consoleWindow = GetConsoleWindow();
+
+	SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
+	GetConsoleScreenBufferInfo(console, &csbi);
+	newsize.X = csbi.dwSize.X;
+	newsize.Y = scrh+1;//SBInfo.dwSize.Y;
+	SetConsoleScreenBufferSize(console, newsize);
 }

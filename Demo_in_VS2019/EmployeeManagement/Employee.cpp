@@ -55,6 +55,36 @@ void Employee::loadEmplData(Account checker)
 	if (fail) cout << "'Load failed!\n";
 }
 
+void Employee::loadEmplRecord(int month)
+{
+	string file = "Records-";
+	if (month < 10) file += "0";
+	file += to_string(month) + "-" + to_string(logyear) + ".txt";
+	ifstream fi(file);
+	string input, tok;
+	if (fi)
+	{
+		while (fi.peek() != EOF)
+		{
+			getline(fi, input);
+			istringstream iss(input);
+			getline(iss, tok, ',');
+			if (tok == to_string(EInfor.getID()))
+			{
+				for (int i = 0; i < 31; i++)
+				{
+					getline(iss, tok, ',');
+					record[i] = stoi(tok);
+				}
+				break;
+			}
+		}
+		fi.close();
+		outputbox.display("Checkin successfully!");
+	}
+	else outputbox.display("Can't load record for check-in.");
+}
+
 void Employee::checkin()
 {
 	string file = "Records-";
@@ -85,4 +115,18 @@ void Employee::checkin()
 		outputbox.display("Checkin successfully!");
 	}
 	else cout << "Can't load record for check-in.\n";
+}
+
+void Employee::viewCheckin(int month)
+{
+
+}
+
+void Employee::viewAnnualRecord()
+{
+	for (int i = 1; i < 13; i++)
+	{
+		loadEmplRecord(i);
+		viewCheckin(i);
+	}
 }
