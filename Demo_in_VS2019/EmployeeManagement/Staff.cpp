@@ -21,7 +21,7 @@ void Staff::SaveInfortoTextfile()
 	else
 	{
 		cout << "Saving data to file " << namefile << "...." << endl;
-		cout << "Do not shutdown the program while we are saving for you." << endl;
+		cout << "*NOTE:Do not shutdown the program while we are saving for you.*" << endl << endl;
 		int n = ListEmpl.size();
 		for (int i = 0; i < n; i++)
 		{
@@ -31,7 +31,9 @@ void Staff::SaveInfortoTextfile()
 			fsave << ListEmpl[i].EInfor.getGender() << ",";
 			fsave << ListEmpl[i].EInfor.getDoB() << ",";
 			fsave << ListEmpl[i].EInfor.getPhone() << ",";
-			fsave << ListEmpl[i].EInfor.getAddress();
+			fsave << ListEmpl[i].EInfor.getAddress() << ",";
+			fsave << ListEmpl[i].EInfor.getUsername() << ",";
+			fsave << ListEmpl[i].EInfor.getPassword();
 			if (i < n - 1)
 			{
 				fsave << endl;
@@ -108,9 +110,6 @@ void Staff::ImportListEmpfromCsv()
 		while (!fload.eof())
 		{
 			anEmpl.EInfor.LoadInforfrom(fload);
-			anEmpl.EInfor.setUS(to_string(anEmpl.EInfor.getID()));
-			anEmpl.EInfor.setPASS(anEmpl.EInfor.getDoB().toStr());
-			anEmpl.EInfor.setType(1);
 			ListEmpl.push_back(anEmpl);
 		}
 		cout << endl << "Finished importing " << namefile << "." << endl;
@@ -201,7 +200,6 @@ void Staff::Add_an_Empl_Manually()
 	anEmpl.EInfor.setNo(ListEmpl.size() + 1);
 	anEmpl.EInfor.setUS(to_string(anEmpl.EInfor.getID()));
 	anEmpl.EInfor.setPASS(anEmpl.EInfor.getDoB().toStr());
-	anEmpl.EInfor.setType(1);
 	ListEmpl.push_back(anEmpl);
 	cout << "New employee was added successfully." << endl;
 }
@@ -346,7 +344,6 @@ void Staff::Remove_an_Empl()
 		return;
 	}*/
 	cout << "Start removing...." << endl;
-	ListEmpl[index].EInfor.setType(0);
 	int n = ListEmpl.size();
 	for (int i = index + 1; i < n; i++)
 	{
@@ -565,12 +562,12 @@ void Staff::Manage_Employee_Menu()
 				{
 				case 0:
 				{
-					/*cin.ignore(1);
+					cin.ignore(1);
 					cout << "Please save your work before return to the previous menu." << endl;
 					SaveInfortoTextfile();
 					ListEmpl.clear();
 					system("pause");
-					system("CLS");*/
+					system("CLS");
 					cout << "Returning to previous menu." << endl;
 					break;
 				}

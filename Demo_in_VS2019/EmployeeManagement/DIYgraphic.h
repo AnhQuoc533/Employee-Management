@@ -1,3 +1,5 @@
+#ifndef GRAPHICS_HEADER
+#define GRAPHICS_HEADER
 #include<Windows.h>
 #include<conio.h>
 #define TONE1 1
@@ -20,11 +22,11 @@ class graphical_menu : public graphics_abstract
 {
 private:
 	string content, title;
-	int x, y, w, h, border, select = 0;
+	int x, y, w, h, border, select = 0, orix;
 public:
 	graphical_menu();
-	graphical_menu(int posx, int posy, int width, int height, int bor) :
-		x(posx), y(posy), w(width), h(height), border(bor) {}
+	graphical_menu(int posx, int posy, int bor) :
+		x(posx), orix(posx), y(posy), w(0), h(0), border(bor) {}
 	void init(int posx, int posy, int width, int height);
 	void set(string t, string s);
 	void resize(int width, int height);
@@ -32,6 +34,7 @@ public:
 	void display(string title, string content);
 	void formoutline(int color);
 	int operate();
+	int operate(string tit, string con);
 };
 
 class graphical_textbox : public graphics_abstract
@@ -49,3 +52,8 @@ public:
 	void display(string s);
 	void display();
 };
+
+extern graphical_textbox outputbox;
+extern int scrw, scrh;
+void getscrsize(int& width, int& height);
+#endif

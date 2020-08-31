@@ -82,6 +82,7 @@ void Employee::checkin()
 		ofstream fo(file);
 		for (int i = 0; i < save.size(); i++) fo << save[i] << endl;
 		fo.close();
+		outputbox.display("Checkin successfully!");
 	}
 	else cout << "Can't load record for check-in.\n";
 }
