@@ -18,13 +18,13 @@
     <ClInclude Include="LoginHeader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InfoHeader.h">
+    <ClInclude Include="Date.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RecordHeader.h">
+    <ClInclude Include="DIYgraphic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EmployeeHeader.h">
+    <ClInclude Include="Employee_Management.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,28 +35,22 @@
     <ClCompile Include="LoginFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InfoFunction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Info.cpp">
+    <ClCompile Include="Date.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Employee.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EmployeeFunction.cpp">
+    <ClCompile Include="graphics_related.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Record.cpp">
+    <ClCompile Include="Infor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RecordFunction.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Salary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FakeMain.cpp">
+    <ClCompile Include="Staff.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

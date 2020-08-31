@@ -123,22 +123,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="EmployeeHeader.h" />
-    <ClInclude Include="InfoHeader.h" />
+    <ClInclude Include="Date.h" />
+    <ClInclude Include="DIYgraphic.h" />
+    <ClInclude Include="Employee_Management.h" />
     <ClInclude Include="LoginHeader.h" />
-    <ClInclude Include="RecordHeader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Date.cpp" />
     <ClCompile Include="Employee.cpp" />
-    <ClCompile Include="EmployeeFunction.cpp" />
-    <ClCompile Include="FakeMain.cpp" />
-    <ClCompile Include="Info.cpp" />
-    <ClCompile Include="InfoFunction.cpp" />
+    <ClCompile Include="graphics_related.cpp" />
+    <ClCompile Include="Infor.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="LoginFunction.cpp" />
-    <ClCompile Include="Record.cpp" />
-    <ClCompile Include="RecordFunction.cpp" />
-    <ClCompile Include="Salary.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Staff.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
