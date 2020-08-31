@@ -56,4 +56,5 @@ public:
 extern graphical_textbox outputbox;
 extern int scrw, scrh;
 void getscrsize(int& width, int& height);
+void scrinit();
 #endif

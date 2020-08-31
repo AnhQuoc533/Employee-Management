@@ -79,11 +79,15 @@ private:
 	Infor EInfor;
 	double Salary = 0;
 	int logday, logmonth, logyear;
+	bool record[31];
 public:
 	Employee();
 	void View_Infor_Empl();
 	void loadEmplData(Account);
+	void loadEmplRecord(int month);
 	void checkin();
+	void viewCheckin(int month);
+	void viewAnnualRecord();
 	friend class Staff;
 };
 
