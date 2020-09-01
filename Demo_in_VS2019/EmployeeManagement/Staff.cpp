@@ -25,15 +25,20 @@ void Staff::SaveInfortoTextfile()
 		int n = ListEmpl.size();
 		for (int i = 0; i < n; i++)
 		{
-			fsave << ListEmpl[i].EInfor.getNo() << ",";
 			fsave << ListEmpl[i].EInfor.getID() << ",";
+			fsave << ListEmpl[i].EInfor.getPassword() << ",";
 			fsave << ListEmpl[i].EInfor.getName() << ",";
-			fsave << ListEmpl[i].EInfor.getGender() << ",";
+			if (ListEmpl[i].EInfor.getGender() == 'M' || ListEmpl[i].EInfor.getGender() == 'm')
+			{
+				fsave << "M" << ",";
+			}
+			if (ListEmpl[i].EInfor.getGender() == 'F' || ListEmpl[i].EInfor.getGender() == 'f')
+			{
+				fsave << "F" << ",";
+			}
 			fsave << ListEmpl[i].EInfor.getDoB() << ",";
 			fsave << ListEmpl[i].EInfor.getPhone() << ",";
-			fsave << ListEmpl[i].EInfor.getAddress() << ",";
-			fsave << ListEmpl[i].EInfor.getUsername() << ",";
-			fsave << ListEmpl[i].EInfor.getPassword();
+			fsave << ListEmpl[i].EInfor.getAddress();
 			if (i < n - 1)
 			{
 				fsave << endl;
@@ -72,6 +77,7 @@ void Staff::LoadfromTextfile()
 		while (!fload.eof())
 		{
 			anEmpl.EInfor.LoadInforfrom(fload);
+			anEmpl.EInfor.setNo(ListEmpl.size() + 1);
 			ListEmpl.push_back(anEmpl);
 		}
 		cout << endl << "Finished loading " << namefile << "." << endl;
@@ -110,6 +116,7 @@ void Staff::ImportListEmpfromCsv()
 		while (!fload.eof())
 		{
 			anEmpl.EInfor.LoadInforfrom(fload);
+			anEmpl.EInfor.setNo(ListEmpl.size() + 1);
 			ListEmpl.push_back(anEmpl);
 		}
 		cout << endl << "Finished importing " << namefile << "." << endl;

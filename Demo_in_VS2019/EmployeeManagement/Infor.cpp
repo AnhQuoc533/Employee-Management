@@ -16,9 +16,10 @@ void Infor::LoadInforfrom(ifstream& fload)
 	string temp;
 	int tempd = 0, tempm = 0, tempy = 0;
 	getline(fload, temp, ',');
-	No = stoi(temp);
-	getline(fload, temp, ',');
 	ID = stoi(temp);
+	ACC.setUsername(temp);
+	getline(fload, temp, ',');
+	ACC.setPass(temp);
 	getline(fload, temp, ',');
 	Name = temp;
 	getline(fload, temp, ',');
@@ -29,12 +30,8 @@ void Infor::LoadInforfrom(ifstream& fload)
 	DoB = tempDate;
 	getline(fload, temp, ',');
 	Phone = temp;
-	getline(fload, temp,',');
-	Address = temp;
-	getline(fload, temp, ',');
-	ACC.setUsername(temp);
 	getline(fload, temp);
-	ACC.setPass(temp);
+	Address = temp;
 }
 
 void Infor::InputInfor()
@@ -83,7 +80,15 @@ void Infor::OutputInfor()
 	cout << "No: " << No << endl;
 	cout << "ID: " << ID << endl;
 	cout << "Name: " << Name << endl;
-	cout << "Gender: " << Gender << endl;
+	cout << "Gender: ";
+	if (Gender == 'M' || Gender == 'm')
+	{
+		cout << "Male" << endl;
+	}
+	if (Gender == 'F' || Gender == 'f')
+	{
+		cout << "Female" << endl;
+	}
 	cout << "Date of birth: " << DoB << endl;
 	cout << "Phone: " << Phone << endl;
 	cout << "Address: " << Address << endl;
