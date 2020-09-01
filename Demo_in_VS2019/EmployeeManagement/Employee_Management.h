@@ -89,6 +89,8 @@ public:
 	void viewCheckin(int month);
 	void viewCheckin();
 	void viewAnnualRecord();
+	void viewAnnualSalary();
+	void EmployeeMenu();
 	friend class Staff;
 };
 

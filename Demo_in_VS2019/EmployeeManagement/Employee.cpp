@@ -129,6 +129,7 @@ void Employee::viewCheckin(int month)
 	{
 		cout << setw(sep);
 		if (record[i]) cout << "Yes"; else cout << "No";
+		
 	}
 }
 
@@ -142,5 +143,18 @@ void Employee::viewAnnualRecord()
 	for (int i = 1; i < 13; i++)
 	{
 		viewCheckin(i);
+	}
+}
+
+void Employee::EmployeeMenu()
+{
+	graphical_menu menu(OFX, OFY, 0);
+	int choice = menu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\n");
+	switch (choice)
+	{
+	case 0: checkin(); break;
+	case 1: viewCheckin(); break;
+	case 2: viewAnnualSalary(); break;
+	case 3: viewAnnualRecord(); break;
 	}
 }

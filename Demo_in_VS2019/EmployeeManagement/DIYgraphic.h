@@ -4,11 +4,13 @@
 #include<conio.h>
 #define TONE1 1
 #define TONE2 9
-#define GOOD A
-#define BAD C
+#define GOOD 0xA
+#define BAD 0xC
 #define WHITE 15
 #define WIDTH 1360
 #define HEIGHT 768
+#define OFX 5
+#define OFY 3
 class graphics_abstract
 {
 protected:
