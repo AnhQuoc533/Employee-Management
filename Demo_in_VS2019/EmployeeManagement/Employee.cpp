@@ -80,7 +80,7 @@ void Employee::loadEmplRecord(int month)
 			}
 		}
 		fi.close();
-		outputbox.display("Checkin successfully!");
+		outputbox.display("Load successfully!");
 	}
 	else outputbox.display("Can't load record for check-in.");
 }
@@ -119,14 +119,28 @@ void Employee::checkin()
 
 void Employee::viewCheckin(int month)
 {
+	loadEmplRecord(month);
+	int sep = 5;
+	cout << "Month: " << month << left << setw(10) << "\nDay";
+	for (int i = 0; i < 31; i++) cout << setw(sep) << i + 1;
 
+	cout << setw(10) << left << "\nStatus: ";
+	for (int i = 0; i < 31; i++)
+	{
+		cout << setw(sep);
+		if (record[i]) cout << "Yes"; else cout << "No";
+	}
+}
+
+void Employee::viewCheckin()
+{
+	viewCheckin(logmonth);
 }
 
 void Employee::viewAnnualRecord()
 {
 	for (int i = 1; i < 13; i++)
 	{
-		loadEmplRecord(i);
 		viewCheckin(i);
 	}
 }

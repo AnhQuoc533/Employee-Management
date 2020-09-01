@@ -7,7 +7,7 @@
 #define GOOD A
 #define BAD C
 #define WHITE 15
-#define WIDTH 1024
+#define WIDTH 1360
 #define HEIGHT 768
 class graphics_abstract
 {
