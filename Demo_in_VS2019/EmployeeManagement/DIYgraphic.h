@@ -9,8 +9,8 @@
 #define WHITE 15
 #define WIDTH 1360
 #define HEIGHT 768
-#define OFX 5
-#define OFY 3
+#define OFX 10
+#define OFY 5
 class graphics_abstract
 {
 protected:
@@ -26,9 +26,12 @@ public:
 class screenctrl
 {
 private:
-	int swidth, sheight;
-	int bwidth, bheight;
+	int swidth = 0, sheight = 0;
+	int bwidth = 0, bheight = 0;
+	static screenctrl* inst;
+	screenctrl() {}
 public:
+	static screenctrl* instance();
 	void init(int width, int height);
 	int getbufferw() { return bwidth; }
 	int getbufferh() { return bheight; }

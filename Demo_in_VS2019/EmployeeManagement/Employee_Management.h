@@ -84,12 +84,12 @@ public:
 	Employee();
 	void View_Infor_Empl();
 	void loadEmplData(Account);
-	void loadEmplRecord(int month);
+	bool loadEmplRecord(int month);
 	void checkin();
 	void viewCheckin(int month);
 	void viewCheckin();
 	void viewAnnualRecord();
-	void viewAnnualSalary();
+	void viewAnnualSalary() {}
 	void EmployeeMenu();
 	friend class Staff;
 };

@@ -52,10 +52,10 @@ void Employee::loadEmplData(Account checker)
 		}		
 		fi.close();
 	}
-	if (fail) cout << "'Load failed!\n";
+	if (fail) outputbox.display("Load failed!");
 }
 
-void Employee::loadEmplRecord(int month)
+bool Employee::loadEmplRecord(int month)
 {
 	string file = "Records-";
 	if (month < 10) file += "0";
@@ -81,8 +81,10 @@ void Employee::loadEmplRecord(int month)
 		}
 		fi.close();
 		outputbox.display("Load successfully!");
+		return 1;
 	}
 	else outputbox.display("Can't load record for check-in.");
+	return 0;
 }
 
 void Employee::checkin()
@@ -114,12 +116,12 @@ void Employee::checkin()
 		fo.close();
 		outputbox.display("Checkin successfully!");
 	}
-	else cout << "Can't load record for check-in.\n";
+	else outputbox.display("Can't load record for check-in.");
 }
 
 void Employee::viewCheckin(int month)
 {
-	loadEmplRecord(month);
+	if (!loadEmplRecord(month)) return;
 	int sep = 5;
 	cout << "Month: " << month << left << setw(10) << "\nDay";
 	for (int i = 0; i < 31; i++) cout << setw(sep) << i + 1;

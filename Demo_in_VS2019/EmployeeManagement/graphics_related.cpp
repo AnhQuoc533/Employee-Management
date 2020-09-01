@@ -117,9 +117,10 @@ void graphical_menu::formoutline(int color)
 
 int graphical_menu::operate()
 {
+	screenctrl* screen = screenctrl::instance();
 	turnCursor(0);
 	evaluate(content, w, h);
-	if (x + w > scrw)
+	if (x + w > screen->getbufferw())
 	{
 		x = orix;
 		y += h + 2;
@@ -236,6 +237,12 @@ void graphical_textbox::display(string s)
 void graphical_textbox::display()
 {
 	display(content);
+}
+
+screenctrl* screenctrl::instance()
+{
+	if (!inst) inst = new screenctrl;
+	return inst;
 }
 
 void screenctrl::init(int width, int height)
