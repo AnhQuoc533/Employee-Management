@@ -238,24 +238,25 @@ void graphical_textbox::display()
 	display(content);
 }
 
-void getscrsize(int& width, int& height)
-{
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	width = csbi.srWindow.Right - csbi.srWindow.Left;
-	height = csbi.srWindow.Bottom - csbi.srWindow.Top;
-}
-
-void scrinit()
+void screenctrl::init(int width, int height)
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	COORD newsize;
+	RECT r;
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-	HWND consoleWindow = GetConsoleWindow();
+	HWND consoleWindow = GetConsoleWindow(),
+		window = GetDesktopWindow();
 
+	GetWindowRect(window, &r);
+	int xx = r.right / 2 - width / 2,
+		yy = r.bottom / 2 - height / 2;
+	MoveWindow(consoleWindow, xx, yy, width, height, 1);
 	SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
 	GetConsoleScreenBufferInfo(console, &csbi);
 	newsize.X = csbi.dwSize.X;
-	newsize.Y = scrh+1;//SBInfo.dwSize.Y;
+	newsize.Y = csbi.srWindow.Bottom - csbi.srWindow.Top+1;//SBInfo.dwSize.Y;
 	SetConsoleScreenBufferSize(console, newsize);
+
+	bwidth = csbi.srWindow.Right - csbi.srWindow.Left;
+	bheight = csbi.srWindow.Bottom - csbi.srWindow.Top;
 }

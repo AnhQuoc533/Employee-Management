@@ -87,6 +87,7 @@ public:
 	void loadEmplRecord(int month);
 	void checkin();
 	void viewCheckin(int month);
+	void viewCheckin();
 	void viewAnnualRecord();
 	friend class Staff;
 };

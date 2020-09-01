@@ -6,6 +6,9 @@
 #define TONE2 9
 #define GOOD A
 #define BAD C
+#define WHITE 15
+#define WIDTH 1024
+#define HEIGHT 768
 class graphics_abstract
 {
 protected:
@@ -16,6 +19,17 @@ public:
 	void charColorate(int x, int y);
 	void evaluate(string bstr, int& m, int& n);
 	void turnCursor(bool on);
+};
+
+class screenctrl
+{
+private:
+	int swidth, sheight;
+	int bwidth, bheight;
+public:
+	void init(int width, int height);
+	int getbufferw() { return bwidth; }
+	int getbufferh() { return bheight; }
 };
 
 class graphical_menu : public graphics_abstract
@@ -54,7 +68,4 @@ public:
 };
 
 extern graphical_textbox outputbox;
-extern int scrw, scrh;
-void getscrsize(int& width, int& height);
-void scrinit();
 #endif
