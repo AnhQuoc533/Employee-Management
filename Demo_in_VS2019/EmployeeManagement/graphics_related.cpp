@@ -267,3 +267,44 @@ void screenctrl::init(int width, int height)
 	bwidth = csbi.srWindow.Right - csbi.srWindow.Left;
 	bheight = csbi.srWindow.Bottom - csbi.srWindow.Top;
 }
+
+void graphical_loader::load(int time)
+{
+	turnCursor(0);
+	char bg = (char)219;
+	charColorate(WHITE); 
+	warp(x, y - 1); cout << "Loading...";
+	int breakcount = (rand() % 5)+1;
+	int breakpoint = 0;
+	warp(x, y);
+	for (int i = 0; i < w; i++) cout << bg;
+	for (int i = 0; i < w; i++)
+	{
+		int percent = ceil((float)(i + 1) / w * 100);
+		if (i == breakpoint)
+		{
+			Sleep(time * 4);
+			if (breakcount > 0)
+			{
+				breakpoint = rand() % (w - i) + i;
+				breakcount--;
+			}
+		}			
+		charColorate(GOOD);	warp(x+i, y);		
+		cout << bg;
+		if (i < w) charColorate(WHITE);
+		warp(x + w + 2, y);
+		cout << percent << "%";
+		Sleep(time*i/breakpoint);
+	}	
+	warp(x, y - 1); cout << "Load successfully!";
+	Sleep(600);
+	warp(x, y);		for (int i = 0; i < w + 6; i++) cout << " ";
+	warp(x, y-1);	for (int i = 0; i < 20; i++) cout << " ";
+	turnCursor(1);
+}
+
+void graphical_loader::reset(int posx, int posy, int width)
+{
+	x = posx; y = posy; w = width;
+}

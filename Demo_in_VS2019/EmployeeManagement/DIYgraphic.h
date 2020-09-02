@@ -72,5 +72,16 @@ public:
 	void display();
 };
 
+class graphical_loader :public graphics_abstract
+{
+private:
+	int x, y, w;
+public:
+	graphical_loader(int posx, int posy, int width) :
+		x(posx), y(posy), w(width) { srand(time(0)); }
+	void load(int time);
+	void reset(int posx, int posy, int width);
+};
+
 extern graphical_textbox outputbox;
 #endif
