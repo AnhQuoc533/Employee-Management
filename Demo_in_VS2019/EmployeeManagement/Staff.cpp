@@ -69,13 +69,16 @@ void Staff::LoadfromTextfile()
 	else
 	{
 		outputbox.display("Openned file " + namefile + " successed.\nStarting load its data to the program....");
+		screenctrl* screen = screenctrl::instance();
+		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
+		loader.load(30);
 		while (!fload.eof())
 		{
 			anEmpl.EInfor.LoadInforfrom(fload);
 			anEmpl.EInfor.setNo(ListEmpl.size() + 1);
 			ListEmpl.push_back(anEmpl);
 		}
-		outputbox.display("Finished loading " + namefile + ".\n\nClosing the file....");
+		outputbox.display("Finished loading " + namefile + ".\nClosing the file....");
 		fload.close();
 		if (!fload.is_open())
 		{
@@ -105,6 +108,9 @@ void Staff::ImportListEmpfromCsv()
 	else
 	{
 		outputbox.display("Openned file " + namefile + " successed.\nStarting load its data to the program....");
+		screenctrl* screen = screenctrl::instance();
+		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
+		loader.load(30);
 		while (!fload.eof())
 		{
 			anEmpl.EInfor.LoadInforfrom(fload);
@@ -463,20 +469,19 @@ void Staff::Manage_Employee_Menu()
 	int choice, choice2 = -1, choice3 = 0;
 	do
 	{
-		cout << "******************************MANAGE EMPLOYEE MENU******************************" << endl;
-		cout << "0.Exit\n1.Import new list of employee from .csv file\n2.Load existed list of employee from your device\n3.Create new list of employee manually\n";
-		cout << "Your choice: ";
-		cin >> choice;
-		if (choice != 0)
+		choice = mainmenu.operate("Manage Employee", "Import new list of employee from .csv file\nLoad existed list of employee from your device\nCreate new list of employee manually\nExit");
+		/*if (choice != 0)
 		{
 			cin.ignore(1);
-		}
-		system("CLS");
-		switch (choice)
+		}*/
+		//system("CLS");
+		switch (choice+1)
 		{
-		case 0:
+		case 4:
 		{
-			cout << "Returning to *Staff menu*....\n";
+			//cout << "Returning to *Staff menu*....\n";
+			mainmenu.clear();
+			return;
 			break;
 		}
 		case 1:
@@ -501,11 +506,11 @@ void Staff::Manage_Employee_Menu()
 		}
 		}
 		system("pause");
-		system("CLS");
-		if (choice == 0)
+		//system("CLS");
+		/*if (choice == 0)
 		{
 			return;
-		}
+		}*/
 		int n = ListEmpl.size();
 		if (n == 0 && choice > 0 && choice <= 3)
 		{
@@ -516,8 +521,8 @@ void Staff::Manage_Employee_Menu()
 		{
 			cout << "Here is your list:" << endl;
 			View_list_of_Empl();
-			system("pause");
-			system("CLS");
+			//system("pause");
+			//system("CLS");
 			choice2 = 1;
 		}
 		do
@@ -526,18 +531,10 @@ void Staff::Manage_Employee_Menu()
 			{
 				do
 				{
-					cout << "What do you want to do next:" << endl;
-					cout << "0. Exit " << endl;
-					cout << "1. Add an employee to the list manually." << endl;
-					cout << "2. Edit an employee's information." << endl;
-					cout << "3. Remove an employee from the list." << endl;
-					cout << "4. View list of employees." << endl;
-					cout << "5. View information of an employee." << endl;
-					cout << "6. Reset password for an employee." << endl;
-					cout << "Your choice: ";
-					cin >> choice2;
-					system("CLS");
-					if (cin.fail() || choice2 < 0 && choice2 > 6)
+					mainmenu.autowarp(0);
+					choice2 = mainmenu.operate("Manage Employee", "Add an employee to the list manually.\nEdit an employee's information.\nRemove an employee from the list.\nView list of employees.\nView information of an employee.\nReset password for an employee.");
+					//system("CLS");
+					/*if (cin.fail() || choice2 < 0 && choice2 > 6)
 					{
 						if (cin.fail())
 						{
@@ -546,18 +543,18 @@ void Staff::Manage_Employee_Menu()
 							choice2 = -1;
 						}
 						cout << "Invalid choice. Please chosse again." << endl;
-					}
+					}*/
 				} while (choice < 0 || choice > 6);
-				switch (choice2)
+				switch (choice2+1)
 				{
-				case 0:
+				case 7:
 				{
 					cin.ignore(1);
 					cout << "Please save your work before return to the previous menu." << endl;
 					SaveInfortoTextfile();
 					ListEmpl.clear();
-					system("pause");
-					system("CLS");
+					//system("pause");
+					//system("CLS");
 					cout << "Returning to previous menu." << endl;
 					break;
 				}
@@ -598,8 +595,8 @@ void Staff::Manage_Employee_Menu()
 				}
 				}
 			}
-			system("pause");
-			system("CLS");
+			//system("pause");
+			//system("CLS");
 		} while (choice2 > 0);
 	} while (choice != 0);
 }
@@ -609,11 +606,9 @@ void Staff::StaffMenu()
 	int choice;
 	do
 	{
-		cout << "Staff menu:\n1.View profile\n2.Change password\n3.Change to manage employee menu\n4.Log out\n";
-		cout << "Your choice: ";
-		cin >> choice;
-		system("CLS");
-		switch (choice)
+		choice = mainmenu.operate("Staff menu","View profile\nChange password\nChange to manage employee menu\nLog out\n");
+		//system("CLS");
+		switch (choice+1)
 		{
 		case 1:
 		{
@@ -627,8 +622,8 @@ void Staff::StaffMenu()
 		}
 		case 3:
 		{
-			cout << "Changing to manage employee menu...." << endl;
-			system("CLS");
+			//cout << "Changing to manage employee menu...." << endl;
+			//system("CLS");
 			Manage_Employee_Menu();
 			break;
 		}
@@ -644,11 +639,11 @@ void Staff::StaffMenu()
 			break;
 		}
 		}
-		if (choice != 3)
+		/*if (choice != 3)
 		{
 			system("pause");
 			system("CLS");
-		}
+		}*/
 	} while (choice != 4);
 	//LoadfromTextfile();
 	//View_list_of_Empl();

@@ -4,6 +4,7 @@
 #include<conio.h>
 #define TONE1 1
 #define TONE2 9
+#define INACT 8
 #define GOOD 0xA
 #define BAD 0xC
 #define WHITE 15
@@ -11,6 +12,7 @@
 #define HEIGHT 768
 #define OFX 10
 #define OFY 5
+#define TXTY 20
 class graphics_abstract
 {
 protected:
@@ -40,13 +42,14 @@ public:
 class graphical_menu : public graphics_abstract
 {
 private:
-	string content, title;
+	string content, title; bool back = 0, dynamic = 1;
 	int x, y, w, h, border, select = 0, orix;
 public:
 	graphical_menu();
 	graphical_menu(int posx, int posy, int bor) :
 		x(posx), orix(posx), y(posy), w(0), h(0), border(bor) {}
 	void init(int posx, int posy, int width, int height);
+	void setpos(int xx, int yy) { x = xx; y = yy; }
 	void set(string t, string s);
 	void resize(int width, int height);
 	void display() { display(title, content); }
@@ -54,6 +57,10 @@ public:
 	void formoutline(int color);
 	int operate();
 	int operate(string tit, string con);
+	void clear();
+	int getnextline() { return y + h + 2; }
+	void autowarp(bool enable) { dynamic = 0; }
+	void lostfocus();
 };
 
 class graphical_textbox : public graphics_abstract
@@ -76,12 +83,14 @@ class graphical_loader :public graphics_abstract
 {
 private:
 	int x, y, w;
+	string content;
 public:
-	graphical_loader(int posx, int posy, int width) :
-		x(posx), y(posy), w(width) { srand(time(0)); }
+	graphical_loader(int posx, int posy, int width, string s) :
+		x(posx), y(posy), w(width), content(s) { srand((unsigned)time(0)); }
 	void load(int time);
 	void reset(int posx, int posy, int width);
 };
 
 extern graphical_textbox outputbox;
+extern graphical_menu mainmenu;
 #endif

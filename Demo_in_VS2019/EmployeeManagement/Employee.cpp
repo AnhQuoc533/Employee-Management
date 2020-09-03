@@ -104,7 +104,7 @@ void Employee::checkin()
 			getline(iss, tok, ',');
 			if (tok == to_string(EInfor.getID()))
 			{
-				int offset = input.find(",");
+				int offset = (int)input.find(",");
 				int i = offset + (logday * 2 - 1);
 				input[i] = '1';				
 			}
@@ -112,7 +112,8 @@ void Employee::checkin()
 		}
 		fi.close();
 		ofstream fo(file);
-		for (int i = 0; i < save.size(); i++) fo << save[i] << endl;
+		int n = (int)save.size();
+		for (int i = 0; i < n; i++) fo << save[i] << endl;
 		fo.close();
 		outputbox.display("Checkin successfully!");
 	}
