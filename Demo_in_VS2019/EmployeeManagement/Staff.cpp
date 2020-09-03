@@ -155,7 +155,7 @@ void Staff::Add_an_Empl_Manually()
 	anEmpl.EInfor.InputInfor();
 	do
 	{
-		system("CLS");
+		//system("CLS");
 		int index = findEmplWithID(anEmpl.EInfor.getID());
 		if (index != -1)
 		{
@@ -256,27 +256,31 @@ void Staff::Edit_Infor_of_an_Empl()
 			outputbox.display("The editting will be canceled." ) ;
 			return;
 		}
-		system("CLS");
+		//system("CLS");
 		cout << "Are you sure that you want to edit the employee with the ID " << id << "?" << endl;
-		do
-		{
-			cout << "Enter 1 to continue or 2 to input the ID again." << endl;
-			cout << "Your choice: ";
-			cin >> choice;
-			if (cin.fail() || choice != 1 && choice != 2)
-			{
-				if (cin.fail())
-				{
-					cin.clear();
-					cin.ignore(2000, '\n');
-				}
-				choice = 0;
-				cout << "Invalid choice. Please input again.";
-				system("CLS");
-			}
-		} while (choice == 0);
-		system("CLS");
-	} while (choice != 1);
+		graphical_menu yesno;
+		yesno.setclear(0);
+		choice = yesno.operate("Answer", "Yes\nNo");
+		//do
+		//{
+		//	
+		//	/*cout << "Enter 1 to continue or 2 to input the ID again." << endl;
+		//	cout << "Your choice: ";*/
+		//	//cin >> choice;
+		//	/*if (cin.fail() || choice != 1 && choice != 2)
+		//	{
+		//		if (cin.fail())
+		//		{
+		//			cin.clear();
+		//			cin.ignore(2000, '\n');
+		//		}
+		//		choice = 0;
+		//		cout << "Invalid choice. Please input again.";
+		//		system("CLS");
+		//	}*/
+		//} while (choice == 0);
+		//system("CLS");
+	} while (choice == 1);
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
@@ -284,8 +288,8 @@ void Staff::Edit_Infor_of_an_Empl()
 		cin.ignore(1);
 		return;
 	}
-	system("CLS");
-	cout << "Start editing...." << endl;
+	//system("CLS");
+	outputbox.display("Start editing....");
 	ListEmpl[index].EInfor.EditInfor();
 	cout << "The employee after edited:" << endl;
 	ListEmpl[index].View_Infor_Empl();
@@ -310,9 +314,11 @@ void Staff::Remove_an_Empl()
 			outputbox.display("Invalid ID.\nThe removing will be canceled.");
 			return;
 		}
-		system("CLS");
+		//system("CLS");
 		cout << "Are you sure that you want to delete the employee with the ID " << id << "?" << endl;
-		do
+		graphical_menu yesno;
+		choice = yesno.operate("Confirmation", "Yes\nNo\n");
+		/*do
 		{
 			cout << "Enter 1 to continue or 2 to input the ID again." << endl;
 			cout << "Your choice: ";
@@ -329,20 +335,19 @@ void Staff::Remove_an_Empl()
 				system("CLS");
 			}
 		} while (choice == 0);
-		system("CLS");
-	} while (choice != 1);
+		system("CLS");*/
+	} while (choice != 0);
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
-		outputbox.display("There is no employee that has the ID " + to_string(id) + "in this list.\nThe removing will be canceled." );
+		outputbox.display("There is no employee that has the ID " + to_string(id) + " in this list.\nThe removing will be canceled." );
 		cin.ignore(1);
 		return;
 	}
 	int idx = employeeRecords->getIndex(id);
 	if (idx == -1)
 	{
-		cout << "There is no employee that has the ID " << id << " in records database.\n";
-		cout << "You should recheck the data.\n";
+		outputbox.display("There is no employee that has the ID " + to_string(id) + " in records database.\nYou should recheck the data.");
 	}
 	else
 		employeeRecords->remove(idx);
@@ -427,9 +432,11 @@ void Staff::Reset_password_for_empl()
 			outputbox.display("Invalid ID.\nThis functionality will be canceled." ) ;
 			return;
 		}
-		system("CLS");
+		//system("CLS");
 		cout << "Are you sure that you want to reset the password of employee with the ID " << id << "?" << endl;
-		do
+		graphical_menu yesno;
+		choice = yesno.operate("Confirmation", "Yes\nNo\n");
+		/*do
 		{
 			cout << "Enter 1 to continue or 2 to input the ID again." << endl;
 			cout << "Your choice: ";
@@ -446,8 +453,8 @@ void Staff::Reset_password_for_empl()
 				system("CLS");
 			}
 		} while (choice == 0);
-		system("CLS");
-	} while (choice != 1);
+		system("CLS");*/
+	} while (choice != 0);
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
@@ -506,7 +513,7 @@ void Staff::Manage_Employee_Menu()
 			break;
 		}
 		}
-		system("pause");
+		//system("pause");
 		//system("CLS");
 		/*if (choice == 0)
 		{
@@ -528,7 +535,7 @@ void Staff::Manage_Employee_Menu()
 		}
 		do
 		{
-			if (choice2 > 0)
+			if (choice2 >= 0)
 			{
 				do
 				{
@@ -598,7 +605,7 @@ void Staff::Manage_Employee_Menu()
 			}
 			//system("pause");
 			//system("CLS");
-		} while (choice2 > 0);
+		} while (choice2+1 != 7);
 	} while (choice != 0);
 }
 
