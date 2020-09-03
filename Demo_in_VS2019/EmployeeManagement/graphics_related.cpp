@@ -41,9 +41,23 @@ void graphics_abstract::turnCursor(bool on)
 	SetConsoleCursorInfo(console, &cursor);
 }
 
+int graphics_abstract::getx()
+{
+	CONSOLE_SCREEN_BUFFER_INFO info;
+	GetConsoleScreenBufferInfo(console, &info);
+	return info.dwCursorPosition.X;
+}
+int graphics_abstract::gety()
+{
+	CONSOLE_SCREEN_BUFFER_INFO info;
+	GetConsoleScreenBufferInfo(console, &info);
+	return info.dwCursorPosition.Y;
+}
+
 graphical_menu::graphical_menu()
 {
-	x = y = w = h = border = 0;
+	x = getx();	y = gety();
+	w = h = border = 0;
 	title = content = "";
 }
 
@@ -160,14 +174,20 @@ int graphical_menu::operate()
 			charColorate(15);
 			turnCursor(1);
 			if (dynamic) x += w + 2;
-			warp(0, TXTY);
-			screenctrl* screen = screenctrl::instance();
-			for (int i = 0; i < screen->getbufferh() - TXTY - 6; i++)
+			if (willclear)
 			{
-				for (int j = 0; j < screen->getbufferw(); j++) cout << " ";
-				cout << endl;
+				turnCursor(0);
+				warp(0, TXTY);
+				screenctrl* screen = screenctrl::instance();
+				for (int i = 0; i < screen->getbufferh() - TXTY - 4; i++)
+				{
+					for (int j = 0; j < screen->getbufferw(); j++) cout << " ";
+					cout << endl;
+				}
+				warp(0, TXTY);
+				turnCursor(1);
 			}
-			warp(0, TXTY);
+			else warp(0, y + h+1);
 			return select;
 		}
 	}
@@ -181,13 +201,13 @@ int graphical_menu::operate(string tit, string con)
 
 void graphical_menu::clear()
 {
-	x -= w+2;
+	turnCursor(0); x -= w+2;
 	for (int i = 0; i <= h; i++)
 	{
 		warp(x, y + i);
 		for (int j = 0; j <= w; j++) cout << " ";
 	}
-	back = 1;
+	turnCursor(1); back = 1;
 }
 
 void graphical_menu::lostfocus()
@@ -223,7 +243,8 @@ void graphical_menu::lostfocus()
 
 graphical_textbox::graphical_textbox()
 {
-	x = y = w = h = 0;
+	x = getx(); y = gety();
+	w = h = 0;
 	select = border = 0;
 	content = "";
 }
@@ -236,11 +257,12 @@ void graphical_textbox::init(int posx, int posy, int width, int height)
 
 void graphical_textbox::wipe()
 {
+	turnCursor(0);
 	for (int i = 0; i < h - 1; i++)
 	{
 		warp(x + 1, y + 1 + i);
 		for (int j = 0; j < w - 2; j++) cout << " ";
-	}
+	} turnCursor(1);
 }
 void graphical_textbox::display(string s)
 {
@@ -285,16 +307,18 @@ void graphical_textbox::display(string s)
 		if (i > 5 && GetAsyncKeyState(VK_RETURN) < 0) delay_time = 0;
 		Sleep(delay_time);
 	}
-	if (!delay_time) cin.ignore();
+	if (delay_time==0) cin.ignore();	
 	while (_getch() != 13);
+	turnCursor(0);
 	warp(0, TXTY);
 	screenctrl* screen = screenctrl::instance();
-	for (int i = 0; i < screen->getbufferh()-TXTY-6; i++)
+	for (int i = 0; i < screen->getbufferh() - TXTY - 6; i++)
 	{
 		for (int j = 0; j < screen->getbufferw(); j++) cout << " ";
 		cout << endl;
 	}
 	warp(0, TXTY);
+	turnCursor(1);
 }
 
 void graphical_textbox::display()

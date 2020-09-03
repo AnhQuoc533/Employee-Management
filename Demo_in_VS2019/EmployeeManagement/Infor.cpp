@@ -48,22 +48,26 @@ void Infor::InputInfor()
 				cin.ignore(2000, '\n');
 				ID = 0;
 			}
-			cout << "Invalid input. Please input again." << endl << endl;
+			outputbox.display("Invalid input. Please input again." ) ;
 		}
 	} while (ID <= 0);
 	cin.ignore(1);
 	cout << "Input the name: ";
 	getline(cin, Name);
-	do
-	{
-		cout << "Input the gender (please input m or M for Male and f or F for female): ";
-		Gender = getchar();
-		if (Gender != 'M' && Gender != 'F' && Gender != 'm' && Gender != 'f')
-		{
-			cout << "Invalid gender. Please input again." << endl << endl;
-			cin.ignore(1);
-		}
-	} while (Gender != 'M' && Gender != 'F' && Gender != 'm' && Gender != 'f');
+	graphical_menu genmenu;
+	genmenu.setclear(0);
+	int choice = genmenu.operate("Gender", "Male\nFemale\n");
+	if (choice == 0) Gender = 'M'; else Gender = 'F';
+	//do
+	//{
+	//	/*cout << "Input the gender (please input m or M for Male and f or F for female): ";
+	//	Gender = getchar();
+	//	if (Gender != 'M' && Gender != 'F' && Gender != 'm' && Gender != 'f')
+	//	{
+	//		cout << "Invalid gender. Please input again." << endl << endl;
+	//		cin.ignore(1);
+	//	}*/
+	//} while (Gender != 'M' && Gender != 'F' && Gender != 'm' && Gender != 'f');
 	cout << "Input date of birth:" << endl;
 	cin >> DoB;
 	cin.ignore(1);
@@ -97,10 +101,12 @@ void Infor::OutputInfor()
 void Infor::EditInfor()
 {
 	int choice = -1;
+	cout << "Which infor of this employee do you want to edit?" << endl;
+	graphical_menu menu;
+	choice = menu.operate("Field", "Name\nGender\nDate of birth\nPhone number\nAddress\n");
 	do
 	{
-		cout << "Which infor of this employee do you want to edit?" << endl;
-		cout << "Enter 0 to cancel." << endl;
+		/*cout << "Enter 0 to cancel." << endl;
 		cout << "Enter 1 to edit name." << endl;
 		cout << "Enter 2 to edit gender." << endl;
 		cout << "Enter 3 to edit date of birth." << endl;
@@ -119,8 +125,8 @@ void Infor::EditInfor()
 			}
 			cout << "Invalid choice. Please choose again." << endl << endl;
 		}
-		cout << endl;
-		switch (choice)
+		cout << endl;*/
+		switch (choice+1)
 		{
 		case 0:
 		{
@@ -140,8 +146,12 @@ void Infor::EditInfor()
 		{
 			cin.ignore(1);
 			cout << "Editing the gender of the employee." << endl;
-			cout << "Input new gender: ";
-			Gender = getchar();
+			graphical_menu menu;
+			menu.setclear(0);
+			int choice = menu.operate("Gender", "Male\nFemale\n");
+			if (choice == 0) Gender = 'M'; else Gender = 'F';
+			/*cout << "Input new gender: ";
+			Gender = getchar();*/
 			break;
 		}
 		case 3:
@@ -173,10 +183,12 @@ void Infor::EditInfor()
 			break;
 		}
 		}
-		if (choice != 0)
+		//if (choice != 0)
 		{
 			cout << "Do you still want to edit this employee?" << endl;
-			cout << "Enter 1 to continue or any key to exit: ";
+			graphical_menu yesno;
+			choice = yesno.operate("Confirmation", "Yes\nNo\n");
+			/*cout << "Enter 1 to continue or any key to exit: ";
 			cin >> choice;
 			if (cin.fail() || choice != 1)
 			{
@@ -186,8 +198,8 @@ void Infor::EditInfor()
 					cin.ignore(2000, '\n');
 				}
 				choice = 0;
-			}
+			}*/
 		}
-		system("CLS");
-	} while (choice != 0);
+		//system("CLS");
+	} while (choice == 0);
 }

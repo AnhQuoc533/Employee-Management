@@ -23,6 +23,8 @@ public:
 	void charColorate(int x, int y);
 	void evaluate(string bstr, int& m, int& n);
 	void turnCursor(bool on);
+	int getx();
+	int gety();
 };
 
 class screenctrl
@@ -42,7 +44,7 @@ public:
 class graphical_menu : public graphics_abstract
 {
 private:
-	string content, title; bool back = 0, dynamic = 1;
+	string content, title; bool back = 0, dynamic = 1, willclear = 1;
 	int x, y, w, h, border, select = 0, orix;
 public:
 	graphical_menu();
@@ -59,7 +61,8 @@ public:
 	int operate(string tit, string con);
 	void clear();
 	int getnextline() { return y + h + 2; }
-	void autowarp(bool enable) { dynamic = 0; }
+	void autowarp(bool enable) { dynamic = enable; }
+	void setclear(bool enable) { willclear = enable; }
 	void lostfocus();
 };
 
