@@ -65,6 +65,7 @@ public:
 	int getIndex(int ID);
 	bool hasData() { return records.size(); }
 	void newBlank(int* arr, int n);
+	void newBlank(int ID);
 	void clearData();
 	void view(int index);
 	void remove(int index);
@@ -117,7 +118,7 @@ public:
 	void Manage_Employee_Menu();
 	void StaffMenu();
 	void createRecords();
-	void editRecords();
+	void editRecordOfAnEmployee();
 	void removeRecords();
 	void importRecords();
 	void addRecord(); // no implementation
@@ -126,6 +127,5 @@ public:
 	void viewRecords();
 	void viewSalaryTable();
 };
-
 
 #endif

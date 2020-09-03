@@ -1,4 +1,7 @@
 #include"Employee_Management.h"
+
+screenctrl* screenctrl::inst = NULL;
+
 int main()
 {
 	/*Employee test;

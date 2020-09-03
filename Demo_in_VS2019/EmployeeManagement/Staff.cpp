@@ -194,6 +194,7 @@ void Staff::Add_an_Empl_Manually()
 				}
 			} while (id <= 0);
 			anEmpl.EInfor.setID(id);
+			employeeRecords->newBlank(id);
 		}
 		else
 		{
@@ -337,13 +338,14 @@ void Staff::Remove_an_Empl()
 		cin.ignore(1);
 		return;
 	}
-	//int idx = employeeRecords->getIndex(id);
-	/*if (idx == -1)
+	int idx = employeeRecords->getIndex(id);
+	if (idx == -1)
 	{
 		cout << "There is no employee that has the ID " << id << " in records database.\n";
-		cout << "You should recheck the data." << endl;
-		return;
-	}*/
+		cout << "You should recheck the data.\n";
+	}
+	else
+		employeeRecords->remove(idx);
 	cout << "Start removing...." << endl;
 	int n = ListEmpl.size();
 	for (int i = index + 1; i < n; i++)
@@ -351,7 +353,6 @@ void Staff::Remove_an_Empl()
 		ListEmpl[i].EInfor.setNo(ListEmpl[i].EInfor.getNo() - 1);
 	}
 	ListEmpl.erase(ListEmpl.begin() + index);
-	//employeeRecords->remove(idx);
 }
 
 void Staff::View_list_of_Empl()
@@ -667,7 +668,7 @@ void Staff::createRecords()
 	cout << "A blank record has been created\n";
 }
 
-void Staff::editRecords()
+void Staff::editRecordOfAnEmployee()
 {
 	int ID, index, day, status;
 	Date today;
