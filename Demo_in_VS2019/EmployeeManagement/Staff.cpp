@@ -533,7 +533,7 @@ void Staff::Manage_Employee_Menu()
 				do
 				{
 					mainmenu.autowarp(0);
-					choice2 = mainmenu.operate("Manage Employee", "Add an employee to the list manually.\nEdit an employee's information.\nRemove an employee from the list.\nView list of employees.\nView information of an employee.\nReset password for an employee.");
+					choice2 = mainmenu.operate("Manage Employee", "Add an employee to the list manually.\nEdit an employee's information.\nRemove an employee from the list.\nView list of employees.\nView information of an employee.\nReset password for an employee. \nCreate new records of a month. \nRemove records data. \nImport records data from csv file. \nEdit record of an employee. \nView records of all employees. \nClear record of an employee. \nView salary of all employees");
 					//system("CLS");
 					/*if (cin.fail() || choice2 < 0 && choice2 > 6)
 					{
@@ -545,7 +545,7 @@ void Staff::Manage_Employee_Menu()
 						}
 						cout << "Invalid choice. Please chosse again." << endl;
 					}*/
-				} while (choice < 0 || choice > 6);
+				} while (choice < 0 || choice > 6); // need changes?
 				switch (choice2+1)
 				{
 				case 7:
@@ -592,6 +592,41 @@ void Staff::Manage_Employee_Menu()
 				{
 					cout << "Start reseting the password for your employee." << endl;
 					Reset_password_for_empl();
+					break;
+				}
+				case 8:
+				{
+					createRecords();
+					break;
+				}
+				case 9:
+				{
+					removeRecords();
+					break;
+				}
+				case 10:
+				{
+					importRecords();
+					break;
+				}
+				case 11:
+				{
+					editRecordOfAnEmployee();
+					break;
+				}
+				case 12:
+				{
+					viewRecords();
+					break;
+				}
+				case 13:
+				{
+					clearRecordOfAnEmployee();
+					break;
+				}
+				case 14:
+				{
+					viewSalaryTable();
 					break;
 				}
 				}
