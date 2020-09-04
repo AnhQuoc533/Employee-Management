@@ -284,7 +284,7 @@ void Staff::Edit_Infor_of_an_Empl()
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
-		outputbox.display("There is no employee that has the ID " + to_string(id) + "in this list.\nThe editing will be canceled.");
+		outputbox.display("There is no employee that has the ID " + to_string(id) + " in this list.\nThe editing will be canceled.");
 		cin.ignore(1);
 		return;
 	}
@@ -351,13 +351,14 @@ void Staff::Remove_an_Empl()
 	}
 	else
 		employeeRecords->remove(idx);
-	cout << "Start removing...." << endl;
+	outputbox.display("Start removing....");
 	int n = ListEmpl.size();
 	for (int i = index + 1; i < n; i++)
 	{
 		ListEmpl[i].EInfor.setNo(ListEmpl[i].EInfor.getNo() - 1);
 	}
 	ListEmpl.erase(ListEmpl.begin() + index);
+	outputbox.display("Removed Successfully!"); // Thanh added.
 }
 
 void Staff::View_list_of_Empl()
@@ -555,7 +556,7 @@ void Staff::Manage_Employee_Menu()
 				} while (choice < 0 || choice > 6); // need changes?
 				switch (choice2+1)
 				{
-				case 7:
+				case 99:
 				{
 					cin.ignore(1);
 					cout << "Please save your work before return to the previous menu." << endl;
@@ -601,37 +602,37 @@ void Staff::Manage_Employee_Menu()
 					Reset_password_for_empl();
 					break;
 				}
-				case 8:
+				case 7:
 				{
 					createRecords();
 					break;
 				}
-				case 9:
+				case 8:
 				{
 					removeRecords();
 					break;
 				}
-				case 10:
+				case 9:
 				{
 					importRecords();
 					break;
 				}
-				case 11:
+				case 10:
 				{
 					editRecordOfAnEmployee();
 					break;
 				}
-				case 12:
+				case 11:
 				{
 					viewRecords();
 					break;
 				}
-				case 13:
+				case 12:
 				{
 					clearRecordOfAnEmployee();
 					break;
 				}
-				case 14:
+				case 13:
 				{
 					viewSalaryTable();
 					break;

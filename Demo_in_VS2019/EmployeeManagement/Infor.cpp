@@ -101,11 +101,11 @@ void Infor::OutputInfor()
 void Infor::EditInfor()
 {
 	int choice = -1;
-	cout << "Which infor of this employee do you want to edit?" << endl;
-	graphical_menu menu;
-	choice = menu.operate("Field", "Name\nGender\nDate of birth\nPhone number\nAddress\n");
 	do
 	{
+		cout << "Which infor of this employee do you want to edit?" << endl;
+		graphical_menu menu;
+		choice = menu.operate("Field", "Name\nGender\nDate of birth\nPhone number\nAddress\n");
 		/*cout << "Enter 0 to cancel." << endl;
 		cout << "Enter 1 to edit name." << endl;
 		cout << "Enter 2 to edit gender." << endl;
@@ -144,7 +144,7 @@ void Infor::EditInfor()
 		}
 		case 2:
 		{
-			cin.ignore(1);
+			//cin.ignore(1);
 			cout << "Editing the gender of the employee." << endl;
 			graphical_menu menu;
 			menu.setclear(0);

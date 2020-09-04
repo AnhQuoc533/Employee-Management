@@ -312,7 +312,7 @@ void graphical_textbox::display(string s)
 	turnCursor(0);
 	warp(0, TXTY);
 	screenctrl* screen = screenctrl::instance();
-	for (int i = 0; i < screen->getbufferh() - TXTY - 6; i++)
+	for (int i = 0; i < screen->getbufferh() - TXTY - 4; i++)
 	{
 		for (int j = 0; j < screen->getbufferw(); j++) cout << " ";
 		cout << endl;
@@ -367,6 +367,7 @@ void graphical_loader::load(int time)
 	for (int i = 0; i < w; i++) cout << bg;
 	for (int i = 0; i < w; i++)
 	{
+		if (GetAsyncKeyState(VK_RETURN) < 0) cin.ignore();
 		int percent = (int)ceil((float)(i + 1) / w * 100);
 		if (i == breakpoint)
 		{
