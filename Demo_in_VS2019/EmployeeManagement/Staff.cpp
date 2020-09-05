@@ -538,22 +538,22 @@ void Staff::Manage_Employee_Menu()
 		{
 			if (choice2 >= 0)
 			{
-				do
-				{
-					mainmenu.autowarp(0);
-					choice2 = mainmenu.operate("Manage Employee", "Add an employee to the list manually.\nEdit an employee's information.\nRemove an employee from the list.\nView list of employees.\nView information of an employee.\nReset password for an employee. \nCreate new records of a month. \nRemove records data. \nImport records data from csv file. \nEdit record of an employee. \nView records of all employees. \nClear record of an employee. \nView salary of all employees");
-					//system("CLS");
-					/*if (cin.fail() || choice2 < 0 && choice2 > 6)
-					{
-						if (cin.fail())
-						{
-							cin.clear();
-							cin.ignore(2000, '\n');
-							choice2 = -1;
-						}
-						cout << "Invalid choice. Please chosse again." << endl;
-					}*/
-				} while (choice < 0 || choice > 6); // need changes?
+				mainmenu.autowarp(0);
+				choice2 = mainmenu.operate("Manage Employee", "Add an employee to the list manually.\nEdit an employee's information.\nRemove an employee from the list.\nView list of employees.\nView information of an employee.\nReset password for an employee. \nCreate new records of a month. \nRemove records data. \nImport records data from csv file. \nEdit record of an employee. \nView records of all employees. \nClear record of an employee. \nView salary of all employees");
+				//do
+				//{
+				//	//system("CLS");
+				//	/*if (cin.fail() || choice2 < 0 && choice2 > 6)
+				//	{
+				//		if (cin.fail())
+				//		{
+				//			cin.clear();
+				//			cin.ignore(2000, '\n');
+				//			choice2 = -1;
+				//		}
+				//		cout << "Invalid choice. Please chosse again." << endl;
+				//	}*/
+				//} while (choice < 0 || choice > 6); // did
 				switch (choice2+1)
 				{
 				case 99:
