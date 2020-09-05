@@ -1,7 +1,7 @@
-#ifndef GRAPHICS_HEADER
-#define GRAPHICS_HEADER
-#include<Windows.h>
-#include<conio.h>
+#ifndef _DIYGRAPHIC_H_
+#define _DIYGRAPHIC_H_
+#include <Windows.h>
+#include <conio.h>
 #define TONE1 1
 #define TONE2 9
 #define INACT 8

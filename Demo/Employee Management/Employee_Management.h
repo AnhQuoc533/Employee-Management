@@ -1,24 +1,36 @@
 #ifndef _EMPLOYEE_MANAGEMENT_H_
 #define _EMPLOYEE_MAnAGEMENT_H_
 
-#include<iostream>
-#include<vector>
-#include<fstream>
-#include"Date.h"
-#include<sstream>
-#include<iomanip>
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include "Date.h"
+#include <sstream>
+#include <iomanip>
 #include "DIYgraphic.h"
+#include "LoginHeader.h"
 using namespace std;
 
 class Account {
 private:
 	string Username;
 	string Password;
+	int role;
 public:
 	void setUsername(string username) { Username = username; }
 	void setPass(string password) { Password = password; }
 	string getUsername() { return Username; }
 	string getPassword() { return Password; }
+
+	void asteriskEncode();
+	bool login();
+	bool openfiles();
+	int track(ifstream &f);
+	void changeData(ofstream &out);
+	void changepswInFile();
+	void changepsw();
+	void StaffLogin(int choice);
+	void EmployeeLogin(int choice);
 };
 
 class Infor {

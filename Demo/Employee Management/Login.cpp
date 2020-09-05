@@ -1,4 +1,5 @@
-#include "LoginHeader.h"
+#include"Employee_Management.h"
+screenctrl* screenctrl::inst = NULL;
 
 int main() {
 	int choice = -1;

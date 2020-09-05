@@ -19,29 +19,29 @@ int welcome() {
 	return choice;
 }
 
-void asteriskEncode(string &psw) {
-	psw = "";
+void Account::asteriskEncode() {
+	Password = "";
 	int buffer;
 	while (true) {
 		buffer = _getch();
 		if (buffer != 13 && buffer != 8)
 		{
 			putchar(42);
-			psw += char(buffer);
+			Password += char(buffer);
 		}
-		if (buffer == 8 && psw != "")
+		if (buffer == 8 && Password != "")
 		{
-			psw.erase(psw.end() - 1, psw.end());
+			Password.erase(Password.end() - 1, Password.end());
 			cout << "\b \b";
 		}
-		if (buffer == 13 && psw != "") {
+		if (buffer == 13 && Password != "") {
 			cout << endl;
 			break;
 		}
 	}
 }
 
-bool login(User &A) {
+bool Account::login() {
 	string name, psw;
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(h, 14);
@@ -52,33 +52,25 @@ bool login(User &A) {
 	SetConsoleTextAttribute(h, 14);
 	cout << "\t\t\t\t\t\t\t\t\t" << "PASSWORD: ";
 	SetConsoleTextAttribute(h, 15);
-	asteriskEncode(psw);
+	asteriskEncode();
 	bar2(20);
-	return openfiles(A, name, psw);
+	return openfiles();
 }
 
-bool openfiles(User &A, string name, string psw) {
-	int role, check;
+bool Account::openfiles() {
+	int check;
 	ifstream f;
 	f.open("Staff.txt");
 	role = 0;
-	check = track(f, role, A, name, psw);
+	check = track(f);
 	f.close();
 	if (check == 1)
 		return true;
 	if (check == -1)
 		return false;
-	f.open("Lecturer.txt");
+	f.open("Employee.txt");
 	role = 1;
-	check = track(f, role, A, name, psw);
-	f.close();
-	if (check == 1)
-		return true;
-	if (check == -1)
-		return false;
-	f.open("Student.txt");
-	role = 2;
-	check = track(f, role, A, name, psw);
+	check = track(f);
 	f.close();
 	if (check == 1)
 		return true;
@@ -87,101 +79,28 @@ bool openfiles(User &A, string name, string psw) {
 	return false;
 }
 
-int track(ifstream &f, int role, User &A, string name, string psw) {
-	char tmp[101];
-	int skip = 0;
+int Account::track(ifstream &f) {
+	string tmp;
 	while (f.good()) {
-		f.getline(tmp, 101);
-		if (tmp == name) {
-			f.getline(tmp, 101);
-			if (tmp == psw) {
-				A.role = role;
-				A.username = name;
-				A.password = psw;
+		getline(f, tmp, ',');
+		if (tmp == Username) {
+			getline(f, tmp, ',');
+			if (tmp == Password)
 				return 1;
-			}
 			else
 				return -1;
 		}
 		else {
-			if (role == 0)
-				skip = 4;
-			if (role == 1)
-				skip = 5;
-			if (role == 2)
-				skip = 8;
-			while (skip != 0) {
-				f.getline(tmp, 101);
-				skip--;
-			}
+			getline(f, tmp);
 		}
 	}
 	return 0;
 }
 
-void getinfoStaff(User A, Staff &admin) {
-	char tmp[101];
-	ifstream f;
-	f.open("Staff.txt");
-	while (f.good()) {
-		f.getline(tmp, 101);
-		if (tmp == A.username) {
-			f.getline(tmp, 101);
-			f.getline(tmp, 101);
-			admin.fullname = tmp;
-			f >> admin.gender;
-			break;
-		}
-		else {
-			int skip = 4;
-			while (skip != 0) {
-				f.getline(tmp, 101);
-				skip--;
-			}
-		}
-	}
-	f.close();
-}
-
-void getinfoStd(User A, StdLogin &std) {
-	char tmp[101];
-	ifstream f;
-	f.open("Student.txt");
-	std.ID = stoi(A.username, nullptr, 10);
-	while (f.good()) {
-		f.getline(tmp, 101);
-		if (tmp == A.username) {
-			f.getline(tmp, 101);
-			f.getline(tmp, 101);
-			std.fullname = tmp;
-			f.getline(tmp, 101);
-			std.fullname = std.fullname + " " + tmp;
-			f >> std.gender;
-			f >> std.DoB.day;
-			f.ignore(1);
-			f >> std.DoB.month;
-			f.ignore(1);
-			f >> std.DoB.year;
-			f.ignore(1);
-			f.getline(tmp, 101);
-			std.classname = tmp;
-			break;
-		}
-		else {
-			int skip = 8;
-			while (skip != 0) {
-				f.getline(tmp, 101);
-				skip--;
-			}
-		}
-	}
-	f.close();
-}
-
 int logged() {
 	int choice;
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-	cout << "1. Show menu\n";
+	cout << "1. Show privileged actions\n";
 	cout << "2. View profile\n";
 	cout << "3. Change password\n";
 	SetConsoleTextAttribute(h, 12);
@@ -209,7 +128,7 @@ void clonefile(ifstream &in) {
 	ftmp.close();
 }
 
-void changeData(User A, ofstream &out) {
+void Account::changeData(ofstream &out) {
 	ifstream ftmp;
 	ftmp.open("temp.txt");
 	string tmp;
@@ -233,25 +152,23 @@ void changeData(User A, ofstream &out) {
 	remove("temp.txt");
 }
 
-void changepswInFile(User A) {
+void Account::changepswInFile() {
 	string txt;
 	if (A.role == 0)
 		txt = "Staff.txt";
 	if (A.role == 1)
 		txt = "Lecturer.txt";
-	if (A.role == 2)
-		txt = "Student.txt";
 	ifstream fin;
 	fin.open(txt);
 	clonefile(fin);
 	fin.close();
 	ofstream fout;
 	fout.open(txt);
-	changeData(A, fout);
+	changeData(fout);
 	fout.close();
 }
 
-void changepsw(User &A) {
+void Account::changepsw() {
 	string tmp1, tmp2;
 	int choice;
 	while (true) {
@@ -296,26 +213,6 @@ void changepsw(User &A) {
 				break;
 			}
 		}
-	}
-}
-
-void changepswInClassFile(User A, string classname) {
-	string txt = classname + ".txt";
-	ifstream fin;
-	fin.open(txt);
-	clonefile(fin);
-	fin.close();
-	ofstream fout;
-	fout.open(txt);
-	changeData(A, fout);
-	fout.close();
-}
-
-void changepswStd(User &A, string classname) {
-	string origin = A.password;
-	changepsw(A);
-	if (origin != A.password) {
-		changepswInClassFile(A, classname);
 	}
 }
 

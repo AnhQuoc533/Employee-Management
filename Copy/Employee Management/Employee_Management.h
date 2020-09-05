@@ -1,13 +1,37 @@
 #ifndef _EMPLOYEE_MANAGEMENT_H_
 #define _EMPLOYEE_MAnAGEMENT_H_
 
-#include<iostream>
-#include<vector>
-#include<fstream>
-#include"Date.h"
-#include<sstream>
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include "Date.h"
+#include <sstream>
+#include <iomanip>
 #include "DIYgraphic.h"
+#include "LoginHeader.h"
 using namespace std;
+
+class Account {
+private:
+	string Username;
+	string Password;
+	int role;
+public:
+	void setUsername(string username) { Username = username; }
+	void setPass(string password) { Password = password; }
+	string getUsername() { return Username; }
+	string getPassword() { return Password; }
+
+	void asteriskEncode();
+	bool login();
+	bool openfiles();
+	int track(ifstream &f);
+	void changeData(ofstream &out);
+	void changepswInFile();
+	void changepsw();
+	void StaffLogin(int choice);
+	void EmployeeLogin(int choice);
+};
 
 class Infor {
 private:
@@ -18,7 +42,7 @@ private:
 	string Phone;
 	string Address;
 	char Gender;
-	//Login or Account ACC;
+	Account ACC;
 public:
 	//getter:
 	Infor();
@@ -29,16 +53,13 @@ public:
 	string getPhone() { return Phone; }
 	string getAddress() { return Address; }
 	char getGender() { return Gender; }
-	//Login or Account getACC() { return ACC; }
+	string getUsername() { return ACC.getUsername(); }
+	string getPassword() { return ACC.getPassword(); }
 	//setter:
 	void setNo(int no) { No = no; }
-	void setDoB(Date& aDate) { DoB = aDate; }
 	void setID(int id) { ID = id; }
-	void setName(string name) { Name = name; }
-	void setPhone(string phone) { Phone=phone; }
-	void setAddress(string address) { Address = address; }
-	void setGender(char gender) { Gender = gender; }
-	//void setACC(Login or Account& acc) { ACC=acc; }
+	void setUS(string username) { ACC.setUsername(username); }
+	void setPASS(string password) { ACC.setPass(password); }
 	void LoadInforfrom(ifstream& fload);
 	void InputInfor();
 	void EditInfor();
@@ -50,7 +71,16 @@ class Record
 public:
 	Record();
 	~Record();
-	int* getRecord(int ID);
+	void import(ifstream& fin);
+	void edit(int index, unsigned day, bool status);
+	void clear(int index);
+	int getIndex(int ID);
+	bool hasData() { return records.size(); }
+	void newBlank(int* arr, int n);
+	void newBlank(int ID);
+	void clearData();
+	void view(int index);
+	void remove(int index);
 private:
 	vector<int*> records;
 	string filename;
@@ -60,14 +90,20 @@ private:
 class Employee {
 private:
 	Infor EInfor;
-	//int record;
-	double Salary;
+	double Salary = 0;
+	int logday, logmonth, logyear;
+	bool record[31];
 public:
 	Employee();
-	void inputEmpl();
-	void editEmplInfor() { EInfor.EditInfor(); }
 	void View_Infor_Empl();
-	void loadEmplData();
+	void loadEmplData(Account);
+	bool loadEmplRecord(int month);
+	void checkin();
+	void viewCheckin(int month);
+	void viewCheckin();
+	void viewAnnualRecord();
+	void viewAnnualSalary() {}
+	void EmployeeMenu();
 	friend class Staff;
 };
 
@@ -75,30 +111,33 @@ class Staff {
 private:
 	Infor StInfor;
 	vector<Employee> ListEmpl;
+	Record* employeeRecords;
 public:
 	Staff();
+	~Staff() { delete employeeRecords; }
 	void ImportListEmpfromCsv();
 	void SaveInfortoTextfile();
 	void LoadfromTextfile();
 	int findEmplWithID(int id);
 	void Add_an_Empl_Manually();
+	void Create_List_Empl_Manually();
 	void Edit_Infor_of_an_Empl();
 	void Remove_an_Empl();
 	void View_list_of_Empl();
 	void View_Infor_of_an_Empl();
 	void View_Profile();
-	void Reset_password_for_empl() {}//not touch yet
+	void Reset_password_for_empl();
 	void Manage_Employee_Menu();
 	void StaffMenu();
-	/*void createRecords();
-	void editRecords();
+	void createRecords();
+	void editRecordOfAnEmployee();
 	void removeRecords();
 	void importRecords();
-	void addRecord();
-	void editRecord();
-	void clearRecord();
-	void viewRecords();*/
+	void addRecord(); // no implementation
+	void editRecord(); // no implementation
+	void clearRecordOfAnEmployee();
+	void viewRecords();
+	void viewSalaryTable();
 };
-
 
 #endif
