@@ -39,6 +39,11 @@ Record::~Record()
 {
 	ofstream fout;
 	int size = records.size();
+	if (size == 0)
+	{
+		cout << "No changes to records data will be appiled\n";
+		return;
+	}
 	fout.open(filename);
 	if (!fout.is_open())
 	{
@@ -120,6 +125,13 @@ void Record::newBlank(int* arr, int n)
 		records.push_back(p);
 		p = 0;
 	}
+}
+
+void Record::newBlank(int ID)
+{
+	int* p = new int[nCol]();
+	p[0] = ID;
+	records.push_back(p);
 }
 
 void Record::clearData()

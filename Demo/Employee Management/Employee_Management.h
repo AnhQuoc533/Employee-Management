@@ -14,7 +14,6 @@ class Account {
 private:
 	string Username;
 	string Password;
-	int role;
 public:
 	void setUsername(string username) { Username = username; }
 	void setPass(string password) { Password = password; }
@@ -66,6 +65,7 @@ public:
 	int getIndex(int ID);
 	bool hasData() { return records.size(); }
 	void newBlank(int* arr, int n);
+	void newBlank(int ID);
 	void clearData();
 	void view(int index);
 	void remove(int index);
@@ -80,11 +80,18 @@ private:
 	Infor EInfor;
 	double Salary = 0;
 	int logday, logmonth, logyear;
+	bool record[31];
 public:
 	Employee();
 	void View_Infor_Empl();
 	void loadEmplData(Account);
+	bool loadEmplRecord(int month);
 	void checkin();
+	void viewCheckin(int month);
+	void viewCheckin();
+	void viewAnnualRecord();
+	void viewAnnualSalary() {}
+	void EmployeeMenu();
 	friend class Staff;
 };
 
@@ -111,7 +118,7 @@ public:
 	void Manage_Employee_Menu();
 	void StaffMenu();
 	void createRecords();
-	void editRecords();
+	void editRecordOfAnEmployee();
 	void removeRecords();
 	void importRecords();
 	void addRecord(); // no implementation
@@ -120,6 +127,5 @@ public:
 	void viewRecords();
 	void viewSalaryTable();
 };
-
 
 #endif

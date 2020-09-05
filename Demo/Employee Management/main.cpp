@@ -1,10 +1,13 @@
 #include"Employee_Management.h"
-/*int main()
+
+screenctrl* screenctrl::inst = NULL;
+
+int main()
 {
-	Employee test;
-	test.loadEmplData();
+	/*Employee test;
+	test.loadEmplData();*/
 
 	Staff aStaff;
 	aStaff.StaffMenu();
 	return 0;
-}*/
+}

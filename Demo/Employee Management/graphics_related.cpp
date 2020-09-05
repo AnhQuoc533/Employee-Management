@@ -1,6 +1,7 @@
 #include "Employee_Management.h"
 
 graphical_textbox outputbox;
+graphical_menu mainmenu;
 int scrw, scrh;
 
 void graphics_abstract::warp(int x, int y)
@@ -40,9 +41,23 @@ void graphics_abstract::turnCursor(bool on)
 	SetConsoleCursorInfo(console, &cursor);
 }
 
+int graphics_abstract::getx()
+{
+	CONSOLE_SCREEN_BUFFER_INFO info;
+	GetConsoleScreenBufferInfo(console, &info);
+	return info.dwCursorPosition.X;
+}
+int graphics_abstract::gety()
+{
+	CONSOLE_SCREEN_BUFFER_INFO info;
+	GetConsoleScreenBufferInfo(console, &info);
+	return info.dwCursorPosition.Y;
+}
+
 graphical_menu::graphical_menu()
 {
-	x = y = w = h = border = 0;
+	x = getx();	y = gety();
+	w = h = border = 0;
 	title = content = "";
 }
 
@@ -117,9 +132,15 @@ void graphical_menu::formoutline(int color)
 
 int graphical_menu::operate()
 {
+	screenctrl* screen = screenctrl::instance();
 	turnCursor(0);
 	evaluate(content, w, h);
-	if (x + w > scrw)
+	if (back)
+	{
+		back = 0;
+		x -= w+2;
+	}
+	if (x + w > screen->getbufferw())
 	{
 		x = orix;
 		y += h + 2;
@@ -149,9 +170,24 @@ int graphical_menu::operate()
 		}
 		if (c == '\r')
 		{
+			lostfocus();
 			charColorate(15);
 			turnCursor(1);
-			x += w + 2;
+			if (dynamic) x += w + 2;
+			if (willclear)
+			{
+				turnCursor(0);
+				warp(0, TXTY);
+				screenctrl* screen = screenctrl::instance();
+				for (int i = 0; i < screen->getbufferh() - TXTY - 4; i++)
+				{
+					for (int j = 0; j < screen->getbufferw(); j++) cout << " ";
+					cout << endl;
+				}
+				warp(0, TXTY);
+				turnCursor(1);
+			}
+			else warp(0, y + h+1);
 			return select;
 		}
 	}
@@ -163,9 +199,52 @@ int graphical_menu::operate(string tit, string con)
 	return operate();
 }
 
+void graphical_menu::clear()
+{
+	turnCursor(0); x -= w+2;
+	for (int i = 0; i <= h; i++)
+	{
+		warp(x, y + i);
+		for (int j = 0; j <= w; j++) cout << " ";
+	}
+	turnCursor(1); back = 1;
+}
+
+void graphical_menu::lostfocus()
+{
+	formoutline(INACT);
+	istringstream iss(content);
+	string tok;
+	getline(iss, tok, '\n');
+	int line_offset = 0, x = this->x + 1, y = this->y + 1;
+	for (int j = 0; j < h - 1; j++)
+	{
+		warp(x, y + line_offset);
+		if (line_offset == select)
+		{
+			SetConsoleTextAttribute(console, 15 | BACKGROUND_INTENSITY);
+			for (int i = 0; i < w - 1; i++) cout << " ";
+			warp(x, y + line_offset);
+			cout << tok << endl;
+		}
+		else
+		{
+			charColorate(INACT);
+			for (int i = 0; i < w - 1; i++) cout << " ";
+			warp(x, y + line_offset);
+			cout << tok << endl;
+		}
+		getline(iss, tok, '\n');
+		line_offset++;
+	}
+	charColorate(INACT);
+	warp(this->x + 1, this->y - border);  cout << title;
+}
+
 graphical_textbox::graphical_textbox()
 {
-	x = y = w = h = 0;
+	x = getx(); y = gety();
+	w = h = 0;
 	select = border = 0;
 	content = "";
 }
@@ -178,11 +257,12 @@ void graphical_textbox::init(int posx, int posy, int width, int height)
 
 void graphical_textbox::wipe()
 {
+	turnCursor(0);
 	for (int i = 0; i < h - 1; i++)
 	{
 		warp(x + 1, y + 1 + i);
 		for (int j = 0; j < w - 2; j++) cout << " ";
-	}
+	} turnCursor(1);
 }
 void graphical_textbox::display(string s)
 {
@@ -192,7 +272,7 @@ void graphical_textbox::display(string s)
 	z.formoutline(0xF);
 	wipe();	int w = this->w-5;
 	warp(x + 1, y + 1);	cout << " * ";
-	int delay_time = 50;
+	int delay_time = 30;
 	size_t n = s.length();
 	for (int i = 0, line_index = 0, chara_count = 0; i < n; i++)
 	{
@@ -227,8 +307,18 @@ void graphical_textbox::display(string s)
 		if (i > 5 && GetAsyncKeyState(VK_RETURN) < 0) delay_time = 0;
 		Sleep(delay_time);
 	}
-	if (!delay_time) cin.ignore();
+	if (delay_time==0) cin.ignore();	
 	while (_getch() != 13);
+	turnCursor(0);
+	warp(0, TXTY);
+	screenctrl* screen = screenctrl::instance();
+	for (int i = 0; i < screen->getbufferh() - TXTY - 4; i++)
+	{
+		for (int j = 0; j < screen->getbufferw(); j++) cout << " ";
+		cout << endl;
+	}
+	warp(0, TXTY);
+	turnCursor(1);
 }
 
 void graphical_textbox::display()
@@ -236,12 +326,73 @@ void graphical_textbox::display()
 	display(content);
 }
 
-void getscrsize(int& width, int& height)
+screenctrl* screenctrl::instance()
+{
+	if (!inst) inst = new screenctrl;
+	return inst;
+}
+
+void screenctrl::init(int width, int height)
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	int columns, rows;
+	COORD newsize;
+	RECT r;
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	HWND consoleWindow = GetConsoleWindow(),
+		window = GetDesktopWindow();
 
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	width = csbi.srWindow.Right - csbi.srWindow.Left;
-	height = csbi.srWindow.Bottom - csbi.srWindow.Top;
+	GetWindowRect(window, &r);
+	int xx = r.right / 2 - width / 2,
+		yy = r.bottom / 2 - height / 2;
+	MoveWindow(consoleWindow, xx, yy, width, height, 1);
+	SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
+	GetConsoleScreenBufferInfo(console, &csbi);
+	newsize.X = csbi.dwSize.X;
+	newsize.Y = csbi.srWindow.Bottom - csbi.srWindow.Top+1;//SBInfo.dwSize.Y;
+	SetConsoleScreenBufferSize(console, newsize);
+
+	bwidth = csbi.srWindow.Right - csbi.srWindow.Left;
+	bheight = csbi.srWindow.Bottom - csbi.srWindow.Top;
+}
+
+void graphical_loader::load(int time)
+{
+	turnCursor(0);
+	char bg = (char)219;
+	charColorate(WHITE); 
+	warp(x, y - 1); cout << content << "ing...";
+	int breakcount = (rand() % 5)+1;
+	int breakpoint = 0;
+	warp(x, y);
+	for (int i = 0; i < w; i++) cout << bg;
+	for (int i = 0; i < w; i++)
+	{
+		if (GetAsyncKeyState(VK_RETURN) < 0) cin.ignore();
+		int percent = (int)ceil((float)(i + 1) / w * 100);
+		if (i == breakpoint)
+		{
+			Sleep(time * 4);
+			if (breakcount > 0)
+			{
+				breakpoint = rand() % (w - i) + i + 1;
+				breakcount--;
+			}
+		}			
+		charColorate(GOOD);	warp(x+i, y);		
+		cout << bg;
+		if (i < w) charColorate(WHITE);
+		warp(x + w + 2, y);
+		cout << percent << "%";
+		Sleep(time*i/breakpoint);
+	}	
+	warp(x, y - 1); cout << content << " successfully!";
+	Sleep(600);
+	warp(x, y);		for (int i = 0; i < w + 6; i++) cout << " ";
+	warp(x, y-1);	for (int i = 0; i < 20; i++) cout << " ";
+	turnCursor(1);
+}
+
+void graphical_loader::reset(int posx, int posy, int width)
+{
+	x = posx; y = posy; w = width;
 }
