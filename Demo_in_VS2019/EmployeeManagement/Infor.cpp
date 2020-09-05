@@ -5,7 +5,7 @@ Infor::Infor()
 	No = 0;
 	Date aDate(1900, 1, 1);
 	DoB = aDate;
-	ID = 0;
+	ID = 19127109;
 	Name = "Unkown";
 	Phone = "Unknown";
 	Address= "Unkown";
@@ -17,9 +17,9 @@ void Infor::LoadInforfrom(ifstream& fload)
 	int tempd = 0, tempm = 0, tempy = 0;
 	getline(fload, temp, ',');
 	ID = stoi(temp);
-	ACC.setUsername(temp);
+	ACC.Username = temp;
 	getline(fload, temp, ',');
-	ACC.setPass(temp);
+	ACC.Password = temp;
 	getline(fload, temp, ',');
 	Name = temp;
 	getline(fload, temp, ',');
@@ -75,8 +75,8 @@ void Infor::InputInfor()
 	getline(cin, Phone);
 	cout << "Input address: ";
 	getline(cin, Address);
-	ACC.setUsername(to_string(ID));
-	ACC.setPass(DoB.toStr());
+	ACC.Username = to_string(ID);
+	ACC.Password = DoB.toStr();
 }
 
 void Infor::OutputInfor()
