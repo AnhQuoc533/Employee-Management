@@ -1,3 +1,4 @@
+#include "Employee_Management.h"
 #include "LoginHeader.h"
 
 int welcome() {
@@ -308,7 +309,7 @@ void StdLog(User &A, int choice) {
 		system("cls");
 	}
 }
-#include <Windows.h>
+
 void bar2(int n)
 {
 	const char a = (char)177, b = (char)177;

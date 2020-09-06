@@ -8,7 +8,6 @@
 #include <sstream>
 #include <iomanip>
 #include "DIYgraphic.h"
-#include "LoginHeader.h"
 using namespace std;
 
 class Account {
@@ -21,6 +20,7 @@ public:
 	void setPass(string password) { Password = password; }
 	string getUsername() { return Username; }
 	string getPassword() { return Password; }
+	int get_role() { return role; }
 
 	void asteriskEncode();
 	bool login();

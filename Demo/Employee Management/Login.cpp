@@ -1,4 +1,5 @@
-#include"Employee_Management.h"
+#include "Employee_Management.h"
+#include "LoginHeader.h"
 screenctrl* screenctrl::inst = NULL;
 
 int main() {
@@ -7,8 +8,8 @@ int main() {
 		if (welcome() != 1)
 			return 0;
 		system("cls");
-		User A;
-		while (!login(A)) {
+		Account A;
+		while (!A.login()) {
 			HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 			SetConsoleTextAttribute(h, 12);
 			cout << "\t\t\t\t\t\t\t\t" << "  The username or password is incorrect.\n";
@@ -24,11 +25,11 @@ int main() {
 			system("cls");
 		}
 		system("cls");
-		if (A.role == 0) {
-			StaffLog(A, choice);
+		if (A.get_role() == 0) {
+			A.StaffLogin(choice);
 		}
-		else if (A.role == 1) {
-			StdLog(A, choice);
+		else if (A.get_role() == 1) {
+			A.EmployeeLogin(choice);
 		}
 		system("cls");
 	}
