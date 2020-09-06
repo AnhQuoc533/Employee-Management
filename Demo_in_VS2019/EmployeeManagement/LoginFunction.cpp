@@ -217,7 +217,7 @@ void Account::changepsw() {
 	}
 }
 
-void section() {
+void Staff::section() {
 	int choice;
 	while (true) {
 		cout << "__________________________________________________________\n\n";
@@ -230,7 +230,7 @@ void section() {
 		system("cls");
 		switch (choice) {
 		case 1:
-
+			Manage_Employee_Menu();
 			break;
 		case 2:
 
@@ -241,7 +241,7 @@ void section() {
 	}
 }
 
-void StaffLog(User &A, int choice) {
+void Account::StaffLogin(int choice) {
 	Staff admin;
 	getinfoStaff(A, admin);
 	string name = admin.fullname;
@@ -269,7 +269,7 @@ void StaffLog(User &A, int choice) {
 	}
 }
 
-void StdLog(User &A, int choice) {
+void Account::EmployeeLogin(int choice) {
 	StdLogin std;
 	getinfoStd(A, std);
 	string name = std.fullname;

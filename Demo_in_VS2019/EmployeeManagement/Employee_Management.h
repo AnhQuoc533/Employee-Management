@@ -4,35 +4,12 @@
 #include<iostream>
 #include<vector>
 #include<fstream>
-#include"Date.h"
 #include<sstream>
 #include<iomanip>
 #include "DIYgraphic.h"
+#include"Date.h"
+#include "Login.h"
 using namespace std;
-
-class Account {
-private:
-	string Username;
-	string Password;
-	int role;
-public:
-	string getUsername() { return Username; }
-	string getPassword() { return Password; }
-	int get_role() { return role; }
-
-	void asteriskEncode();
-	bool login();
-	bool openfiles();
-	int track(ifstream &f);
-	void changeData(ofstream &out);
-	void changepswInFile();
-	void changepsw();
-	void StaffLogin(int choice);
-	void EmployeeLogin(int choice);
-
-	friend class Staff;
-	friend class Infor;
-};
 
 class Infor {
 private:
@@ -45,21 +22,25 @@ private:
 	char Gender = ' ';
 	Account ACC;
 public:
-	//getter:
 	int getNo() { return No; }
 	int getID() { return ID; }
 	string getName() { return Name; }
 	string getUsername() { return ACC.getUsername(); }
 	string getPassword() { return ACC.getPassword(); }
+
 	void LoadInforfrom(ifstream& fload);
 	void InputInfor();
 	void EditInfor();
 	void OutputInfor();
+
 	friend class Staff;
 };
 
-class Record
-{
+class Record{
+private:
+	vector<int*> records;
+	string filename;
+	int nCol;
 public:
 	Record();
 	~Record();
@@ -73,10 +54,6 @@ public:
 	void clearData();
 	void view(int index);
 	void remove(int index);
-private:
-	vector<int*> records;
-	string filename;
-	int nCol;
 };
 
 class Employee {
@@ -120,7 +97,7 @@ public:
 	void View_Profile();
 	void Reset_password_for_empl();
 	void Manage_Employee_Menu();
-	void StaffMenu();
+	void section();
 	void createRecords();
 	void editRecordOfAnEmployee();
 	void removeRecords();

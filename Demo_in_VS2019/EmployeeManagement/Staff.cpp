@@ -661,54 +661,6 @@ void Staff::Manage_Employee_Menu()
 	} while (choice != 0);
 }
 
-void Staff::StaffMenu()
-{
-	int choice;
-	do
-	{
-		choice = mainmenu.operate("Staff menu","View profile\nChange password\nChange to manage employee menu\nLog out\n");
-		//system("CLS");
-		switch (choice+1)
-		{
-		case 1:
-		{
-			cout << "Your profile:" << endl;
-			break;
-		}
-		case 2:
-		{
-			cout << "Start changing your password." << endl;
-			break;
-		}
-		case 3:
-		{
-			//cout << "Changing to manage employee menu...." << endl;
-			//system("CLS");
-			Manage_Employee_Menu();
-			break;
-		}
-		case 4:
-		{
-			cout << "Logging out...." << endl;
-			cout << "Finished logging out." << endl;
-			break;
-		}
-		default:
-		{
-			cout << "Invalid choice." << endl;
-			break;
-		}
-		}
-		/*if (choice != 3)
-		{
-			system("pause");
-			system("CLS");
-		}*/
-	} while (choice != 4);
-	//LoadfromTextfile();
-	//View_list_of_Empl();
-}
-
 void Staff::createRecords()
 {
 	if (employeeRecords->hasData())
