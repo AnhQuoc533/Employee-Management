@@ -1,7 +1,7 @@
-#ifndef _DIYGRAPHIC_H_
-#define _DIYGRAPHIC_H_
-#include <Windows.h>
-#include <conio.h>
+#ifndef GRAPHICS_HEADER
+#define GRAPHICS_HEADER
+#include<Windows.h>
+#include<conio.h>
 #define TONE1 1
 #define TONE2 9
 #define INACT 8
@@ -13,6 +13,8 @@
 #define OFX 10
 #define OFY 5
 #define TXTY 20
+using namespace std;
+
 class graphics_abstract
 {
 protected:
@@ -44,7 +46,8 @@ public:
 class graphical_menu : public graphics_abstract
 {
 private:
-	string content, title; bool back = 0, dynamic = 1, willclear = 1;
+	string content, title;
+	bool back = 0, dynamic = 1, willclear = 1;
 	int x, y, w, h, border, select = 0, orix;
 public:
 	graphical_menu();

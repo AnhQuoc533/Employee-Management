@@ -1,5 +1,5 @@
 #include "Employee_Management.h"
-#include "LoginHeader.h"
+#include "Login.h"
 
 int welcome() {
 	int choice;
@@ -134,11 +134,11 @@ void Account::changeData(ofstream &out) {
 	ftmp.open("temp.txt");
 	string tmp;
 	while (true) {
-		getline(ftmp, tmp);
-		if (tmp == A.username) {
-			out << tmp << endl;
-			out << A.password << endl;
-			getline(ftmp, tmp);
+		getline(ftmp, tmp, ',');
+		if (tmp == Username) {
+			out << tmp << ',';
+			out << Password << ',';
+			getline(ftmp, tmp, ',');
 		}
 		else {
 			if (!ftmp.good()) {
@@ -155,10 +155,10 @@ void Account::changeData(ofstream &out) {
 
 void Account::changepswInFile() {
 	string txt;
-	if (A.role == 0)
+	if (role == 0)
 		txt = "Staff.txt";
-	if (A.role == 1)
-		txt = "Lecturer.txt";
+	if (role == 1)
+		txt = "Employee.txt";
 	ifstream fin;
 	fin.open(txt);
 	clonefile(fin);
@@ -175,7 +175,7 @@ void Account::changepsw() {
 	while (true) {
 		cout << "Enter current password: ";
 		asteriskEncode(tmp1);
-		if (tmp1 != A.password) {
+		if (tmp1 != Password) {
 			HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
 			SetConsoleTextAttribute(h, 12);
@@ -209,39 +209,31 @@ void Account::changepsw() {
 				}
 			}
 			else {
-				A.password = tmp1;
-				changepswInFile(A);
+				Password = tmp1;
+				changepswInFile();
 				break;
 			}
 		}
 	}
 }
 
-void section() {
+void Staff::section() {
 	int choice;
 	while (true) {
 		cout << "__________________________________________________________\n\n";
-		cout << "1. Class\n";
-		cout << "2. Course\n";
-		cout << "3. Scoreboard\n";
-		cout << "4. Attendance List\n";
-		cout << "0. Back\n";
+		cout << "\t\t1. Information\n";
+		cout << "\t\t2. Record\n";
+		cout << "\t\t0. Back\n";
 		cout << "__________________________________________________________\n\n";
 		cout << "Choose a section: ";
 		cin >> choice;
 		system("cls");
 		switch (choice) {
 		case 1:
-			
+			Manage_Employee_Menu();
 			break;
 		case 2:
-			
-			break;
-		case 3:
-			
-			break;
-		case 4:
-			
+
 			break;
 		case 0:
 			return;
@@ -249,14 +241,14 @@ void section() {
 	}
 }
 
-void StaffLog(User &A, int choice) {
+void Account::StaffLogin(int choice) {
 	Staff admin;
 	getinfoStaff(A, admin);
 	string name = admin.fullname;
 	transform(name.begin(), name.end(), name.begin(), toupper);
 	while (choice != 0) {
 		cout << "__________________________________________________________\n\n";
-		cout << "WELCOME, STAFF " << name << endl << endl;
+		cout << "\t\tWELCOME, STAFF " << name << endl << endl;
 		cout << "__________________________________________________________\n\n";
 		choice = logged();
 		if (choice == 1) {
@@ -277,7 +269,7 @@ void StaffLog(User &A, int choice) {
 	}
 }
 
-void StdLog(User &A, int choice) {
+void Account::EmployeeLogin(int choice) {
 	StdLogin std;
 	getinfoStd(A, std);
 	string name = std.fullname;
@@ -289,7 +281,7 @@ void StdLog(User &A, int choice) {
 		choice = logged();
 		if (choice == 1) {
 			int id = stoi(A.username);
-			
+
 		}
 		if (choice == 2) {
 			cout << "__________________________________________________________\n\n";

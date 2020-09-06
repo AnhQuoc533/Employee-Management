@@ -1,4 +1,3 @@
-No,ID,Fullname,Gender,Birthday,Phone,Address
 1,19127005,Tran Phan Thanh Hai,Male,24/04/1998,0892735066,443B Truong Dinh P7 Q10 Thai Nguyen
 2,19127009,Lu The Vu,Male,15/03/1998,0964795078,554B Phan Van Hon P. Thuong Thanh Q. Binh Thuy Ha Tinh
 3,19127010,Nguyen Minh An,Male,14/03/1998,0935784418,87 Pham Van Chieu P. Dang Lam Q7 Quang Binh
@@ -13,7 +12,7 @@ No,ID,Fullname,Gender,Birthday,Phone,Address
 12,19127107,Nguyen Thu Thao Chau,Female,03/01/1998,0356629998,874E Le Hong Phong P26 Q2 Tay Ninh
 13,19127109,Bui Ngoc Chinh,Male,02/02/1998,0930850784,41Bis Nguyen Cuu Van P15 Q. Nam Tu Liem Ca Mau
 14,19127122,Lam Tri Duc,Male,12/10/1998,0779734265,786B Dinh Tien Hoang P20 Q1 Gia Lai
-15,19127142,Tran Thai Duc Hieu,Male,18/08/1998,0935360633,99A Tran Hung �ao P1 Q. Go Vap Bac Giang
+15,19127142,Tran Thai Duc Hieu,Male,18/08/1998,0935360633,99A Tran Hung Dao P1 Q. Go Vap Bac Giang
 16,19127146,Le Nguyen Huy Hoang,Male,28/12/1998,0906559966,557/264 Dinh Tien Hoang P3 Q6 Binh Dinh
 17,19127155,Vu Viet Hung,Male,23/05/1998,0896282485,539 Binh Quoi P4 Q. Binh Thanh Phu Tho
 18,19127172,Nguyen Duy Khang,Male,26/01/1998,0830773488,492 Ly Tu Trong P13 Q10 Bac Giang
@@ -31,4 +30,4 @@ No,ID,Fullname,Gender,Birthday,Phone,Address
 30,19127420,Huynh Ba Huy,Male,12/10/1998,0365378965,134 Vo Thi Sau P. Khuong Dinh Q. Tay Ho Dong Thap
 31,19127432,Duong Le Xuan Khang,Male,04/06/1998,0799237373,841 3 Thang 2 P24 Q4 Hau Giang
 32,19127451,Lo Nguyen Anh Khoi,Male,20/04/1998,0381128475,816F Le Hong Phong P. Phuoc Binh Q. Hai Chau Ho Chi Minh
-33,19127454,Van Dinh Khoi,Male,25/05/1998,0580793915,485 Tran Hung �ao P27 Q. Duong Kinh Ha Noi
+33,19127454,Van Dinh Khoi,Male,25/05/1998,0580793915,485 Tran Hung Dao P27 Q. Duong Kinh Ha Noi

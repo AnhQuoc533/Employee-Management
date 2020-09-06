@@ -6,7 +6,7 @@ Employee::Employee()
 	EInfor = anInfor;
 	Salary = 0;
 	// for testing
-	EInfor.setID(19127109);
+	//EInfor.setID(19127109);
 	time_t now = time(0);	tm cdate;
 	localtime_s(&cdate, &now);
 	logday = cdate.tm_mday;

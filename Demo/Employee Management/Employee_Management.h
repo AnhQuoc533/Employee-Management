@@ -1,73 +1,46 @@
 #ifndef _EMPLOYEE_MANAGEMENT_H_
 #define _EMPLOYEE_MAnAGEMENT_H_
 
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include "Date.h"
-#include <sstream>
-#include <iomanip>
+#include<iostream>
+#include<vector>
+#include<fstream>
+#include<sstream>
+#include<iomanip>
 #include "DIYgraphic.h"
+#include"Date.h"
+#include "Login.h"
 using namespace std;
-
-class Account {
-private:
-	string Username;
-	string Password;
-	int role;
-public:
-	void setUsername(string username) { Username = username; }
-	void setPass(string password) { Password = password; }
-	string getUsername() { return Username; }
-	string getPassword() { return Password; }
-	int get_role() { return role; }
-
-	void asteriskEncode();
-	bool login();
-	bool openfiles();
-	int track(ifstream &f);
-	void changeData(ofstream &out);
-	void changepswInFile();
-	void changepsw();
-	void StaffLogin(int choice);
-	void EmployeeLogin(int choice);
-};
 
 class Infor {
 private:
-	int No;
-	Date DoB;
-	int ID;
-	string Name;
-	string Phone;
-	string Address;
-	char Gender;
+	int No = 0;
+	Date DoB(1900, 1, 1);
+	int ID = 0;
+	string Name = "";
+	string Phone = "";
+	string Address = "";
+	char Gender = ' ';
 	Account ACC;
 public:
-	//getter:
-	Infor();
 	int getNo() { return No; }
-	Date getDoB() { return DoB; }
 	int getID() { return ID; }
 	string getName() { return Name; }
-	string getPhone() { return Phone; }
-	string getAddress() { return Address; }
-	char getGender() { return Gender; }
 	string getUsername() { return ACC.getUsername(); }
 	string getPassword() { return ACC.getPassword(); }
-	//setter:
-	void setNo(int no) { No = no; }
-	void setID(int id) { ID = id; }
-	void setUS(string username) { ACC.setUsername(username); }
-	void setPASS(string password) { ACC.setPass(password); }
+
 	void LoadInforfrom(ifstream& fload);
 	void InputInfor();
 	void EditInfor();
 	void OutputInfor();
+
+	friend class Staff;
 };
 
-class Record
-{
+class Record{
+private:
+	vector<int*> records;
+	string filename;
+	int nCol;
 public:
 	Record();
 	~Record();
@@ -81,10 +54,6 @@ public:
 	void clearData();
 	void view(int index);
 	void remove(int index);
-private:
-	vector<int*> records;
-	string filename;
-	int nCol;
 };
 
 class Employee {
@@ -128,7 +97,7 @@ public:
 	void View_Profile();
 	void Reset_password_for_empl();
 	void Manage_Employee_Menu();
-	void StaffMenu();
+	void section();
 	void createRecords();
 	void editRecordOfAnEmployee();
 	void removeRecords();

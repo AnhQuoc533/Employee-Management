@@ -23,20 +23,20 @@ void Staff::SaveInfortoTextfile()
 		int n = ListEmpl.size();
 		for (int i = 0; i < n; i++)
 		{
-			fsave << ListEmpl[i].EInfor.getID() << ",";
-			fsave << ListEmpl[i].EInfor.getPassword() << ",";
-			fsave << ListEmpl[i].EInfor.getName() << ",";
-			if (ListEmpl[i].EInfor.getGender() == 'M' || ListEmpl[i].EInfor.getGender() == 'm')
+			fsave << ListEmpl[i].EInfor.ID << ",";
+			fsave << ListEmpl[i].EInfor.ACC.Password << ",";
+			fsave << ListEmpl[i].EInfor.Name << ",";
+			if (ListEmpl[i].EInfor.Gender == 'M' || ListEmpl[i].EInfor.Gender == 'm')
 			{
 				fsave << "M" << ",";
 			}
-			if (ListEmpl[i].EInfor.getGender() == 'F' || ListEmpl[i].EInfor.getGender() == 'f')
+			if (ListEmpl[i].EInfor.Gender == 'F' || ListEmpl[i].EInfor.Gender == 'f')
 			{
 				fsave << "F" << ",";
 			}
-			fsave << ListEmpl[i].EInfor.getDoB() << ",";
-			fsave << ListEmpl[i].EInfor.getPhone() << ",";
-			fsave << ListEmpl[i].EInfor.getAddress();
+			fsave << ListEmpl[i].EInfor.DoB << ",";
+			fsave << ListEmpl[i].EInfor.Phone << ",";
+			fsave << ListEmpl[i].EInfor.Address;
 			if (i < n - 1)
 			{
 				fsave << endl;
@@ -75,7 +75,7 @@ void Staff::LoadfromTextfile()
 		while (!fload.eof())
 		{
 			anEmpl.EInfor.LoadInforfrom(fload);
-			anEmpl.EInfor.setNo(ListEmpl.size() + 1);
+			anEmpl.EInfor.No = ListEmpl.size() + 1;
 			ListEmpl.push_back(anEmpl);
 		}
 		outputbox.display("Finished loading " + namefile + ".\nClosing the file....");
@@ -111,10 +111,26 @@ void Staff::ImportListEmpfromCsv()
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
 		loader.load(30);
+		string temp;
+		Date tempDate;
 		while (!fload.eof())
 		{
-			anEmpl.EInfor.LoadInforfrom(fload);
-			anEmpl.EInfor.setNo(ListEmpl.size() + 1);
+			getline(fload, temp, ',');
+			anEmpl.EInfor.No = stoi(temp);
+			getline(fload, temp, ',');
+			anEmpl.EInfor.ID = stoi(temp);
+			getline(fload, temp, ',');
+			anEmpl.EInfor.Name = temp;
+			getline(fload, temp, ',');
+			anEmpl.EInfor.Gender = temp[0];
+			getline(fload, temp, ',');
+			anEmpl.EInfor.DoB = tempDate.stoDate(temp);
+			getline(fload, temp, ',');
+			anEmpl.EInfor.Phone = temp;
+			getline(fload, temp);
+			anEmpl.EInfor.Address = temp;
+			anEmpl.EInfor.ACC.Username = anEmpl.EInfor.ID;
+			anEmpl.EInfor.ACC.Password = anEmpl.EInfor.DoB.toStr();
 			ListEmpl.push_back(anEmpl);
 		}
 		outputbox.display("Finished importing " + namefile + ".\nClosing the file....");
@@ -139,7 +155,7 @@ int Staff::findEmplWithID(int id)
 		int n = ListEmpl.size();
 		for (int i = 0; i < n; i++)
 		{
-			if (ListEmpl[i].EInfor.getID() == id)
+			if (ListEmpl[i].EInfor.ID == id)
 			{
 				return i;
 			}
@@ -156,7 +172,7 @@ void Staff::Add_an_Empl_Manually()
 	do
 	{
 		//system("CLS");
-		int index = findEmplWithID(anEmpl.EInfor.getID());
+		int index = findEmplWithID(anEmpl.EInfor.ID);
 		if (index != -1)
 		{
 			cout << "ERROR: The employee with the ID " << anEmpl.EInfor.getID() << "is already existed." << endl;
@@ -193,7 +209,7 @@ void Staff::Add_an_Empl_Manually()
 					outputbox.display("Invalid input. Please input again." );
 				}
 			} while (id <= 0);
-			anEmpl.EInfor.setID(id);
+			anEmpl.EInfor.ID = id;
 			employeeRecords->newBlank(id);
 		}
 		else
@@ -202,9 +218,9 @@ void Staff::Add_an_Empl_Manually()
 			return;
 		}
 	} while (choice == 1);
-	anEmpl.EInfor.setNo(ListEmpl.size() + 1);
-	anEmpl.EInfor.setUS(to_string(anEmpl.EInfor.getID()));
-	anEmpl.EInfor.setPASS(anEmpl.EInfor.getDoB().toStr());
+	anEmpl.EInfor.No = ListEmpl.size() + 1;
+	anEmpl.EInfor.ACC.Username = to_string(anEmpl.EInfor.ID);
+	anEmpl.EInfor.ACC.Password = anEmpl.EInfor.DoB.toStr();
 	ListEmpl.push_back(anEmpl);
 	outputbox.display("New employee was added successfully." );
 }
@@ -355,7 +371,7 @@ void Staff::Remove_an_Empl()
 	int n = ListEmpl.size();
 	for (int i = index + 1; i < n; i++)
 	{
-		ListEmpl[i].EInfor.setNo(ListEmpl[i].EInfor.getNo() - 1);
+		ListEmpl[i].EInfor.No = ListEmpl[i].EInfor.getNo() - 1;
 	}
 	ListEmpl.erase(ListEmpl.begin() + index);
 	outputbox.display("Removed Successfully!"); // Thanh added.
@@ -375,16 +391,16 @@ void Staff::View_list_of_Empl()
 		{
 			No = "0";
 		}
-		No.append(to_string(ListEmpl[i].EInfor.getNo()));
+		No.append(to_string(ListEmpl[i].EInfor.No));
 		if (ListEmpl[i].EInfor.getID() < 10)
 		{
 			ID = "0";
 		}
-		ID.append(to_string(ListEmpl[i].EInfor.getID()));
+		ID.append(to_string(ListEmpl[i].EInfor.ID));
 		space1 = 5 + No.length();
 		space2 = 15 - (No.length() - 2) + ID.length();
 		space3 = 23 - (ID.length() - 2) + ListEmpl[i].EInfor.getName().length();
-		cout << setw(space1) << No << setw(space2) << ID << setw(space3) << ListEmpl[i].EInfor.getName() << endl;
+		cout << setw(space1) << No << setw(space2) << ID << setw(space3) << ListEmpl[i].EInfor.Name << endl;
 	}
 }
 
@@ -464,7 +480,7 @@ void Staff::Reset_password_for_empl()
 		return;
 	}
 	outputbox.display("Resetting password....");
-	ListEmpl[index].EInfor.setPASS(ListEmpl[index].EInfor.getDoB().toStr());
+	ListEmpl[index].EInfor.ACC.Password = ListEmpl[index].EInfor.DoB.toStr();
 	outputbox.display("Successed.\nThe password of this employee's account right now is his/her date of birth.");
 }
 
@@ -559,7 +575,7 @@ void Staff::Manage_Employee_Menu()
 				case 99:
 				{
 					cin.ignore(1);
-					cout << "Please save your work before return to the previous menu." << endl;
+					cout << "Please wait while we are saving your work before you return to the previous menu." << endl;
 					SaveInfortoTextfile();
 					ListEmpl.clear();
 					//system("pause");
@@ -643,54 +659,6 @@ void Staff::Manage_Employee_Menu()
 			//system("CLS");
 		} while (choice2+1 != 7);
 	} while (choice != 0);
-}
-
-void Staff::StaffMenu()
-{
-	int choice;
-	do
-	{
-		choice = mainmenu.operate("Staff menu","View profile\nChange password\nChange to manage employee menu\nLog out\n");
-		//system("CLS");
-		switch (choice+1)
-		{
-		case 1:
-		{
-			cout << "Your profile:" << endl;
-			break;
-		}
-		case 2:
-		{
-			cout << "Start changing your password." << endl;
-			break;
-		}
-		case 3:
-		{
-			//cout << "Changing to manage employee menu...." << endl;
-			//system("CLS");
-			Manage_Employee_Menu();
-			break;
-		}
-		case 4:
-		{
-			cout << "Logging out...." << endl;
-			cout << "Finished logging out." << endl;
-			break;
-		}
-		default:
-		{
-			cout << "Invalid choice." << endl;
-			break;
-		}
-		}
-		/*if (choice != 3)
-		{
-			system("pause");
-			system("CLS");
-		}*/
-	} while (choice != 4);
-	//LoadfromTextfile();
-	//View_list_of_Empl();
 }
 
 void Staff::createRecords()
