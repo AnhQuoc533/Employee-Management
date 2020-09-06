@@ -14,26 +14,38 @@ class Account {
 private:
 	string Username;
 	string Password;
+	int role;
 public:
 	string getUsername() { return Username; }
 	string getPassword() { return Password; }
+	int get_role() { return role; }
+
+	void asteriskEncode();
+	bool login();
+	bool openfiles();
+	int track(ifstream &f);
+	void changeData(ofstream &out);
+	void changepswInFile();
+	void changepsw();
+	void StaffLogin(int choice);
+	void EmployeeLogin(int choice);
+
 	friend class Staff;
 	friend class Infor;
 };
 
 class Infor {
 private:
-	int No;
-	Date DoB;
-	int ID;
-	string Name;
-	string Phone;
-	string Address;
-	char Gender;
+	int No = 0;
+	Date DoB(1900, 1, 1);
+	int ID = 0;
+	string Name = "";
+	string Phone = "";
+	string Address = "";
+	char Gender = ' ';
 	Account ACC;
 public:
 	//getter:
-	Infor();
 	int getNo() { return No; }
 	int getID() { return ID; }
 	string getName() { return Name; }

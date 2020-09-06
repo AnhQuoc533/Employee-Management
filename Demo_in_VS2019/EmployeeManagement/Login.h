@@ -1,5 +1,5 @@
-#ifndef _LOGINHEADER_H_
-#define _LOGINHEADER_H_
+#ifndef _LOGIN_H_
+#define _LOGIN_H_
 
 #include <iostream>
 #include <fstream>

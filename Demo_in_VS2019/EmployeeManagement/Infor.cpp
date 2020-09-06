@@ -1,16 +1,5 @@
 #include"Employee_Management.h"
 
-Infor::Infor()
-{
-	No = 0;
-	Date aDate(1900, 1, 1);
-	DoB = aDate;
-	ID = 19127109;
-	Name = "Unkown";
-	Phone = "Unknown";
-	Address= "Unkown";
-}
-
 void Infor::LoadInforfrom(ifstream& fload)
 {
 	string temp;

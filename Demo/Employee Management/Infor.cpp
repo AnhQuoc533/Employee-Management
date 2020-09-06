@@ -6,9 +6,9 @@ Infor::Infor()
 	Date aDate(1900, 1, 1);
 	DoB = aDate;
 	ID = 0;
-	Name = "Unkown";
-	Phone = "Unknown";
-	Address= "Unkown";
+	Name = "";
+	Phone = "";
+	Address= "";
 }
 
 void Infor::LoadInforfrom(ifstream& fload)
@@ -93,8 +93,8 @@ void Infor::OutputInfor()
 	{
 		cout << "Female" << endl;
 	}
-	cout << "Date of birth: " << DoB << endl;
-	cout << "Phone: " << Phone << endl;
+	cout << "Date of Birth: " << DoB << endl;
+	cout << "Phone number: " << Phone << endl;
 	cout << "Address: " << Address << endl;
 }
 
