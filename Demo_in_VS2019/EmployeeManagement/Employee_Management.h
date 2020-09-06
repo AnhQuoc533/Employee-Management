@@ -15,10 +15,10 @@ private:
 	string Username;
 	string Password;
 public:
-	void setUsername(string username) { Username = username; }
-	void setPass(string password) { Password = password; }
 	string getUsername() { return Username; }
 	string getPassword() { return Password; }
+	friend class Staff;
+	friend class Infor;
 };
 
 class Infor {
@@ -35,23 +35,15 @@ public:
 	//getter:
 	Infor();
 	int getNo() { return No; }
-	Date getDoB() { return DoB; }
 	int getID() { return ID; }
 	string getName() { return Name; }
-	string getPhone() { return Phone; }
-	string getAddress() { return Address; }
-	char getGender() { return Gender; }
 	string getUsername() { return ACC.getUsername(); }
 	string getPassword() { return ACC.getPassword(); }
-	//setter:
-	void setNo(int no) { No = no; }
-	void setID(int id) { ID = id; }
-	void setUS(string username) { ACC.setUsername(username); }
-	void setPASS(string password) { ACC.setPass(password); }
 	void LoadInforfrom(ifstream& fload);
 	void InputInfor();
 	void EditInfor();
 	void OutputInfor();
+	friend class Staff;
 };
 
 class Record
