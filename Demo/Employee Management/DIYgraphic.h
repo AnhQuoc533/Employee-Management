@@ -1,7 +1,10 @@
 #ifndef GRAPHICS_HEADER
 #define GRAPHICS_HEADER
+
 #include<Windows.h>
 #include<conio.h>
+using namespace std;
+
 #define TONE1 1
 #define TONE2 9
 #define INACT 8
@@ -13,7 +16,6 @@
 #define OFX 10
 #define OFY 5
 #define TXTY 20
-using namespace std;
 
 class graphics_abstract
 {

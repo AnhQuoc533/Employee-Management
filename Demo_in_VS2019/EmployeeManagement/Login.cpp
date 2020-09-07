@@ -25,10 +25,10 @@ int main() {
 			system("cls");
 		}
 		system("cls");
-		if (A.get_role() == 0) {
+		if (!A.get_role()) {
 			A.StaffLogin(choice);
 		}
-		else if (A.get_role() == 1) {
+		else if (A.get_role()) {
 			A.EmployeeLogin(choice);
 		}
 		system("cls");

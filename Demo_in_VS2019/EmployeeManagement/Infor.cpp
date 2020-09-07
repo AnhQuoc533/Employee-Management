@@ -70,7 +70,6 @@ void Infor::InputInfor()
 
 void Infor::OutputInfor()
 {
-	cout << "No: " << No << endl;
 	cout << "ID: " << ID << endl;
 	cout << "Name: " << Name << endl;
 	cout << "Gender: ";

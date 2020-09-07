@@ -17,7 +17,6 @@ Employee::Employee()
 void Employee::View_Infor_Empl()
 {
 	EInfor.OutputInfor();
-	//cout << "Salary: " << getSalary() << endl;
 }
 
 void Employee::loadEmplData(Account checker)

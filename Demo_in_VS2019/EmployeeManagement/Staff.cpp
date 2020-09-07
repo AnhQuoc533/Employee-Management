@@ -2,9 +2,10 @@
 
 Staff::Staff()
 {
-	Infor anInfor;
-	StInfor = anInfor;
+	ifstream f("Staff.txt");
+	StInfor.LoadInforfrom(f);
 	employeeRecords = new Record;
+	f.close();
 }
 
 void Staff::SaveInfortoTextfile()
@@ -806,4 +807,30 @@ void Staff::viewSalaryTable()
 	}
 	cout << "______________________________________________________\n";
 	cout << "Total salary: " << setw(39) << total << endl;
+}
+
+string Staff::capitalize_name() {
+	string name = StInfor.getName();
+	transform(name.begin(), name.end(), name.begin(), toupper);
+	return name;
+}
+
+void Staff::view_profile() {
+	cout << "__________________________________________________________\n\n";
+	cout << "Username: " << StInfor.getUsername() << endl;
+	cout << "Name: " << StInfor.Name << endl;
+	cout << "Gender: ";
+	if (StInfor.Gender == 'M' || StInfor.Gender == 'm')
+	{
+		cout << "Male" << endl;
+	}
+	if (StInfor.Gender == 'F' || StInfor.Gender == 'f')
+	{
+		cout << "Female" << endl;
+	}
+	cout << "Date of birth: " << StInfor.DoB << endl;
+	cout << "Phone: " << StInfor.Phone << endl;
+	cout << "Address: " << StInfor.Address << endl;
+	cout << "__________________________________________________________\n";
+	system("pause");
 }

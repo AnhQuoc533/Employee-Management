@@ -177,7 +177,6 @@ void Account::changepsw() {
 		asteriskEncode(tmp1);
 		if (tmp1 != Password) {
 			HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-
 			SetConsoleTextAttribute(h, 12);
 			cout << "The password is incorrect.\n";
 			SetConsoleTextAttribute(h, 15);
@@ -243,27 +242,19 @@ void Staff::section() {
 
 void Account::StaffLogin(int choice) {
 	Staff admin;
-	getinfoStaff(A, admin);
-	string name = admin.fullname;
-	transform(name.begin(), name.end(), name.begin(), toupper);
 	while (choice != 0) {
 		cout << "__________________________________________________________\n\n";
-		cout << "\t\tWELCOME, STAFF " << name << endl << endl;
+		cout << "\t\tWELCOME, STAFF " << admin.capitalize_name() << endl << endl;
 		cout << "__________________________________________________________\n\n";
 		choice = logged();
 		if (choice == 1) {
 			section();
 		}
 		if (choice == 2) {
-			cout << "__________________________________________________________\n\n";
-			cout << "Username: " << A.username << endl;
-			cout << "Fullname: " << admin.fullname << endl;
-			cout << "Gender: " << ((admin.gender == 0) ? "Male\n" : "Female\n");
-			cout << "__________________________________________________________\n";
-			system("pause");
+			admin.view_profile();
 		}
 		if (choice == 3) {
-			changepsw(A);
+			changepsw();
 		}
 		system("cls");
 	}

@@ -1,19 +1,18 @@
 #ifndef _EMPLOYEE_MANAGEMENT_H_
 #define _EMPLOYEE_MAnAGEMENT_H_
 
-#include<iostream>
-#include<vector>
-#include<fstream>
-#include<sstream>
-#include<iomanip>
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
 #include "DIYgraphic.h"
-#include"Date.h"
+#include "Date.h"
 #include "Login.h"
 using namespace std;
 
 class Infor {
 private:
-	int No = 0;
 	Date DoB(1900, 1, 1);
 	int ID = 0;
 	string Name = "";
@@ -22,11 +21,9 @@ private:
 	char Gender = ' ';
 	Account ACC;
 public:
-	int getNo() { return No; }
 	int getID() { return ID; }
 	string getName() { return Name; }
 	string getUsername() { return ACC.getUsername(); }
-	string getPassword() { return ACC.getPassword(); }
 
 	void LoadInforfrom(ifstream& fload);
 	void InputInfor();
@@ -84,6 +81,9 @@ private:
 public:
 	Staff();
 	~Staff() { delete employeeRecords; }
+	string capitalize_name();
+	void view_profile();
+	void section();
 	void ImportListEmpfromCsv();
 	void SaveInfortoTextfile();
 	void LoadfromTextfile();
@@ -97,7 +97,6 @@ public:
 	void View_Profile();
 	void Reset_password_for_empl();
 	void Manage_Employee_Menu();
-	void section();
 	void createRecords();
 	void editRecordOfAnEmployee();
 	void removeRecords();
