@@ -41,5 +41,4 @@ private:
 	int month, day, year;
 };
 
-
 #endif

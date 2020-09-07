@@ -20,22 +20,22 @@ int welcome() {
 	return choice;
 }
 
-void Account::asteriskEncode() {
-	Password = "";
+void asteriskEncode(string &psw) {
+	psw = "";
 	int buffer;
 	while (true) {
 		buffer = _getch();
 		if (buffer != 13 && buffer != 8)
 		{
 			putchar(42);
-			Password += char(buffer);
+			psw += char(buffer);
 		}
-		if (buffer == 8 && Password != "")
+		if (buffer == 8 && psw != "")
 		{
-			Password.erase(Password.end() - 1, Password.end());
+			psw.erase(psw.end() - 1, psw.end());
 			cout << "\b \b";
 		}
-		if (buffer == 13 && Password != "") {
+		if (buffer == 13 && psw != "") {
 			cout << endl;
 			break;
 		}
@@ -43,17 +43,16 @@ void Account::asteriskEncode() {
 }
 
 bool Account::login() {
-	string name, psw;
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(h, 14);
 	cout << "\n\n";
 	cout << "\t\t\t\t\t\t\t\t\t" << "USERNAME: ";
 	SetConsoleTextAttribute(h, 15);
-	cin >> name;
+	cin >> Username;
 	SetConsoleTextAttribute(h, 14);
 	cout << "\t\t\t\t\t\t\t\t\t" << "PASSWORD: ";
 	SetConsoleTextAttribute(h, 15);
-	asteriskEncode();
+	asteriskEncode(Password);
 	bar2(20);
 	return openfiles();
 }
@@ -91,9 +90,8 @@ int Account::track(ifstream &f) {
 			else
 				return -1;
 		}
-		else {
+		else
 			getline(f, tmp);
-		}
 	}
 	return 0;
 }
@@ -128,7 +126,7 @@ void clonefile(ifstream &in) {
 	}
 	ftmp.close();
 }
-
+//Bug needs fixing!!!
 void Account::changeData(ofstream &out) {
 	ifstream ftmp;
 	ftmp.open("temp.txt");
@@ -141,13 +139,15 @@ void Account::changeData(ofstream &out) {
 			getline(ftmp, tmp, ',');
 		}
 		else {
-			if (!ftmp.good()) {
-				out << tmp;
-				break;
-			}
-			else
-				out << tmp << endl;
+			out << tmp << ',';
 		}
+		getline(ftmp, tmp);
+		if (!ftmp.good()) {
+			out << tmp;
+			break;
+		}
+		else
+			out << tmp << endl;
 	}
 	ftmp.close();
 	remove("temp.txt");
@@ -195,7 +195,7 @@ void Account::changepsw() {
 			if (tmp1 != tmp2) {
 				HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 				SetConsoleTextAttribute(h, 12);
-				cout << "Password does not match!\n";
+				cout << "Passwords do not match!\n";
 				SetConsoleTextAttribute(h, 15);
 				cout << "1. Try again\t\t0. Back\n";
 				cout << "Choose your action:\t";
@@ -247,27 +247,24 @@ void Account::StaffLogin(int choice) {
 		cout << "\t\tWELCOME, STAFF " << admin.capitalize_name() << endl << endl;
 		cout << "__________________________________________________________\n\n";
 		choice = logged();
-		if (choice == 1) {
-			section();
-		}
-		if (choice == 2) {
+		if (choice == 1)
+			admin.section();
+		if (choice == 2)
 			admin.view_profile();
-		}
-		if (choice == 3) {
+		if (choice == 3)
 			changepsw();
-		}
 		system("cls");
 	}
 }
 
-void Account::EmployeeLogin(int choice) {
+/*void Account::EmployeeLogin(int choice) {
 	StdLogin std;
 	getinfoStd(A, std);
 	string name = std.fullname;
 	transform(name.begin(), name.end(), name.begin(), toupper);
 	while (choice != 0) {
 		cout << "__________________________________________________________\n\n";
-		cout << "WELCOME, STUDENT " << name << endl << endl;
+		cout << "WELCOME, " << name << endl << endl;
 		cout << "__________________________________________________________\n\n";
 		choice = logged();
 		if (choice == 1) {
@@ -291,7 +288,7 @@ void Account::EmployeeLogin(int choice) {
 		}
 		system("cls");
 	}
-}
+}*/
 
 void bar2(int n)
 {

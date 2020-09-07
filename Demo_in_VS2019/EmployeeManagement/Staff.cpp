@@ -20,8 +20,8 @@ void Staff::SaveInfortoTextfile()
 	}
 	else
 	{
-		outputbox.display("Saving data to file "+ namefile+"....\n*NOTE:Do not shutdown the program while we are saving for you.*");
-		int n = ListEmpl.size();
+		outputbox.display("Saving data to file " + namefile + "....\n*NOTE:Do not shutdown the program while we are saving for you.*");
+		int n = (int)ListEmpl.size();
 		for (int i = 0; i < n; i++)
 		{
 			fsave << ListEmpl[i].EInfor.ID << ",";
@@ -43,7 +43,7 @@ void Staff::SaveInfortoTextfile()
 				fsave << endl;
 			}
 		}
-		outputbox.display("Finished saving data to file "+ namefile + " successed.\nClosing the file....");
+		outputbox.display("Finished saving data to file " + namefile + " successed.\nClosing the file....");
 		fsave.close();
 		if (!fsave.is_open())
 		{
@@ -51,7 +51,7 @@ void Staff::SaveInfortoTextfile()
 		}
 		else
 		{
-			outputbox.display("Failed to close file " + namefile + "." );
+			outputbox.display("Failed to close file " + namefile + ".");
 		}
 	}
 }
@@ -76,19 +76,15 @@ void Staff::LoadfromTextfile()
 		while (!fload.eof())
 		{
 			anEmpl.EInfor.LoadInforfrom(fload);
-			anEmpl.EInfor.No = ListEmpl.size() + 1;
+			anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
 			ListEmpl.push_back(anEmpl);
 		}
 		outputbox.display("Finished loading " + namefile + ".\nClosing the file....");
 		fload.close();
 		if (!fload.is_open())
-		{
 			outputbox.display("The file " + namefile + " was closed successfully.");
-		}
 		else
-		{
-			outputbox.display("Failed to close file " + namefile + "." );
-		}
+			outputbox.display("Failed to close file " + namefile + ".");
 	}
 }
 
@@ -142,9 +138,9 @@ void Staff::ImportListEmpfromCsv()
 		}
 		else
 		{
-			outputbox.display("Failed to close file " + namefile + "." ) ;
+			outputbox.display("Failed to close file " + namefile + ".");
 		}
-		outputbox.display("Your data will be saved to a text file now." );
+		outputbox.display("Your data will be saved to a text file now.");
 		SaveInfortoTextfile();
 	}
 }
@@ -153,7 +149,7 @@ int Staff::findEmplWithID(int id)
 {
 	if (id > 0)
 	{
-		int n = ListEmpl.size();
+		int n = (int)ListEmpl.size();
 		for (int i = 0; i < n; i++)
 		{
 			if (ListEmpl[i].EInfor.ID == id)
@@ -167,7 +163,7 @@ int Staff::findEmplWithID(int id)
 
 void Staff::Add_an_Empl_Manually()
 {
-	int choice = 0, n = ListEmpl.size();;
+	int choice = 0, n = (int)ListEmpl.size();;
 	Employee anEmpl;
 	anEmpl.EInfor.InputInfor();
 	do
@@ -207,7 +203,7 @@ void Staff::Add_an_Empl_Manually()
 						cin.ignore(2000, '\n');
 						id = 0;
 					}
-					outputbox.display("Invalid input. Please input again." );
+					outputbox.display("Invalid input. Please input again.");
 				}
 			} while (id <= 0);
 			anEmpl.EInfor.ID = id;
@@ -215,15 +211,15 @@ void Staff::Add_an_Empl_Manually()
 		}
 		else
 		{
-			outputbox.display("The addition was canceled." );
+			outputbox.display("The addition was canceled.");
 			return;
 		}
 	} while (choice == 1);
-	anEmpl.EInfor.No = ListEmpl.size() + 1;
+	anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
 	anEmpl.EInfor.ACC.Username = to_string(anEmpl.EInfor.ID);
 	anEmpl.EInfor.ACC.Password = anEmpl.EInfor.DoB.toStr();
 	ListEmpl.push_back(anEmpl);
-	outputbox.display("New employee was added successfully." );
+	outputbox.display("New employee was added successfully.");
 }
 
 void Staff::Create_List_Empl_Manually()
@@ -251,7 +247,7 @@ void Staff::Create_List_Empl_Manually()
 		Add_an_Empl_Manually();
 		cout << endl;
 	}
-	outputbox.display("The addition is completed." );
+	outputbox.display("The addition is completed.");
 }
 
 void Staff::Edit_Infor_of_an_Empl()
@@ -270,7 +266,7 @@ void Staff::Edit_Infor_of_an_Empl()
 			}
 			id = 0;
 			cout << "Invalid ID." << endl;
-			outputbox.display("The editting will be canceled." ) ;
+			outputbox.display("The editting will be canceled.");
 			return;
 		}
 		//system("CLS");
@@ -357,7 +353,7 @@ void Staff::Remove_an_Empl()
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
-		outputbox.display("There is no employee that has the ID " + to_string(id) + " in this list.\nThe removing will be canceled." );
+		outputbox.display("There is no employee that has the ID " + to_string(id) + " in this list.\nThe removing will be canceled.");
 		cin.ignore(1);
 		return;
 	}
@@ -369,7 +365,7 @@ void Staff::Remove_an_Empl()
 	else
 		employeeRecords->remove(idx);
 	outputbox.display("Start removing....");
-	int n = ListEmpl.size();
+	int n = (int)ListEmpl.size();
 	for (int i = index + 1; i < n; i++)
 	{
 		ListEmpl[i].EInfor.No = ListEmpl[i].EInfor.getNo() - 1;
@@ -383,7 +379,7 @@ void Staff::View_list_of_Empl()
 	string ID, No;
 	int space1 = 0, space2 = 0, space3 = 0;
 	cout << setw(7) << "No" << setw(17) << "ID" << setw(27) << "Name" << endl;
-	int n = ListEmpl.size();
+	int n = (int)ListEmpl.size();
 	for (int i = 0; i < n; i++)
 	{
 		ID.clear();
@@ -398,9 +394,9 @@ void Staff::View_list_of_Empl()
 			ID = "0";
 		}
 		ID.append(to_string(ListEmpl[i].EInfor.ID));
-		space1 = 5 + No.length();
-		space2 = 15 - (No.length() - 2) + ID.length();
-		space3 = 23 - (ID.length() - 2) + ListEmpl[i].EInfor.getName().length();
+		space1 = 5 + (int)No.length();
+		space2 = 15 - ((int)No.length() - 2) + (int)ID.length();
+		space3 = 23 - ((int)ID.length() - 2) + (int)ListEmpl[i].EInfor.getName().length();
 		cout << setw(space1) << No << setw(space2) << ID << setw(space3) << ListEmpl[i].EInfor.Name << endl;
 	}
 }
@@ -418,13 +414,13 @@ void Staff::View_Infor_of_an_Empl()
 			cin.ignore(2000, '\n');
 			id = 0;
 		}
-		outputbox.display("Invalid ID.\nThe viewing will be canceled." );
+		outputbox.display("Invalid ID.\nThe viewing will be canceled.");
 		return;
 	}
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
-		outputbox.display("There is no employee that has the ID " + to_string(id) + " in your list.\nThe viewing will be canceled." ) ;
+		outputbox.display("There is no employee that has the ID " + to_string(id) + " in your list.\nThe viewing will be canceled.");
 		cin.ignore(1);
 		return;
 	}
@@ -447,7 +443,7 @@ void Staff::Reset_password_for_empl()
 				cin.ignore(2000, '\n');
 			}
 			id = 0;
-			outputbox.display("Invalid ID.\nThis functionality will be canceled." ) ;
+			outputbox.display("Invalid ID.\nThis functionality will be canceled.");
 			return;
 		}
 		//system("CLS");
@@ -476,7 +472,7 @@ void Staff::Reset_password_for_empl()
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
-		outputbox.display("There is no employee that has the ID " + to_string(id) + " in your list.\nThis functionality will be canceled." ) ;
+		outputbox.display("There is no employee that has the ID " + to_string(id) + " in your list.\nThis functionality will be canceled.");
 		cin.ignore(1);
 		return;
 	}
@@ -501,7 +497,7 @@ void Staff::Manage_Employee_Menu()
 			cin.ignore(1);
 		}*/
 		//system("CLS");
-		switch (choice+1)
+		switch (choice + 1)
 		{
 		case 4:
 		{
@@ -537,7 +533,7 @@ void Staff::Manage_Employee_Menu()
 		{
 			return;
 		}*/
-		int n = ListEmpl.size();
+		int n = (int)ListEmpl.size();
 		if (n == 0 && choice > 0 && choice <= 3)
 		{
 			cout << "There is nothing do to manage here." << endl;
@@ -571,7 +567,7 @@ void Staff::Manage_Employee_Menu()
 				//		cout << "Invalid choice. Please chosse again." << endl;
 				//	}*/
 				//} while (choice < 0 || choice > 6); // did
-				switch (choice2+1)
+				switch (choice2 + 1)
 				{
 				case 99:
 				{
@@ -658,7 +654,7 @@ void Staff::Manage_Employee_Menu()
 			}
 			//system("pause");
 			//system("CLS");
-		} while (choice2+1 != 7);
+		} while (choice2 + 1 != 7);
 	} while (choice != 0);
 }
 
@@ -669,7 +665,7 @@ void Staff::createRecords()
 		outputbox.display("There's existing records data of this month. You cannot create new records.\nRemove records data of this month If you really want to create new records.");
 		return;
 	}
-	int n = ListEmpl.size();
+	int n = (int)ListEmpl.size();
 	int* arr = new int[n];
 	for (int i = 0; i < n; i++)
 	{
@@ -770,7 +766,7 @@ void Staff::viewRecords()
 {
 	Date today;
 	int index;
-	int n = ListEmpl.size();
+	int n = (int)ListEmpl.size();
 	int maxDay = today.Maxdayintmonth();
 	cout << "Day" << setw(8);
 	for (int i = 1; i <= maxDay; ++i)
@@ -793,7 +789,7 @@ void Staff::viewRecords()
 
 void Staff::viewSalaryTable()
 {
-	int n = ListEmpl.size();
+	int n = (int)ListEmpl.size();
 	double total = 0;
 	cout << "\n\tSalary table of all employees\n\n";
 	cout << left << setw(12) << "ID" << setw(30) << "Name" << right << setw(12) << "Salary" << endl;

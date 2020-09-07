@@ -1,5 +1,5 @@
 #include "Employee_Management.h"
-#include "LoginHeader.h"
+#include "Login.h"
 screenctrl* screenctrl::inst = NULL;
 
 int main() {

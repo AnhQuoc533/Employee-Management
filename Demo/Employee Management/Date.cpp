@@ -1,4 +1,4 @@
-#include"Date.h"
+#include "Date.h"
 
 Date::Date()
 {
@@ -443,7 +443,7 @@ Date& Date::operator-=(const int a)
 
 Date& Date::stoDate(string str)
 {
-	int index = 0, d = 0, m = 0, y = 0, n = str.length();
+	int index = 0, d = 0, m = 0, y = 0, n = (int)str.length();
 	string tempd, tempm, tempy;
 	for (index; index < n; index++)
 	{

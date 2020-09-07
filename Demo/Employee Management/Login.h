@@ -19,7 +19,6 @@ public:
 	string getPassword() { return Password; }
 	int get_role() { return role; }
 
-	void asteriskEncode();
 	bool login();
 	bool openfiles();
 	int track(ifstream &f);
@@ -34,7 +33,9 @@ public:
 };
 
 int welcome();
-void bar2(int);
+void asteriskEncode(string &psw);
 int logged();
 void clonefile(ifstream&);
+void bar2(int);
+
 #endif

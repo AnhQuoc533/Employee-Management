@@ -15,6 +15,7 @@ class Infor {
 private:
 	Date DoB(1900, 1, 1);
 	int ID = 0;
+	int No = 0;
 	string Name = "";
 	string Phone = "";
 	string Address = "";
@@ -22,6 +23,7 @@ private:
 	Account ACC;
 public:
 	int getID() { return ID; }
+	int getNo() { return No; }
 	string getName() { return Name; }
 	string getUsername() { return ACC.getUsername(); }
 
@@ -33,7 +35,7 @@ public:
 	friend class Staff;
 };
 
-class Record{
+class Record {
 private:
 	vector<int*> records;
 	string filename;

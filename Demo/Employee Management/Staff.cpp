@@ -21,7 +21,7 @@ void Staff::SaveInfortoTextfile()
 	else
 	{
 		outputbox.display("Saving data to file "+ namefile+"....\n*NOTE:Do not shutdown the program while we are saving for you.*");
-		int n = ListEmpl.size();
+		int n = (int)ListEmpl.size();
 		for (int i = 0; i < n; i++)
 		{
 			fsave << ListEmpl[i].EInfor.ID << ",";
@@ -76,19 +76,15 @@ void Staff::LoadfromTextfile()
 		while (!fload.eof())
 		{
 			anEmpl.EInfor.LoadInforfrom(fload);
-			anEmpl.EInfor.No = ListEmpl.size() + 1;
+			anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
 			ListEmpl.push_back(anEmpl);
 		}
 		outputbox.display("Finished loading " + namefile + ".\nClosing the file....");
 		fload.close();
 		if (!fload.is_open())
-		{
 			outputbox.display("The file " + namefile + " was closed successfully.");
-		}
 		else
-		{
 			outputbox.display("Failed to close file " + namefile + "." );
-		}
 	}
 }
 
@@ -153,7 +149,7 @@ int Staff::findEmplWithID(int id)
 {
 	if (id > 0)
 	{
-		int n = ListEmpl.size();
+		int n = (int)ListEmpl.size();
 		for (int i = 0; i < n; i++)
 		{
 			if (ListEmpl[i].EInfor.ID == id)
@@ -167,7 +163,7 @@ int Staff::findEmplWithID(int id)
 
 void Staff::Add_an_Empl_Manually()
 {
-	int choice = 0, n = ListEmpl.size();;
+	int choice = 0, n = (int)ListEmpl.size();;
 	Employee anEmpl;
 	anEmpl.EInfor.InputInfor();
 	do
@@ -219,7 +215,7 @@ void Staff::Add_an_Empl_Manually()
 			return;
 		}
 	} while (choice == 1);
-	anEmpl.EInfor.No = ListEmpl.size() + 1;
+	anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
 	anEmpl.EInfor.ACC.Username = to_string(anEmpl.EInfor.ID);
 	anEmpl.EInfor.ACC.Password = anEmpl.EInfor.DoB.toStr();
 	ListEmpl.push_back(anEmpl);
@@ -369,7 +365,7 @@ void Staff::Remove_an_Empl()
 	else
 		employeeRecords->remove(idx);
 	outputbox.display("Start removing....");
-	int n = ListEmpl.size();
+	int n = (int)ListEmpl.size();
 	for (int i = index + 1; i < n; i++)
 	{
 		ListEmpl[i].EInfor.No = ListEmpl[i].EInfor.getNo() - 1;
@@ -383,7 +379,7 @@ void Staff::View_list_of_Empl()
 	string ID, No;
 	int space1 = 0, space2 = 0, space3 = 0;
 	cout << setw(7) << "No" << setw(17) << "ID" << setw(27) << "Name" << endl;
-	int n = ListEmpl.size();
+	int n = (int)ListEmpl.size();
 	for (int i = 0; i < n; i++)
 	{
 		ID.clear();
@@ -398,9 +394,9 @@ void Staff::View_list_of_Empl()
 			ID = "0";
 		}
 		ID.append(to_string(ListEmpl[i].EInfor.ID));
-		space1 = 5 + No.length();
-		space2 = 15 - (No.length() - 2) + ID.length();
-		space3 = 23 - (ID.length() - 2) + ListEmpl[i].EInfor.getName().length();
+		space1 = 5 + (int)No.length();
+		space2 = 15 - ((int)No.length() - 2) + (int)ID.length();
+		space3 = 23 - ((int)ID.length() - 2) + (int)ListEmpl[i].EInfor.getName().length();
 		cout << setw(space1) << No << setw(space2) << ID << setw(space3) << ListEmpl[i].EInfor.Name << endl;
 	}
 }
@@ -537,7 +533,7 @@ void Staff::Manage_Employee_Menu()
 		{
 			return;
 		}*/
-		int n = ListEmpl.size();
+		int n = (int)ListEmpl.size();
 		if (n == 0 && choice > 0 && choice <= 3)
 		{
 			cout << "There is nothing do to manage here." << endl;
@@ -669,7 +665,7 @@ void Staff::createRecords()
 		outputbox.display("There's existing records data of this month. You cannot create new records.\nRemove records data of this month If you really want to create new records.");
 		return;
 	}
-	int n = ListEmpl.size();
+	int n = (int)ListEmpl.size();
 	int* arr = new int[n];
 	for (int i = 0; i < n; i++)
 	{
@@ -770,7 +766,7 @@ void Staff::viewRecords()
 {
 	Date today;
 	int index;
-	int n = ListEmpl.size();
+	int n = (int)ListEmpl.size();
 	int maxDay = today.Maxdayintmonth();
 	cout << "Day" << setw(8);
 	for (int i = 1; i <= maxDay; ++i)
@@ -793,7 +789,7 @@ void Staff::viewRecords()
 
 void Staff::viewSalaryTable()
 {
-	int n = ListEmpl.size();
+	int n = (int)ListEmpl.size();
 	double total = 0;
 	cout << "\n\tSalary table of all employees\n\n";
 	cout << left << setw(12) << "ID" << setw(30) << "Name" << right << setw(12) << "Salary" << endl;

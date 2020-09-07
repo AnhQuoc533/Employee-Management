@@ -135,6 +135,7 @@
     <ClCompile Include="Infor.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="LoginFunction.cpp" />
+    <ClCompile Include="Record.cpp" />
     <ClCompile Include="Staff.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

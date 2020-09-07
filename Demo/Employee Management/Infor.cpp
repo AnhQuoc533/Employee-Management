@@ -47,16 +47,6 @@ void Infor::InputInfor()
 	genmenu.setclear(0);
 	int choice = genmenu.operate("Gender", "Male\nFemale\n");
 	if (choice == 0) Gender = 'M'; else Gender = 'F';
-	//do
-	//{
-	//	/*cout << "Input the gender (please input m or M for Male and f or F for female): ";
-	//	Gender = getchar();
-	//	if (Gender != 'M' && Gender != 'F' && Gender != 'm' && Gender != 'f')
-	//	{
-	//		cout << "Invalid gender. Please input again." << endl << endl;
-	//		cin.ignore(1);
-	//	}*/
-	//} while (Gender != 'M' && Gender != 'F' && Gender != 'm' && Gender != 'f');
 	cout << "Input date of birth:" << endl;
 	cin >> DoB;
 	cin.ignore(1);
@@ -94,26 +84,6 @@ void Infor::EditInfor()
 		cout << "Which infor of this employee do you want to edit?" << endl;
 		graphical_menu menu;
 		choice = menu.operate("Field", "Name\nGender\nDate of birth\nPhone number\nAddress\n");
-		/*cout << "Enter 0 to cancel." << endl;
-		cout << "Enter 1 to edit name." << endl;
-		cout << "Enter 2 to edit gender." << endl;
-		cout << "Enter 3 to edit date of birth." << endl;
-		cout << "Enter 4 to edit phone." << endl;
-		cout << "Enter 5 to edit address." << endl;
-		cout << "Your choice: ";
-		cin >> choice;
-		system("CLS");
-		if (cin.fail() || choice < 0)
-		{
-			if (cin.fail())
-			{
-				cin.clear();
-				cin.ignore(2000, '\n');
-				choice = -1;
-			}
-			cout << "Invalid choice. Please choose again." << endl << endl;
-		}
-		cout << endl;*/
 		switch (choice+1)
 		{
 		case 0:
@@ -171,23 +141,8 @@ void Infor::EditInfor()
 			break;
 		}
 		}
-		//if (choice != 0)
-		{
-			cout << "Do you still want to edit this employee?" << endl;
-			graphical_menu yesno;
-			choice = yesno.operate("Confirmation", "Yes\nNo\n");
-			/*cout << "Enter 1 to continue or any key to exit: ";
-			cin >> choice;
-			if (cin.fail() || choice != 1)
-			{
-				if (cin.fail())
-				{
-					cin.clear();
-					cin.ignore(2000, '\n');
-				}
-				choice = 0;
-			}*/
-		}
-		//system("CLS");
+		cout << "Do you still want to edit this employee?" << endl;
+		graphical_menu yesno;
+		choice = yesno.operate("Confirmation", "Yes\nNo\n");
 	} while (choice == 0);
 }

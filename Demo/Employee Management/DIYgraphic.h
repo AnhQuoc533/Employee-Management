@@ -1,8 +1,8 @@
 #ifndef GRAPHICS_HEADER
 #define GRAPHICS_HEADER
 
-#include<Windows.h>
-#include<conio.h>
+#include <Windows.h>
+#include <conio.h>
 using namespace std;
 
 #define TONE1 1
@@ -48,8 +48,7 @@ public:
 class graphical_menu : public graphics_abstract
 {
 private:
-	string content, title;
-	bool back = 0, dynamic = 1, willclear = 1;
+	string content, title; bool back = 0, dynamic = 1, willclear = 1;
 	int x, y, w, h, border, select = 0, orix;
 public:
 	graphical_menu();
@@ -101,4 +100,5 @@ public:
 
 extern graphical_textbox outputbox;
 extern graphical_menu mainmenu;
+
 #endif

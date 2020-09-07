@@ -1,8 +1,8 @@
 #ifndef GRAPHICS_HEADER
 #define GRAPHICS_HEADER
 
-#include<Windows.h>
-#include<conio.h>
+#include <Windows.h>
+#include <conio.h>
 using namespace std;
 
 #define TONE1 1
@@ -100,4 +100,5 @@ public:
 
 extern graphical_textbox outputbox;
 extern graphical_menu mainmenu;
+
 #endif

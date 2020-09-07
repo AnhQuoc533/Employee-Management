@@ -38,7 +38,7 @@ Record::Record()
 Record::~Record()
 {
 	ofstream fout;
-	int size = records.size();
+	int size = (int)records.size();
 	if (size == 0)
 	{
 		cout << "No changes to records data will be appiled\n";
@@ -104,7 +104,7 @@ void Record::clear(int index)
 
 int Record::getIndex(int ID)
 {
-	int size = records.size();
+	int size = (int)records.size();
 	for (int i = 0; i < size; ++i)
 	{
 		if (records[i][0] == ID)
@@ -136,7 +136,7 @@ void Record::newBlank(int ID)
 
 void Record::clearData()
 {
-	int size = records.size();
+	int size = (int)records.size();
 	for (int i = 0; i < size; ++i)
 	{
 		delete[] records[i];
