@@ -235,6 +235,7 @@ void Account::changepsw() {
 void Staff::section() {
 	int choice;
 	while (true) {
+		system("cls");
 		cout << "__________________________________________________________\n\n";
 		cout << "\t\t1. Information\n";
 		cout << "\t\t2. Record\n";
@@ -259,6 +260,7 @@ void Staff::section() {
 void Account::StaffLogin(int choice) {
 	Staff admin(*this);
 	while (choice != 0) {
+		system("cls");
 		cout << "__________________________________________________________\n\n";
 		cout << "\t\tWELCOME, STAFF " << admin.capitalize_name() << endl << endl;
 		cout << "__________________________________________________________\n\n";
@@ -269,7 +271,6 @@ void Account::StaffLogin(int choice) {
 			admin.view_profile();
 		if (choice == 3)
 			changepsw();
-		system("cls");
 	}
 }
 
