@@ -257,7 +257,7 @@ void Staff::section() {
 }
 
 void Account::StaffLogin(int choice) {
-	Staff admin;
+	Staff admin(*this);
 	while (choice != 0) {
 		cout << "__________________________________________________________\n\n";
 		cout << "\t\tWELCOME, STAFF " << admin.capitalize_name() << endl << endl;

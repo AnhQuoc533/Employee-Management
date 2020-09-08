@@ -1,5 +1,9 @@
 #include "Employee_Management.h"
 
+Infor::Infor(Account acc) : Infor() {
+	ACC = acc;
+}
+
 void Infor::LoadInforfrom(ifstream& fload)
 {
 	string temp;

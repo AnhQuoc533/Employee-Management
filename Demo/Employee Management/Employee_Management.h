@@ -22,6 +22,8 @@ private:
 	char Gender = ' ';
 	Account ACC;
 public:
+	Infor() {}
+	Infor(Account);
 	int getID() { return ID; }
 	int getNo() { return No; }
 	string getName() { return Name; }
@@ -79,13 +81,13 @@ private:
 	Infor StInfor;
 	vector<Employee> ListEmpl;
 	Record* employeeRecords;
+	void load_profile();
 public:
-	Staff();
+	Staff(Account);
 	~Staff() { delete employeeRecords; }
 	string capitalize_name();
 	void view_profile();
 	void section();
-	void load_profile();
 	void ImportListEmpfromCsv();
 	void SaveInfortoTextfile();
 	void LoadfromTextfile();

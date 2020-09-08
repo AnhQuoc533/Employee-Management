@@ -1,6 +1,6 @@
 #include"Employee_Management.h"
 
-Staff::Staff()
+Staff::Staff(Account acc) : StInfor(acc)
 {
 	load_profile();
 	employeeRecords = new Record;
@@ -736,7 +736,7 @@ void Staff::load_profile() {
 			StInfor.DoB.stoDate(tmp);
 			getline(f, tmp, ',');
 			StInfor.Phone = tmp;
-			getline(f, tmp, ',');
+			getline(f, tmp);
 			StInfor.Address = tmp;
 			break;
 		}
