@@ -3,7 +3,6 @@
 void Infor::LoadInforfrom(ifstream& fload)
 {
 	string temp;
-	int tempd = 0, tempm = 0, tempy = 0;
 	getline(fload, temp, ',');
 	ID = stoi(temp);
 	ACC.Username = temp;

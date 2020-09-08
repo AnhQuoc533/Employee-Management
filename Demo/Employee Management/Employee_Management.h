@@ -25,7 +25,6 @@ public:
 	int getID() { return ID; }
 	int getNo() { return No; }
 	string getName() { return Name; }
-	string getUsername() { return ACC.getUsername(); }
 
 	void LoadInforfrom(ifstream& fload);
 	void InputInfor();
@@ -86,6 +85,7 @@ public:
 	string capitalize_name();
 	void view_profile();
 	void section();
+	void load_profile();
 	void ImportListEmpfromCsv();
 	void SaveInfortoTextfile();
 	void LoadfromTextfile();

@@ -36,6 +36,7 @@ int welcome();
 void asteriskEncode(string &psw);
 int logged();
 void clonefile(ifstream&);
+int incorrect_psw();
 void bar2(int);
 
 #endif

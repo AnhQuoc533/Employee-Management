@@ -2,10 +2,8 @@
 
 Staff::Staff()
 {
-	ifstream f("Staff.txt");
-	StInfor.LoadInforfrom(f);
+	load_profile();
 	employeeRecords = new Record;
-	f.close();
 }
 
 void Staff::SaveInfortoTextfile()
@@ -168,7 +166,6 @@ void Staff::Add_an_Empl_Manually()
 	anEmpl.EInfor.InputInfor();
 	do
 	{
-		//system("CLS");
 		int index = findEmplWithID(anEmpl.EInfor.ID);
 		if (index != -1)
 		{
@@ -269,30 +266,10 @@ void Staff::Edit_Infor_of_an_Empl()
 			outputbox.display("The editting will be canceled.");
 			return;
 		}
-		//system("CLS");
 		cout << "Are you sure that you want to edit the employee with the ID " << id << "?" << endl;
 		graphical_menu yesno;
 		yesno.setclear(0);
 		choice = yesno.operate("Answer", "Yes\nNo");
-		//do
-		//{
-		//	
-		//	/*cout << "Enter 1 to continue or 2 to input the ID again." << endl;
-		//	cout << "Your choice: ";*/
-		//	//cin >> choice;
-		//	/*if (cin.fail() || choice != 1 && choice != 2)
-		//	{
-		//		if (cin.fail())
-		//		{
-		//			cin.clear();
-		//			cin.ignore(2000, '\n');
-		//		}
-		//		choice = 0;
-		//		cout << "Invalid choice. Please input again.";
-		//		system("CLS");
-		//	}*/
-		//} while (choice == 0);
-		//system("CLS");
 	} while (choice == 1);
 	int index = findEmplWithID(id);
 	if (index == -1)
@@ -301,7 +278,6 @@ void Staff::Edit_Infor_of_an_Empl()
 		cin.ignore(1);
 		return;
 	}
-	//system("CLS");
 	outputbox.display("Start editing....");
 	ListEmpl[index].EInfor.EditInfor();
 	cout << "The employee after edited:" << endl;
@@ -327,28 +303,9 @@ void Staff::Remove_an_Empl()
 			outputbox.display("Invalid ID.\nThe removing will be canceled.");
 			return;
 		}
-		//system("CLS");
 		cout << "Are you sure that you want to delete the employee with the ID " << id << "?" << endl;
 		graphical_menu yesno;
 		choice = yesno.operate("Confirmation", "Yes\nNo\n");
-		/*do
-		{
-			cout << "Enter 1 to continue or 2 to input the ID again." << endl;
-			cout << "Your choice: ";
-			cin >> choice;
-			if (cin.fail() || choice != 1 && choice != 2)
-			{
-				if (cin.fail())
-				{
-					cin.clear();
-					cin.ignore(2000,'\n');
-				}
-				choice = 0;
-				cout << "Invalid choice. Please input again.";
-				system("CLS");
-			}
-		} while (choice == 0);
-		system("CLS");*/
 	} while (choice != 0);
 	int index = findEmplWithID(id);
 	if (index == -1)
@@ -446,28 +403,9 @@ void Staff::Reset_password_for_empl()
 			outputbox.display("Invalid ID.\nThis functionality will be canceled.");
 			return;
 		}
-		//system("CLS");
 		cout << "Are you sure that you want to reset the password of employee with the ID " << id << "?" << endl;
 		graphical_menu yesno;
 		choice = yesno.operate("Confirmation", "Yes\nNo\n");
-		/*do
-		{
-			cout << "Enter 1 to continue or 2 to input the ID again." << endl;
-			cout << "Your choice: ";
-			cin >> choice;
-			if (cin.fail() || choice != 1 && choice != 2)
-			{
-				if (cin.fail())
-				{
-					cin.clear();
-					cin.ignore(2000, '\n');
-				}
-				choice = 0;
-				outputbox.display("Invalid choice. Please input again.");
-				system("CLS");
-			}
-		} while (choice == 0);
-		system("CLS");*/
 	} while (choice != 0);
 	int index = findEmplWithID(id);
 	if (index == -1)
@@ -492,16 +430,10 @@ void Staff::Manage_Employee_Menu()
 	do
 	{
 		choice = mainmenu.operate("Manage Employee", "Import new list of employee from .csv file\nLoad existed list of employee from your device\nCreate new list of employee manually\nExit");
-		/*if (choice != 0)
-		{
-			cin.ignore(1);
-		}*/
-		//system("CLS");
 		switch (choice + 1)
 		{
 		case 4:
 		{
-			//cout << "Returning to *Staff menu*....\n";
 			mainmenu.clear();
 			return;
 			break;
@@ -527,12 +459,6 @@ void Staff::Manage_Employee_Menu()
 			break;
 		}
 		}
-		//system("pause");
-		//system("CLS");
-		/*if (choice == 0)
-		{
-			return;
-		}*/
 		int n = (int)ListEmpl.size();
 		if (n == 0 && choice > 0 && choice <= 3)
 		{
@@ -553,20 +479,6 @@ void Staff::Manage_Employee_Menu()
 			{
 				mainmenu.autowarp(0);
 				choice2 = mainmenu.operate("Manage Employee", "Add an employee to the list manually.\nEdit an employee's information.\nRemove an employee from the list.\nView list of employees.\nView information of an employee.\nReset password for an employee. \nCreate new records of a month. \nRemove records data. \nImport records data from csv file. \nEdit record of an employee. \nView records of all employees. \nClear record of an employee. \nView salary of all employees");
-				//do
-				//{
-				//	//system("CLS");
-				//	/*if (cin.fail() || choice2 < 0 && choice2 > 6)
-				//	{
-				//		if (cin.fail())
-				//		{
-				//			cin.clear();
-				//			cin.ignore(2000, '\n');
-				//			choice2 = -1;
-				//		}
-				//		cout << "Invalid choice. Please chosse again." << endl;
-				//	}*/
-				//} while (choice < 0 || choice > 6); // did
 				switch (choice2 + 1)
 				{
 				case 99:
@@ -575,8 +487,6 @@ void Staff::Manage_Employee_Menu()
 					cout << "Please wait while we are saving your work before you return to the previous menu." << endl;
 					SaveInfortoTextfile();
 					ListEmpl.clear();
-					//system("pause");
-					//system("CLS");
 					cout << "Returning to previous menu." << endl;
 					break;
 				}
@@ -811,16 +721,42 @@ string Staff::capitalize_name() {
 	return name;
 }
 
+void Staff::load_profile() {
+	ifstream f("Staff.txt");
+	string tmp;
+	while (true) {
+		getline(f, tmp, ',');
+		if (tmp == StInfor.ACC.Username) {
+			getline(f, tmp, ',');
+			getline(f, tmp, ',');
+			StInfor.Name = tmp;
+			getline(f, tmp, ',');
+			StInfor.Gender = tmp[0];
+			getline(f, tmp, ',');
+			StInfor.DoB.stoDate(tmp);
+			getline(f, tmp, ',');
+			StInfor.Phone = tmp;
+			getline(f, tmp, ',');
+			StInfor.Address = tmp;
+			break;
+		}
+		else {
+			getline(f, tmp);
+		}
+	}
+	f.close();
+}
+
 void Staff::view_profile() {
 	cout << "__________________________________________________________\n\n";
-	cout << "Username: " << StInfor.getUsername() << endl;
+	cout << "Username: " << StInfor.ACC.Username << endl;
 	cout << "Name: " << StInfor.Name << endl;
 	cout << "Gender: ";
 	if (StInfor.Gender == 'M' || StInfor.Gender == 'm')
 	{
 		cout << "Male" << endl;
 	}
-	if (StInfor.Gender == 'F' || StInfor.Gender == 'f')
+	else if (StInfor.Gender == 'F' || StInfor.Gender == 'f')
 	{
 		cout << "Female" << endl;
 	}

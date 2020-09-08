@@ -126,6 +126,22 @@ void clonefile(ifstream &in) {
 	}
 	ftmp.close();
 }
+
+int incorrect_psw() {
+	int choice;
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(h, 12);
+	cout << "\t\t\t\t\t\t\t\t" << "  The username or password is incorrect.\n";
+	SetConsoleTextAttribute(h, 10);
+	cout << "\t\t\t\t\t\t\t\t" << "\t1. Try again\t";
+	SetConsoleTextAttribute(h, 12);
+	cout << "0.Exit\n";
+	SetConsoleTextAttribute(h, 15);
+	cout << " \t\t\t\t\t\t\t\t  Choose your action: ";
+	cin >> choice;
+	return choice;
+}
+
 //Bug needs fixing!!!
 void Account::changeData(ofstream &out) {
 	ifstream ftmp;
