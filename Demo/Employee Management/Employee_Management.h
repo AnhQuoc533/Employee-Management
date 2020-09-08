@@ -13,7 +13,7 @@ using namespace std;
 
 class Infor {
 private:
-	Date DoB(1900, 1, 1);
+	Date DoB;
 	int ID = 0;
 	int No = 0;
 	string Name = "";

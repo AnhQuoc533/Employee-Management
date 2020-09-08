@@ -1,4 +1,4 @@
-#include"Employee_Management.h"
+#include "Employee_Management.h"
 
 void Infor::LoadInforfrom(ifstream& fload)
 {
@@ -14,9 +14,7 @@ void Infor::LoadInforfrom(ifstream& fload)
 	getline(fload, temp, ',');
 	Gender = temp[0];
 	getline(fload, temp, ',');
-	Date tempDate;
-	tempDate.stoDate(temp);
-	DoB = tempDate;
+	DoB.stoDate(temp);
 	getline(fload, temp, ',');
 	Phone = temp;
 	getline(fload, temp);

@@ -29,7 +29,7 @@ int main() {
 			A.StaffLogin(choice);
 		}
 		else if (A.get_role()) {
-			A.EmployeeLogin(choice);
+			//A.EmployeeLogin(choice);
 		}
 		system("cls");
 	}
