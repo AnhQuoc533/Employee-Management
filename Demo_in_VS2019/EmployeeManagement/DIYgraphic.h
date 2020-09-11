@@ -15,7 +15,7 @@ using namespace std;
 #define HEIGHT 768
 #define OFX 10
 #define OFY 5
-#define TXTY 20
+#define TXTY 21
 
 class graphics_abstract
 {
@@ -29,6 +29,7 @@ public:
 	void turnCursor(bool on);
 	int getx();
 	int gety();
+	void clearbuffer();
 };
 
 class screenctrl

@@ -54,6 +54,20 @@ int graphics_abstract::gety()
 	return info.dwCursorPosition.Y;
 }
 
+void graphics_abstract::clearbuffer()
+{
+	turnCursor(0);
+	warp(0, TXTY);
+	screenctrl* screen = screenctrl::instance();
+	for (int i = 0; i < screen->getbufferh() - TXTY - 4; i++)
+	{
+		for (int j = 0; j < screen->getbufferw(); j++) cout << " ";
+		cout << endl;
+	}
+	warp(0, TXTY);
+	turnCursor(1);
+}
+
 graphical_menu::graphical_menu()
 {
 	x = getx();	y = gety();
@@ -174,19 +188,7 @@ int graphical_menu::operate()
 			charColorate(15);
 			turnCursor(1);
 			if (dynamic) x += w + 2;
-			if (willclear)
-			{
-				turnCursor(0);
-				warp(0, TXTY);
-				screenctrl* screen = screenctrl::instance();
-				for (int i = 0; i < screen->getbufferh() - TXTY - 4; i++)
-				{
-					for (int j = 0; j < screen->getbufferw(); j++) cout << " ";
-					cout << endl;
-				}
-				warp(0, TXTY);
-				turnCursor(1);
-			}
+			if (willclear)clearbuffer();
 			else warp(0, y + h+1);
 			return select;
 		}
@@ -201,7 +203,7 @@ int graphical_menu::operate(string tit, string con)
 
 void graphical_menu::clear()
 {
-	turnCursor(0); x -= w+2;
+	turnCursor(0); if (dynamic) x -= w+2;
 	for (int i = 0; i <= h; i++)
 	{
 		warp(x, y + i);
@@ -309,16 +311,7 @@ void graphical_textbox::display(string s)
 	}
 	if (delay_time==0) cin.ignore();	
 	while (_getch() != 13);
-	turnCursor(0);
-	warp(0, TXTY);
-	screenctrl* screen = screenctrl::instance();
-	for (int i = 0; i < screen->getbufferh() - TXTY - 4; i++)
-	{
-		for (int j = 0; j < screen->getbufferw(); j++) cout << " ";
-		cout << endl;
-	}
-	warp(0, TXTY);
-	turnCursor(1);
+	clearbuffer();
 }
 
 void graphical_textbox::display()
@@ -360,14 +353,21 @@ void graphical_loader::load(int time)
 	turnCursor(0);
 	char bg = (char)219;
 	charColorate(WHITE); 
+	bool flag = 0;
+	if (content[content.length() - 1] == 'e')
+	{
+		content.erase(content.length() - 1);
+		flag = 1;
+	}
 	warp(x, y - 1); cout << content << "ing...";
+	if (flag) content += 'e';
 	int breakcount = (rand() % 5)+1;
 	int breakpoint = 0;
 	warp(x, y);
 	for (int i = 0; i < w; i++) cout << bg;
 	for (int i = 0; i < w; i++)
 	{
-		if (GetAsyncKeyState(VK_RETURN) < 0) cin.ignore();
+		//if (GetAsyncKeyState(VK_RETURN) < 0) cin.ignore();
 		int percent = (int)ceil((float)(i + 1) / w * 100);
 		if (i == breakpoint)
 		{
