@@ -19,6 +19,9 @@ void Staff::SaveInfortoTextfile()
 	else
 	{
 		outputbox.display("Saving data to file " + namefile + "....\n*NOTE:Do not shutdown the program while we are saving for you.*");
+		screenctrl* screen = screenctrl::instance();
+		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Save");
+		loader.load(30);
 		int n = (int)ListEmpl.size();
 		for (int i = 0; i < n; i++)
 		{
@@ -335,27 +338,53 @@ void Staff::View_list_of_Empl()
 {
 	string ID, No;
 	int space1 = 0, space2 = 0, space3 = 0;
-	cout << setw(7) << "No" << setw(17) << "ID" << setw(27) << "Name" << endl;
 	int n = (int)ListEmpl.size();
-	for (int i = 0; i < n; i++)
+	int offset = 0;
+	screenctrl* screen = screenctrl::instance();
+	int partsize = screen->getbufferh()-9-TXTY;
+
+	while (1)
 	{
-		ID.clear();
-		No.clear();
-		if (ListEmpl[i].EInfor.getNo() < 10)
+		cout << "Here is your list: (press up/down to navigate)" << endl;
+		cout << setw(7) << "No" << setw(17) << "ID" << setw(27) << "Name" << endl;
+		if (offset != 0) cout << setw(7) << "..." << setw(18) << "..." << setw(25) << "..." << endl;
+		for (int i = offset; i < offset+partsize; i++)
 		{
-			No = "0";
+			ID.clear();
+			No.clear();
+			if (ListEmpl[i].EInfor.getNo() < 10)
+			{
+				No = "0";
+			}
+			No.append(to_string(ListEmpl[i].EInfor.No));
+			if (ListEmpl[i].EInfor.getID() < 10)
+			{
+				ID = "0";
+			}
+			ID.append(to_string(ListEmpl[i].EInfor.ID));
+			space1 = 5 + (int)No.length();
+			space2 = 15 - ((int)No.length() - 2) + (int)ID.length();
+			space3 = 23 - ((int)ID.length() - 2) + (int)ListEmpl[i].EInfor.getName().length();
+			cout << setw(space1) << No << setw(space2) << ID << setw(space3) << ListEmpl[i].EInfor.Name << endl;
 		}
-		No.append(to_string(ListEmpl[i].EInfor.No));
-		if (ListEmpl[i].EInfor.getID() < 10)
+		if (offset + partsize != n) cout << setw(7) << "..." << setw(18) << "..." << setw(25) << "..." << endl;
+		char c = _getch();
+		if (c == -32)
 		{
-			ID = "0";
+			c = _getch();
+			switch (c)
+			{
+			case 72: offset = (offset > 0) ? offset - 1 : 0; break;
+			case 80: offset = (offset+partsize < n) ? offset + 1 : n-partsize; break;
+			}
+			outputbox.clearbuffer();
 		}
-		ID.append(to_string(ListEmpl[i].EInfor.ID));
-		space1 = 5 + (int)No.length();
-		space2 = 15 - ((int)No.length() - 2) + (int)ID.length();
-		space3 = 23 - ((int)ID.length() - 2) + (int)ListEmpl[i].EInfor.getName().length();
-		cout << setw(space1) << No << setw(space2) << ID << setw(space3) << ListEmpl[i].EInfor.Name << endl;
+		if (c == '\r')
+		{
+			return;
+		}
 	}
+	
 }
 
 void Staff::View_Infor_of_an_Empl()
@@ -467,7 +496,6 @@ void Staff::Manage_Employee_Menu()
 		}
 		else
 		{
-			cout << "Here is your list:" << endl;
 			View_list_of_Empl();
 			//system("pause");
 			//system("CLS");
@@ -478,16 +506,18 @@ void Staff::Manage_Employee_Menu()
 			if (choice2 >= 0)
 			{
 				mainmenu.autowarp(0);
-				choice2 = mainmenu.operate("Manage Employee", "Add an employee to the list manually.\nEdit an employee's information.\nRemove an employee from the list.\nView list of employees.\nView information of an employee.\nReset password for an employee. \nCreate new records of a month. \nRemove records data. \nImport records data from csv file. \nEdit record of an employee. \nView records of all employees. \nClear record of an employee. \nView salary of all employees");
-				switch (choice2 + 1)
+				choice2 = mainmenu.operate("Manage Employee", "Exit\nAdd an employee to the list manually.\nEdit an employee's information.\nRemove an employee from the list.\nView list of employees.\nView information of an employee.\nReset password for an employee. \nCreate new records of a month. \nRemove records data. \nImport records data from csv file. \nEdit record of an employee. \nView records of all employees. \nClear record of an employee. \nView salary of all employees");
+				switch (choice2)
 				{
-				case 99:
+				case 0:
 				{
-					cin.ignore(1);
-					cout << "Please wait while we are saving your work before you return to the previous menu." << endl;
+					//cin.ignore(1);					
+					outputbox.display("Please wait while we are saving your work before you return to the previous menu.");
 					SaveInfortoTextfile();
 					ListEmpl.clear();
-					cout << "Returning to previous menu." << endl;
+					outputbox.display("Returning to previous menu." );
+					mainmenu.clear();
+					mainmenu.autowarp(1);
 					break;
 				}
 				case 1:
@@ -510,7 +540,7 @@ void Staff::Manage_Employee_Menu()
 				}
 				case 4:
 				{
-					cout << "Your list of employees:" << endl;
+					//cout << "Your list of employees:" << endl;
 					View_list_of_Empl();
 					break;
 				}
@@ -564,7 +594,7 @@ void Staff::Manage_Employee_Menu()
 			}
 			//system("pause");
 			//system("CLS");
-		} while (choice2 + 1 != 7);
+		} while (choice2 != 0);
 	} while (choice != 0);
 }
 
