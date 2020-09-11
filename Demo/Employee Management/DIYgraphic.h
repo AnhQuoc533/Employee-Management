@@ -15,7 +15,7 @@ using namespace std;
 #define HEIGHT 768
 #define OFX 10
 #define OFY 5
-#define TXTY 20
+#define TXTY 21
 
 class graphics_abstract
 {
@@ -29,6 +29,7 @@ public:
 	void turnCursor(bool on);
 	int getx();
 	int gety();
+	void clearbuffer();
 };
 
 class screenctrl
@@ -93,7 +94,9 @@ private:
 	string content;
 public:
 	graphical_loader(int posx, int posy, int width, string s) :
-		x(posx), y(posy), w(width), content(s) { srand((unsigned)time(0)); }
+		x(posx), y(posy), w(width), content(s) {
+		srand((unsigned)time(0));
+	}
 	void load(int time);
 	void reset(int posx, int posy, int width);
 };

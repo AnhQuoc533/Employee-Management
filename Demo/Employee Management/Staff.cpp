@@ -13,12 +13,15 @@ void Staff::SaveInfortoTextfile()
 	fsave.open(namefile);
 	if (!fsave.is_open())
 	{
-		outputbox.display("Cannot create file.\nCanceled saving");
+		outputbox.display("Cannot create file.\nSaving canceled");
 		return;
 	}
 	else
 	{
-		outputbox.display("Saving data to file "+ namefile+"....\n*NOTE:Do not shutdown the program while we are saving for you.*");
+		outputbox.display("Saving data to " + namefile + "....\nNOTE:Do not shutdown the program while saving!");
+		screenctrl* screen = screenctrl::instance();
+		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Save");
+		loader.load(30);
 		int n = (int)ListEmpl.size();
 		for (int i = 0; i < n; i++)
 		{
@@ -41,7 +44,7 @@ void Staff::SaveInfortoTextfile()
 				fsave << endl;
 			}
 		}
-		outputbox.display("Finished saving data to file "+ namefile + " successed.\nClosing the file....");
+		outputbox.display("Finished saving data to file " + namefile + " succeeded.\nClosing the file....");
 		fsave.close();
 		if (!fsave.is_open())
 		{
@@ -49,7 +52,7 @@ void Staff::SaveInfortoTextfile()
 		}
 		else
 		{
-			outputbox.display("Failed to close file " + namefile + "." );
+			outputbox.display("Failed to close file " + namefile);
 		}
 	}
 }
@@ -62,12 +65,12 @@ void Staff::LoadfromTextfile()
 	fload.open(namefile);
 	if (!fload.is_open())
 	{
-		outputbox.display("Cannot find the file " + namefile + ".\nMaybe it was deleted or changed the location.");
+		outputbox.display("Cannot find the file " + namefile);
 		return;
 	}
 	else
 	{
-		outputbox.display("Openned file " + namefile + " successed.\nStarting load its data to the program....");
+		outputbox.display("Opened file " + namefile + " succeeded.\nStarting load its data to the program....");
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
 		loader.load(30);
@@ -77,12 +80,12 @@ void Staff::LoadfromTextfile()
 			anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
 			ListEmpl.push_back(anEmpl);
 		}
-		outputbox.display("Finished loading " + namefile + ".\nClosing the file....");
+		outputbox.display("Finished loading " + namefile + "\nClosing the file....");
 		fload.close();
 		if (!fload.is_open())
 			outputbox.display("The file " + namefile + " was closed successfully.");
 		else
-			outputbox.display("Failed to close file " + namefile + "." );
+			outputbox.display("Failed to close file " + namefile);
 	}
 }
 
@@ -91,18 +94,18 @@ void Staff::ImportListEmpfromCsv()
 	ifstream fload;
 	string namefile;
 	Employee anEmpl;
-	cout << "Input the name of the csv file (do not input the type of the file): ";
+	cout << "Input the name of .csv file: ";
 	getline(cin, namefile);
 	namefile.append(".csv");
 	fload.open(namefile);
 	if (!fload.is_open())
 	{
-		outputbox.display("Cannot find the file " + namefile + ".\nMaybe it was deleted or changed the location.");
+		outputbox.display("Cannot find the file " + namefile);
 		return;
 	}
 	else
 	{
-		outputbox.display("Openned file " + namefile + " successed.\nStarting load its data to the program....");
+		outputbox.display("Opened file " + namefile + " succeeded.\nLoading data into the program....");
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
 		loader.load(30);
@@ -128,7 +131,7 @@ void Staff::ImportListEmpfromCsv()
 			anEmpl.EInfor.ACC.Password = anEmpl.EInfor.DoB.toStr();
 			ListEmpl.push_back(anEmpl);
 		}
-		outputbox.display("Finished importing " + namefile + ".\nClosing the file....");
+		outputbox.display("Finished importing " + namefile + "\nClosing the file....");
 		fload.close();
 		if (!fload.is_open())
 		{
@@ -136,9 +139,9 @@ void Staff::ImportListEmpfromCsv()
 		}
 		else
 		{
-			outputbox.display("Failed to close file " + namefile + "." ) ;
+			outputbox.display("Failed to close file " + namefile);
 		}
-		outputbox.display("Your data will be saved to a text file now." );
+		outputbox.display("Your data will be saved to a text file now.");
 		SaveInfortoTextfile();
 	}
 }
@@ -170,10 +173,11 @@ void Staff::Add_an_Empl_Manually()
 		if (index != -1)
 		{
 			cout << "ERROR: The employee with the ID " << anEmpl.EInfor.getID() << "is already existed." << endl;
-			cout << "Here is his/her information:" << endl;
+			cout << "Employee information:" << endl;
 			ListEmpl[index].View_Infor_Empl();
 			system("pause");
 			system("CLS");
+			//Need Yes/No graphic
 			cout << "Enter 1 to input the ID again or any key to cancel the addition: ";
 			cin >> choice;
 			if (cin.fail())
@@ -200,7 +204,7 @@ void Staff::Add_an_Empl_Manually()
 						cin.ignore(2000, '\n');
 						id = 0;
 					}
-					outputbox.display("Invalid input. Please input again." );
+					outputbox.display("Invalid input. Please input again.");
 				}
 			} while (id <= 0);
 			anEmpl.EInfor.ID = id;
@@ -208,7 +212,7 @@ void Staff::Add_an_Empl_Manually()
 		}
 		else
 		{
-			outputbox.display("The addition was canceled." );
+			outputbox.display("The process was canceled.");
 			return;
 		}
 	} while (choice == 1);
@@ -216,7 +220,7 @@ void Staff::Add_an_Empl_Manually()
 	anEmpl.EInfor.ACC.Username = to_string(anEmpl.EInfor.ID);
 	anEmpl.EInfor.ACC.Password = anEmpl.EInfor.DoB.toStr();
 	ListEmpl.push_back(anEmpl);
-	outputbox.display("New employee was added successfully." );
+	outputbox.display("New employee was added successfully.");
 }
 
 void Staff::Create_List_Empl_Manually()
@@ -224,7 +228,7 @@ void Staff::Create_List_Empl_Manually()
 	int n;
 	do
 	{
-		cout << "Input the number of employees you would like to add in this new list: ";
+		cout << "Input the number of employees you would like to add: ";
 		cin >> n;
 		if (cin.fail() || n < 0)
 		{
@@ -244,7 +248,7 @@ void Staff::Create_List_Empl_Manually()
 		Add_an_Empl_Manually();
 		cout << endl;
 	}
-	outputbox.display("The addition is completed." );
+	outputbox.display("The addition is completed.");
 }
 
 void Staff::Edit_Infor_of_an_Empl()
@@ -252,7 +256,7 @@ void Staff::Edit_Infor_of_an_Empl()
 	int id, choice = 1;
 	do
 	{
-		cout << "Please input the ID of the employee who you want to edit his/her information first: ";
+		cout << "Please input the ID of the employee you want to edit: ";
 		cin >> id;
 		if (cin.fail() || id <= 0)
 		{
@@ -263,7 +267,7 @@ void Staff::Edit_Infor_of_an_Empl()
 			}
 			id = 0;
 			cout << "Invalid ID." << endl;
-			outputbox.display("The editting will be canceled." ) ;
+			outputbox.display("The editting will be canceled.");
 			return;
 		}
 		cout << "Are you sure that you want to edit the employee with the ID " << id << "?" << endl;
@@ -274,7 +278,7 @@ void Staff::Edit_Infor_of_an_Empl()
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
-		outputbox.display("There is no employee that has the ID " + to_string(id) + " in this list.\nThe editing will be canceled.");
+		outputbox.display("There is no employee possessing the ID " + to_string(id) + " in this list.\nThe process will be canceled.");
 		cin.ignore(1);
 		return;
 	}
@@ -290,7 +294,7 @@ void Staff::Remove_an_Empl()
 	int id, choice = 1;
 	do
 	{
-		cout << "Please input the ID of the employee who you want to remove his/her information first: ";
+		cout << "Please input the ID of the employee you want to remove: ";
 		cin >> id;
 		if (cin.fail() || id <= 0)
 		{
@@ -310,14 +314,14 @@ void Staff::Remove_an_Empl()
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
-		outputbox.display("There is no employee that has the ID " + to_string(id) + " in this list.\nThe removing will be canceled." );
+		outputbox.display("There is no employee possessing the ID " + to_string(id) + " in this list.\nThe process will be canceled.");
 		cin.ignore(1);
 		return;
 	}
 	int idx = employeeRecords->getIndex(id);
 	if (idx == -1)
 	{
-		outputbox.display("There is no employee that has the ID " + to_string(id) + " in records database.\nYou should recheck the data.");
+		outputbox.display("There is no employee possessing the ID " + to_string(id) + " in records database.\nYou should re-check the data.");
 	}
 	else
 		employeeRecords->remove(idx);
@@ -335,33 +339,59 @@ void Staff::View_list_of_Empl()
 {
 	string ID, No;
 	int space1 = 0, space2 = 0, space3 = 0;
-	cout << setw(7) << "No" << setw(17) << "ID" << setw(27) << "Name" << endl;
 	int n = (int)ListEmpl.size();
-	for (int i = 0; i < n; i++)
+	int offset = 0;
+	screenctrl* screen = screenctrl::instance();
+	int partsize = screen->getbufferh() - 9 - TXTY;
+
+	while (1)
 	{
-		ID.clear();
-		No.clear();
-		if (ListEmpl[i].EInfor.getNo() < 10)
+		cout << "LIST OF EMPLOYEES:\n(press up/down to navigate)\n";
+		cout << setw(7) << "No" << setw(17) << "ID" << setw(27) << "Name" << endl;
+		if (offset != 0) cout << setw(7) << "..." << setw(18) << "..." << setw(25) << "..." << endl;
+		for (int i = offset; i < offset + partsize; i++)
 		{
-			No = "0";
+			ID.clear();
+			No.clear();
+			if (ListEmpl[i].EInfor.getNo() < 10)
+			{
+				No = "0";
+			}
+			No.append(to_string(ListEmpl[i].EInfor.No));
+			if (ListEmpl[i].EInfor.getID() < 10)
+			{
+				ID = "0";
+			}
+			ID.append(to_string(ListEmpl[i].EInfor.ID));
+			space1 = 5 + (int)No.length();
+			space2 = 15 - ((int)No.length() - 2) + (int)ID.length();
+			space3 = 23 - ((int)ID.length() - 2) + (int)ListEmpl[i].EInfor.getName().length();
+			cout << setw(space1) << No << setw(space2) << ID << setw(space3) << ListEmpl[i].EInfor.Name << endl;
 		}
-		No.append(to_string(ListEmpl[i].EInfor.No));
-		if (ListEmpl[i].EInfor.getID() < 10)
+		if (offset + partsize != n) cout << setw(7) << "..." << setw(18) << "..." << setw(25) << "..." << endl;
+		char c = _getch();
+		if (c == -32)
 		{
-			ID = "0";
+			c = _getch();
+			switch (c)
+			{
+			case 72: offset = (offset > 0) ? offset - 1 : 0; break;
+			case 80: offset = (offset + partsize < n) ? offset + 1 : n - partsize; break;
+			}
+			outputbox.clearbuffer();
 		}
-		ID.append(to_string(ListEmpl[i].EInfor.ID));
-		space1 = 5 + (int)No.length();
-		space2 = 15 - ((int)No.length() - 2) + (int)ID.length();
-		space3 = 23 - ((int)ID.length() - 2) + (int)ListEmpl[i].EInfor.getName().length();
-		cout << setw(space1) << No << setw(space2) << ID << setw(space3) << ListEmpl[i].EInfor.Name << endl;
+		if (c == '\r')
+		{
+			return;
+		}
 	}
+
 }
 
 void Staff::View_Infor_of_an_Empl()
 {
 	int id;
-	cout << "Input the ID of the employee who you want to view his/her information: ";
+	cout << "Input the ID of the employee you want to view: ";
 	cin >> id;
 	if (cin.fail() || id <= 0)
 	{
@@ -371,17 +401,17 @@ void Staff::View_Infor_of_an_Empl()
 			cin.ignore(2000, '\n');
 			id = 0;
 		}
-		outputbox.display("Invalid ID.\nThe viewing will be canceled." );
+		outputbox.display("Invalid ID.\nThe process will be canceled.");
 		return;
 	}
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
-		outputbox.display("There is no employee that has the ID " + to_string(id) + " in your list.\nThe viewing will be canceled." ) ;
+		outputbox.display("There is no employee possessing the ID " + to_string(id) + " in your list.\nThe process will be canceled.");
 		cin.ignore(1);
 		return;
 	}
-	cout << "The information of this employee is:" << endl;
+	cout << "The information of this employee:" << endl;
 	ListEmpl[index].View_Infor_Empl();
 }
 
@@ -390,7 +420,7 @@ void Staff::Reset_password_for_empl()
 	int id, choice = 1;
 	do
 	{
-		cout << "Please input the ID of the employee who you want to reset his/her password first: ";
+		cout << "Please input the ID of the employee you want to reset password: ";
 		cin >> id;
 		if (cin.fail() || id <= 0)
 		{
@@ -400,7 +430,7 @@ void Staff::Reset_password_for_empl()
 				cin.ignore(2000, '\n');
 			}
 			id = 0;
-			outputbox.display("Invalid ID.\nThis functionality will be canceled." ) ;
+			outputbox.display("Invalid ID.\nThis process will be canceled.");
 			return;
 		}
 		cout << "Are you sure that you want to reset the password of employee with the ID " << id << "?" << endl;
@@ -410,13 +440,13 @@ void Staff::Reset_password_for_empl()
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
-		outputbox.display("There is no employee that has the ID " + to_string(id) + " in your list.\nThis functionality will be canceled." ) ;
+		outputbox.display("There is no employee possessing the ID " + to_string(id) + " in your list.\nThe process will be canceled.");
 		cin.ignore(1);
 		return;
 	}
 	outputbox.display("Resetting password....");
 	ListEmpl[index].EInfor.ACC.Password = ListEmpl[index].EInfor.DoB.toStr();
-	outputbox.display("Successed.\nThe password of this employee's account right now is his/her date of birth.");
+	outputbox.display("Succeeded!");
 }
 
 void Staff::View_Profile()
@@ -429,8 +459,8 @@ void Staff::Manage_Employee_Menu()
 	int choice, choice2 = -1, choice3 = 0;
 	do
 	{
-		choice = mainmenu.operate("Manage Employee", "Import new list of employee from .csv file\nLoad existed list of employee from your device\nCreate new list of employee manually\nExit");
-		switch (choice+1)
+		choice = mainmenu.operate("Manage Employee", "Import new list of employee from .csv file\nLoad existed list of employee from your database\nCreate new list of employee manually\nExit");
+		switch (choice + 1)
 		{
 		case 4:
 		{
@@ -467,7 +497,6 @@ void Staff::Manage_Employee_Menu()
 		}
 		else
 		{
-			cout << "Here is your list:" << endl;
 			View_list_of_Empl();
 			//system("pause");
 			//system("CLS");
@@ -478,17 +507,19 @@ void Staff::Manage_Employee_Menu()
 			if (choice2 >= 0)
 			{
 				mainmenu.autowarp(0);
-				choice2 = mainmenu.operate("Manage Employee", "Add an employee to the list manually.\nEdit an employee's information.\nRemove an employee from the list.\nView list of employees.\nView information of an employee.\nReset password for an employee. \nCreate new records of a month. \nRemove records data. \nImport records data from csv file. \nEdit record of an employee. \nView records of all employees. \nClear record of an employee. \nView salary of all employees");
-				switch (choice2+1)
+				choice2 = mainmenu.operate("Manage Employee", "Exit\nAdd an employee manually.\nEdit an employee's information.\nRemove an employee.\nView list of employees.\nView information of an employee.\nReset password for an employee. \nCreate new records of a month. \nRemove records data. \nImport records data from csv file. \nEdit record of an employee. \nView records of all employees. \nClear record of an employee. \nView salary of all employees");
+				switch (choice2)
 				{
-				case 99:
+				case 0:
 				{
-					cin.ignore(1);
-					cout << "Please wait while we are saving your work before you return to the previous menu." << endl;
+					//cin.ignore(1);					
+					outputbox.display("Please wait while saving data before returning to the previous menu.");
 					SaveInfortoTextfile();
 					ListEmpl.clear();
-					cout << "Returning to previous menu." << endl;
-					break;
+					outputbox.display("Returning to previous menu.");
+					mainmenu.clear();
+					mainmenu.autowarp(1);
+					return;
 				}
 				case 1:
 				{
@@ -510,7 +541,6 @@ void Staff::Manage_Employee_Menu()
 				}
 				case 4:
 				{
-					cout << "Your list of employees:" << endl;
 					View_list_of_Empl();
 					break;
 				}
@@ -521,7 +551,7 @@ void Staff::Manage_Employee_Menu()
 				}
 				case 6:
 				{
-					cout << "Start reseting the password for your employee." << endl;
+					cout << "Start reseting the password for an employee." << endl;
 					Reset_password_for_empl();
 					break;
 				}
@@ -562,9 +592,7 @@ void Staff::Manage_Employee_Menu()
 				}
 				}
 			}
-			//system("pause");
-			//system("CLS");
-		} while (choice2+1 != 7);
+		} while (choice2 != 0);
 	} while (choice != 0);
 }
 
@@ -595,7 +623,7 @@ void Staff::editRecordOfAnEmployee()
 	index = employeeRecords->getIndex(ID);
 	if (index == -1)
 	{
-		cout << "There is no employee that has the ID " << ID << " in records database.\n";
+		cout << "There is no employee possessing the ID " << ID << " in records database.\n";
 		cout << "You should recheck the data.\n";
 		return;
 	}
@@ -664,7 +692,7 @@ void Staff::clearRecordOfAnEmployee()
 	index = employeeRecords->getIndex(ID);
 	if (index == -1)
 	{
-		cout << "There is no employee that has the ID " << ID << " in records database.\n";
+		cout << "There is no employee possessing the ID " << ID << " in records database.\n";
 		cout << "You should recheck the data.\n";
 		return;
 	}
@@ -689,7 +717,7 @@ void Staff::viewRecords()
 		index = employeeRecords->getIndex(ListEmpl[i].EInfor.getID());
 		if (index == -1)
 		{
-			cout << "There is no employee that has the ID " << ListEmpl[i].EInfor.getID() << " in records database.\n";
+			cout << "There is no employee possessing the ID " << ListEmpl[i].EInfor.getID() << " in records database.\n";
 			cout << "You should recheck the data." << endl;
 			continue;
 		}

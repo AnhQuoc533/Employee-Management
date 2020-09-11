@@ -88,6 +88,7 @@ public:
 	string capitalize_name();
 	void view_profile();
 	void section();
+	//INFORMATION
 	void ImportListEmpfromCsv();
 	void SaveInfortoTextfile();
 	void LoadfromTextfile();
@@ -101,6 +102,7 @@ public:
 	void View_Profile();
 	void Reset_password_for_empl();
 	void Manage_Employee_Menu();
+	//RECORD
 	void createRecords();
 	void editRecordOfAnEmployee();
 	void removeRecords();
