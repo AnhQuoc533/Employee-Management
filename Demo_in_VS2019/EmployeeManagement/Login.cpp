@@ -21,11 +21,11 @@ int main() {
 	while (true) {
 		if (welcome() != 1)
 			return 0;
-		system("cls");
+		//system("cls");
 		Account A;
 		while (!A.login()) {
 			choice = incorrect_psw();
-			if (choice == 0)
+			if (choice == 1)
 				return 0;
 			system("cls");
 		}

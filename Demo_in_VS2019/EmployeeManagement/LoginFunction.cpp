@@ -3,7 +3,11 @@
 
 int welcome() {
 	int choice;
-	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+	screenctrl* screen = screenctrl::instance();
+	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() / 2-4, 0);
+	menu.setalign(1,1);
+	choice = menu.operate("EMPLOYEE MANAGEMENT SYSTEM ", "Login\nExit\n")+1;
+	/*HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	cout << "\t\t\t\t\t\t\t" << "*************************************************************\n";
 	SetConsoleTextAttribute(h, 13);
 	cout << "\t\t\t\t\t\t\t\t\t " << "____________________________\n\n";
@@ -16,7 +20,7 @@ int welcome() {
 	SetConsoleTextAttribute(h, 15);
 	cout << "\t\t\t\t\t\t\t" << "*************************************************************\n";
 	cout << "\t\t\t\t\t\t\t\t\t" << "Choose your action: ";
-	cin >> choice;
+	cin >> choice;*/
 	return choice;
 }
 
@@ -43,7 +47,11 @@ void asteriskEncode(string &psw) {
 }
 
 bool Account::login() {
-	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+	screenctrl* screen = screenctrl::instance();
+	graphical_inputbox inputbox(screen->getbufferw() / 2-15, screen->getbufferh() / 2, 30, 3);
+	inputbox.input("USERNAME: ", Username);
+	inputbox.input("PASSWORD: ", Password);
+	/*HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(h, 14);
 	cout << "\n\n";
 	cout << "\t\t\t\t\t\t\t\t\t" << "USERNAME: ";
@@ -53,7 +61,7 @@ bool Account::login() {
 	cout << "\t\t\t\t\t\t\t\t\t" << "PASSWORD: ";
 	SetConsoleTextAttribute(h, 15);
 	asteriskEncode(Password);
-	bar2(20);
+	bar2(20);*/
 	return openfiles();
 }
 
@@ -129,7 +137,12 @@ void clonefile(ifstream &in) {
 
 int incorrect_psw() {
 	int choice;
-	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+	outputbox.display("The username or password is incorrect.");
+	screenctrl* screen = screenctrl::instance();
+	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() - 7, 0);
+	menu.setalign(1, 1);
+	choice = menu.operate("Action", "Try again\nExit\n");
+	/*HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(h, 12);
 	cout << "\t\t\t\t\t\t\t\t" << "  The username or password is incorrect.\n";
 	SetConsoleTextAttribute(h, 10);
@@ -138,7 +151,7 @@ int incorrect_psw() {
 	cout << "0.Exit\n";
 	SetConsoleTextAttribute(h, 15);
 	cout << " \t\t\t\t\t\t\t\t  Choose your action: ";
-	cin >> choice;
+	cin >> choice;*/
 	return choice;
 }
 
