@@ -11,7 +11,7 @@ using namespace std;
 #define GOOD 0xA
 #define BAD 0xC
 #define WHITE 15
-#define WIDTH 1360
+#define WIDTH 1380
 #define HEIGHT 768
 #define OFX 10
 #define OFY 5

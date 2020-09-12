@@ -63,6 +63,7 @@ private:
 	double Salary = 0;
 	int logday, logmonth, logyear;
 	bool record[31];
+	void boardsetup();
 public:
 	Employee();
 	void View_Infor_Empl();
