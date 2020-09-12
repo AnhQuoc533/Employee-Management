@@ -519,7 +519,8 @@ void Staff::Manage_Employee_Menu()
 					outputbox.display("Returning to previous menu.");
 					mainmenu.clear();
 					mainmenu.autowarp(1);
-					return;
+					//return;
+					break;
 				}
 				case 1:
 				{

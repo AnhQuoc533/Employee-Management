@@ -62,6 +62,8 @@ bool Account::login() {
 	SetConsoleTextAttribute(h, 15);
 	asteriskEncode(Password);
 	bar2(20);*/
+	graphical_loader loader(2, screen->getbufferh() - 5, 20, "Check");
+	loader.load(30);
 	return openfiles();
 }
 
@@ -106,7 +108,9 @@ int Account::track(ifstream &f) {
 
 int logged() {
 	int choice;
-	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+	//graphical_menu menu(OFX, OFY, 0);
+	choice = mainmenu.operate("Commands", "Show privileged actions\nView profile\nChange password\nLog out\n")+1;
+	/*HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	cout << "1. Show privileged actions\n";
 	cout << "2. View profile\n";
 	cout << "3. Change password\n";
@@ -115,7 +119,7 @@ int logged() {
 	SetConsoleTextAttribute(h, 15);
 	cout << "Choose your action: ";
 	cin >> choice;
-	system("cls");
+	system("cls");*/
 	return choice;
 }
 
@@ -248,7 +252,8 @@ void Account::changepsw() {
 void Staff::section() {
 	int choice;
 	while (true) {
-		system("cls");
+		choice = mainmenu.operate("Privileged actions", "Back\nInformation\nRecord\n");
+		/*system("cls");
 		cout << "__________________________________________________________\n\n";
 		cout << "\t\t1. Information\n";
 		cout << "\t\t2. Record\n";
@@ -256,7 +261,7 @@ void Staff::section() {
 		cout << "__________________________________________________________\n\n";
 		cout << "Choose a section: ";
 		cin >> choice;
-		system("cls");
+		system("cls");*/
 		switch (choice) {
 		case 1:
 			Manage_Employee_Menu();
@@ -265,6 +270,7 @@ void Staff::section() {
 
 			break;
 		case 0:
+			mainmenu.clear();
 			return;
 		}
 	}
@@ -273,10 +279,11 @@ void Staff::section() {
 void Account::StaffLogin(int choice) {
 	Staff admin(*this);
 	while (choice != 0) {
-		system("cls");
+		outputbox.display("WELCOME, STAFF " + admin.capitalize_name());
+		/*system("cls");
 		cout << "__________________________________________________________\n\n";
 		cout << "\t\tWELCOME, STAFF " << admin.capitalize_name() << endl << endl;
-		cout << "__________________________________________________________\n\n";
+		cout << "__________________________________________________________\n\n";*/
 		choice = logged();
 		if (choice == 1)
 			admin.section();
