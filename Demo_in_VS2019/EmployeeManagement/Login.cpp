@@ -30,12 +30,10 @@ int main() {
 			system("cls");
 		}
 		system("cls");
-		if (!A.get_role()) {
+		if (!A.get_role())
 			A.StaffLogin(choice);
-		}
-		else {
-			//A.EmployeeLogin(choice);
-		}
+		else
+			A.EmployeeLogin(choice);
 		system("cls");
 	}
 }

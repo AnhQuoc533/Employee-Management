@@ -113,7 +113,6 @@ int incorrect_psw() {
 	return choice;
 }
 
-//Bug needs fixing!!!
 void Account::changeData(ofstream &out) {
 	ifstream ftmp;
 	ftmp.open("temp.txt");
@@ -209,7 +208,7 @@ void Staff::section() {
 		choice = mainmenu.operate("Privileged actions", "Information\nRecord\nBack\n") + 1;
 		switch (choice) {
 		case 1:
-			Manage_Employee_Menu();
+			Manage_Infor_Menu();
 			break;
 		case 2:
 
@@ -235,60 +234,19 @@ void Account::StaffLogin(int choice) {
 	}
 }
 
-/*void Account::EmployeeLogin(int choice) {
-	StdLogin std;
-	getinfoStd(A, std);
-	string name = std.fullname;
-	transform(name.begin(), name.end(), name.begin(), toupper);
-	while (choice != 0) {
-		cout << "__________________________________________________________\n\n";
-		cout << "WELCOME, " << name << endl << endl;
-		cout << "__________________________________________________________\n\n";
+void Account::EmployeeLogin(int choice) {
+	Employee client(*this);
+	client.loadEmplData(*this);
+	while (choice != 4) {
+		outputbox.display("WELCOME, " + capitalize_name(client.employee_name()));
 		choice = logged();
-		if (choice == 1) {
-			int id = stoi(A.username);
-
-		}
-		if (choice == 2) {
-			cout << "__________________________________________________________\n\n";
-			cout << "ID: " << A.username << endl;
-			cout << "Fullname: " << std.fullname << endl;
-			cout << "Gender: " << std.gender << endl;
-			cout << "Day of Birth:" << (std.DoB.day > 9 ? " " : " 0") << std.DoB.day;
-			cout << (std.DoB.month > 9 ? "/" : "/0") << std.DoB.month;
-			cout << '/' << std.DoB.year << endl;
-			cout << "Class: " << std.classname << endl;
-			cout << "__________________________________________________________\n";
-			system("pause");
-		}
-		if (choice == 3) {
-			changepswStd(A, std.classname);
-		}
-		system("cls");
+		if (choice == 1)
+			client.EmployeeMenu();
+		else if (choice == 2)
+			client.View_Infor_Empl();
+		if (choice == 3)
+			changepsw();
 	}
-}*/
-
-void bar2(int n)
-{
-	const char a = (char)177, b = (char)177;
-	cout << "\n\n\n\t\t\t\t\t\t\t\t\t\tLOADING.....";
-	cout << "\n\n\n";
-	cout << "\t\t\t\t\t\t\t\t\t";
-	cout << "0% ";
-	for (int i = 0; i <= 25; i++)
-	{
-		cout << a;
-		Sleep(n);
-	}
-	cout << "\r";
-	cout << "\t\t\t\t\t\t\t\t\t";
-	for (int i = 0; i <= 25; i++)
-	{
-		cout << b;
-		Sleep(n);
-	}
-	cout << " 100%" << endl;
-	cout << "\n\t\t\t\t\t\t\t\t\t\t  DONE!\n\n";
 }
 
 string capitalize_name(string name) {

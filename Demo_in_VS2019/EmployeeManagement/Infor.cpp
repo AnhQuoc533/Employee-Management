@@ -1,6 +1,6 @@
 #include "Employee_Management.h"
 
-Infor::Infor(Account acc) : Infor() {
+Infor::Infor(Account acc) {
 	ACC = acc;
 }
 
@@ -61,7 +61,6 @@ void Infor::InputInfor()
 
 void Infor::OutputInfor()
 {
-	cout << "ID: " << ID << endl;
 	cout << "Name: " << Name << endl;
 	cout << "Gender: ";
 	if (Gender == 'M' || Gender == 'm')
@@ -75,6 +74,7 @@ void Infor::OutputInfor()
 	cout << "Date of birth: " << DoB << endl;
 	cout << "Phone: " << Phone << endl;
 	cout << "Address: " << Address << endl;
+	system("pause");
 }
 
 void Infor::EditInfor()

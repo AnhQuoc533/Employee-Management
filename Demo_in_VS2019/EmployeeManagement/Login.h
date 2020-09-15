@@ -38,6 +38,5 @@ int logged();
 void clonefile(ifstream&);
 int incorrect_psw();
 string capitalize_name(string);
-void bar2(int);
 
 #endif

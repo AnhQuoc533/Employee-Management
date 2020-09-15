@@ -34,7 +34,7 @@ Record::Record()
 	fin.close();
 }
 
-Record::Record(string recordName)
+void Record::reload(string recordName)
 {
 	Date day(stoi(recordName.substr(2,4)), stoi(recordName.substr(0, 2)), 1);
 	ifstream fin;

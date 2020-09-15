@@ -41,9 +41,9 @@ private:
 	vector<int*> records;
 	string filename;
 	int nCol;
+	void reload(string recordName);
 public:
 	Record();
-	Record(string recordName);
 	~Record();
 	void import(ifstream& fin);
 	void edit(int index, unsigned day, bool status);
@@ -66,6 +66,8 @@ private:
 	void boardsetup();
 public:
 	Employee();
+	Employee(Account);
+	string employee_name();
 	void View_Infor_Empl();
 	void loadEmplData(Account);
 	bool loadEmplRecord(int month);
@@ -75,6 +77,7 @@ public:
 	void viewAnnualRecord();
 	void viewAnnualSalary() {}
 	void EmployeeMenu();
+
 	friend class Staff;
 };
 
@@ -103,7 +106,7 @@ public:
 	void View_Infor_of_an_Empl();
 	void View_Profile();
 	void Reset_password_for_empl();
-	void Manage_Employee_Menu();
+	void Manage_Infor_Menu();
 	//RECORD
 	void createRecords();
 	void editRecordOfAnEmployee();

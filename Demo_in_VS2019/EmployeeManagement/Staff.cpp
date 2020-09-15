@@ -454,12 +454,12 @@ void Staff::View_Profile()
 	StInfor.OutputInfor();
 }
 
-void Staff::Manage_Employee_Menu()
+void Staff::Manage_Infor_Menu()
 {
 	int choice, choice2 = -1, choice3 = 0;
 	do
 	{
-		choice = mainmenu.operate("Manage Employee", "Import new list of employee from .csv file\nLoad existed list of employee from your database\nCreate new list of employee manually\nExit");
+		choice = mainmenu.operate("MANAGE INFORMATION", "Import new list of employee from .csv file\nLoad existed list of employee from your database\nCreate new list of employee manually\nExit");
 		switch (choice + 1)
 		{
 		case 4:
@@ -743,7 +743,7 @@ void Staff::viewSalaryTable()
 }
 
 string Staff::staff_name() {
-	return StInfor.getName();
+	return StInfor.Name;
 }
 
 void Staff::load_profile() {
@@ -773,21 +773,6 @@ void Staff::load_profile() {
 }
 
 void Staff::view_profile() {
-	cout << "__________________________________________________________\n\n";
 	cout << "Username: " << StInfor.ACC.Username << endl;
-	cout << "Name: " << StInfor.Name << endl;
-	cout << "Gender: ";
-	if (StInfor.Gender == 'M' || StInfor.Gender == 'm')
-	{
-		cout << "Male" << endl;
-	}
-	else if (StInfor.Gender == 'F' || StInfor.Gender == 'f')
-	{
-		cout << "Female" << endl;
-	}
-	cout << "Date of birth: " << StInfor.DoB << endl;
-	cout << "Phone: " << StInfor.Phone << endl;
-	cout << "Address: " << StInfor.Address << endl;
-	cout << "__________________________________________________________\n";
-	system("pause");
+	StInfor.OutputInfor();
 }
