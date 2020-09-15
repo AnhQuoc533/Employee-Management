@@ -83,7 +83,7 @@ int Account::track(ifstream &f) {
 
 int logged() {
 	int choice;
-	choice = mainmenu.operate("Commands", "Show privileged actions\nView profile\nChange password\nLog out\n") + 1;
+	choice = mainmenu.operate("COMMANDS", "Show privileged actions\nView profile\nChange password\nLog out\n") + 1;
 	return choice;
 }
 
@@ -109,7 +109,7 @@ int incorrect_psw() {
 	screenctrl* screen = screenctrl::instance();
 	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() - 7, 0);
 	menu.setalign(1, 1);
-	choice = menu.operate("Action", "Try again\nExit\n");
+	choice = menu.operate("ACTION", "Try again\nExit\n");
 	return choice;
 }
 
@@ -162,14 +162,12 @@ void Account::changepsw() {
 		cout << "Enter current password: ";
 		asteriskEncode(tmp1);
 		if (tmp1 != Password) {
-			HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-			SetConsoleTextAttribute(h, 12);
-			cout << "The password is incorrect.\n";
-			SetConsoleTextAttribute(h, 15);
-			cout << "1. Try again\t\t0. Back\n";
-			cout << "Choose your action:\t";
-			cin >> choice;
-			if (choice == 0)
+			outputbox.display("The password is incorrect.");
+			screenctrl* screen = screenctrl::instance();
+			graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() - 7, 0);
+			menu.setalign(1, 1);
+			choice = mainmenu.operate("ACTION", "Try again\nBack\n");
+			if (choice)
 				return;
 			system("cls");
 		}
@@ -179,14 +177,12 @@ void Account::changepsw() {
 			cout << "Enter new password again: ";
 			asteriskEncode(tmp2);
 			if (tmp1 != tmp2) {
-				HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-				SetConsoleTextAttribute(h, 12);
-				cout << "Passwords do not match!\n";
-				SetConsoleTextAttribute(h, 15);
-				cout << "1. Try again\t\t0. Back\n";
-				cout << "Choose your action:\t";
-				cin >> choice;
-				if (choice == 0)
+				outputbox.display("Passwords do not match!");
+				screenctrl* screen = screenctrl::instance();
+				graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() - 7, 0);
+				menu.setalign(1, 1);
+				choice = mainmenu.operate("ACTION", "Try again\nBack\n");
+				if (choice)
 					return;
 				else {
 					system("cls");
@@ -200,24 +196,7 @@ void Account::changepsw() {
 			}
 		}
 	}
-}
-
-void Staff::section() {
-	int choice;
-	while (true) {
-		choice = mainmenu.operate("Privileged actions", "Information\nRecord\nBack\n") + 1;
-		switch (choice) {
-		case 1:
-			Manage_Infor_Menu();
-			break;
-		case 2:
-
-			break;
-		case 3:
-			mainmenu.clear();
-			return;
-		}
-	}
+	outputbox.display("Your password is changed successfully");
 }
 
 void Account::StaffLogin(int choice) {

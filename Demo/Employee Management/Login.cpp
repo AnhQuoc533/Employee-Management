@@ -5,15 +5,10 @@ screenctrl* screenctrl::inst = NULL;
 int main() {
 	screenctrl* screen = screenctrl::instance();
 	screen->init(WIDTH, HEIGHT);
-	
 	mainmenu.setpos(OFX, OFY);
-	
 	graphical_loader loader(1, screen->getbufferh() / 2, screen->getbufferw() - 6, "Load");
-	loader.load(10);
-	
 	outputbox.init(1, screen->getbufferh() - 4, screen->getbufferw() - 1, 4);
-	outputbox.display("Welcome");
-
+	loader.load(10);
 	//loader.reset(2, screen->getbufferh() - 5, 20);
 	//loader.load(50);
 

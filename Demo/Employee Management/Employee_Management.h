@@ -117,6 +117,7 @@ public:
 	void clearRecordOfAnEmployee();
 	void viewRecords();
 	void viewSalaryTable();
+	void Manage_Record_Menu();
 };
 
 #endif
