@@ -453,3 +453,10 @@ graphical_inputbox::graphical_inputbox(int posx, int posy, int width, int height
 	box.init(x, y, w, h, 1);
 	box.display(WHITE);
 }
+
+void graphical_inputbox::inputhidden(string content, string& var)
+{
+	warp(x + 1, y + offset++);
+	cout << content;
+	asteriskEncode(var);
+}

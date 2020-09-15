@@ -109,6 +109,7 @@ public:
 	graphical_inputbox(int posx, int posy, int width, int height);
 	template <class T>
 	void input(string content, T &var);
+	void inputhidden(string content, string& var);
 };
 
 class graphical_loader :public graphics_abstract

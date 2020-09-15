@@ -50,7 +50,7 @@ bool Account::login() {
 	screenctrl* screen = screenctrl::instance();
 	graphical_inputbox inputbox(screen->getbufferw() / 2-15, screen->getbufferh() / 2, 30, 3);
 	inputbox.input("USERNAME: ", Username);
-	inputbox.input("PASSWORD: ", Password);
+	inputbox.inputhidden("PASSWORD: ", Password);
 	/*HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(h, 14);
 	cout << "\n\n";
