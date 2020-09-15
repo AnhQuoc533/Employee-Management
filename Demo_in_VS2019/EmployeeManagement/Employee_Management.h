@@ -87,9 +87,9 @@ private:
 public:
 	Staff(Account);
 	~Staff() { delete employeeRecords; }
-	string capitalize_name();
 	void view_profile();
 	void section();
+	string staff_name();
 	//INFORMATION
 	void ImportListEmpfromCsv();
 	void SaveInfortoTextfile();

@@ -43,6 +43,7 @@ private:
 	int nCol;
 public:
 	Record();
+	Record(string recordName);
 	~Record();
 	void import(ifstream& fin);
 	void edit(int index, unsigned day, bool status);
@@ -62,6 +63,7 @@ private:
 	double Salary = 0;
 	int logday, logmonth, logyear;
 	bool record[31];
+	void boardsetup();
 public:
 	Employee();
 	void View_Infor_Empl();
@@ -85,9 +87,9 @@ private:
 public:
 	Staff(Account);
 	~Staff() { delete employeeRecords; }
-	string capitalize_name();
 	void view_profile();
 	void section();
+	string staff_name();
 	//INFORMATION
 	void ImportListEmpfromCsv();
 	void SaveInfortoTextfile();

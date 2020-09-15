@@ -466,7 +466,6 @@ void Staff::Manage_Employee_Menu()
 		{
 			mainmenu.clear();
 			return;
-			break;
 		}
 		case 1:
 		{
@@ -511,8 +510,7 @@ void Staff::Manage_Employee_Menu()
 				switch (choice2)
 				{
 				case 0:
-				{
-					//cin.ignore(1);					
+				{	
 					outputbox.display("Please wait while saving data before returning to the previous menu.");
 					SaveInfortoTextfile();
 					ListEmpl.clear();
@@ -744,10 +742,8 @@ void Staff::viewSalaryTable()
 	cout << "Total salary: " << setw(39) << total << endl;
 }
 
-string Staff::capitalize_name() {
-	string name = StInfor.getName();
-	transform(name.begin(), name.end(), name.begin(), toupper);
-	return name;
+string Staff::staff_name() {
+	return StInfor.getName();
 }
 
 void Staff::load_profile() {

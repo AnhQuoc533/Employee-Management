@@ -6,21 +6,7 @@ int welcome() {
 	screenctrl* screen = screenctrl::instance();
 	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() / 2-4, 0);
 	menu.setalign(1,1);
-	choice = menu.operate("EMPLOYEE MANAGEMENT SYSTEM ", "Login\nExit\n")+1;
-	/*HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-	cout << "\t\t\t\t\t\t\t" << "*************************************************************\n";
-	SetConsoleTextAttribute(h, 13);
-	cout << "\t\t\t\t\t\t\t\t\t " << "____________________________\n\n";
-	cout << "\t\t\t\t\t\t\t\t\t" << "| EMPLOYEE MANAGEMENT SYSTEM |\n";
-	cout << "\t\t\t\t\t\t\t\t\t " << "____________________________\n\n";
-	SetConsoleTextAttribute(h, 10);
-	cout << "\t\t\t\t\t\t\t\t\t" << "1. <Log in>\n";
-	SetConsoleTextAttribute(h, 12);
-	cout << "\t\t\t\t\t\t\t\t\t" << "0. <Exit>\n\n";
-	SetConsoleTextAttribute(h, 15);
-	cout << "\t\t\t\t\t\t\t" << "*************************************************************\n";
-	cout << "\t\t\t\t\t\t\t\t\t" << "Choose your action: ";
-	cin >> choice;*/
+	choice = menu.operate("EMPLOYEE MANAGEMENT SYSTEM ", "Login\nExit\n") + 1;
 	return choice;
 }
 
@@ -51,17 +37,6 @@ bool Account::login() {
 	graphical_inputbox inputbox(screen->getbufferw() / 2-15, screen->getbufferh() / 2, 30, 3);
 	inputbox.input("USERNAME: ", Username);
 	inputbox.inputhidden("PASSWORD: ", Password);
-	/*HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(h, 14);
-	cout << "\n\n";
-	cout << "\t\t\t\t\t\t\t\t\t" << "USERNAME: ";
-	SetConsoleTextAttribute(h, 15);
-	cin >> Username;
-	SetConsoleTextAttribute(h, 14);
-	cout << "\t\t\t\t\t\t\t\t\t" << "PASSWORD: ";
-	SetConsoleTextAttribute(h, 15);
-	asteriskEncode(Password);
-	bar2(20);*/
 	graphical_loader loader(2, screen->getbufferh() - 5, 20, "Check");
 	loader.load(30);
 	return openfiles();
@@ -108,18 +83,7 @@ int Account::track(ifstream &f) {
 
 int logged() {
 	int choice;
-	//graphical_menu menu(OFX, OFY, 0);
-	choice = mainmenu.operate("Commands", "Show privileged actions\nView profile\nChange password\nLog out\n")+1;
-	/*HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-	cout << "1. Show privileged actions\n";
-	cout << "2. View profile\n";
-	cout << "3. Change password\n";
-	SetConsoleTextAttribute(h, 12);
-	cout << "0. Log out\n\n";
-	SetConsoleTextAttribute(h, 15);
-	cout << "Choose your action: ";
-	cin >> choice;
-	system("cls");*/
+	choice = mainmenu.operate("Commands", "Show privileged actions\nView profile\nChange password\nLog out\n") + 1;
 	return choice;
 }
 
@@ -146,16 +110,6 @@ int incorrect_psw() {
 	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() - 7, 0);
 	menu.setalign(1, 1);
 	choice = menu.operate("Action", "Try again\nExit\n");
-	/*HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(h, 12);
-	cout << "\t\t\t\t\t\t\t\t" << "  The username or password is incorrect.\n";
-	SetConsoleTextAttribute(h, 10);
-	cout << "\t\t\t\t\t\t\t\t" << "\t1. Try again\t";
-	SetConsoleTextAttribute(h, 12);
-	cout << "0.Exit\n";
-	SetConsoleTextAttribute(h, 15);
-	cout << " \t\t\t\t\t\t\t\t  Choose your action: ";
-	cin >> choice;*/
 	return choice;
 }
 
@@ -252,16 +206,7 @@ void Account::changepsw() {
 void Staff::section() {
 	int choice;
 	while (true) {
-		choice = mainmenu.operate("Privileged actions", "Back\nInformation\nRecord\n");
-		/*system("cls");
-		cout << "__________________________________________________________\n\n";
-		cout << "\t\t1. Information\n";
-		cout << "\t\t2. Record\n";
-		cout << "\t\t0. Back\n";
-		cout << "__________________________________________________________\n\n";
-		cout << "Choose a section: ";
-		cin >> choice;
-		system("cls");*/
+		choice = mainmenu.operate("Privileged actions", "Information\nRecord\nBack\n") + 1;
 		switch (choice) {
 		case 1:
 			Manage_Employee_Menu();
@@ -269,7 +214,7 @@ void Staff::section() {
 		case 2:
 
 			break;
-		case 0:
+		case 3:
 			mainmenu.clear();
 			return;
 		}
@@ -278,18 +223,14 @@ void Staff::section() {
 
 void Account::StaffLogin(int choice) {
 	Staff admin(*this);
-	while (choice != 0) {
-		outputbox.display("WELCOME, STAFF " + admin.capitalize_name());
-		/*system("cls");
-		cout << "__________________________________________________________\n\n";
-		cout << "\t\tWELCOME, STAFF " << admin.capitalize_name() << endl << endl;
-		cout << "__________________________________________________________\n\n";*/
+	while (choice != 4) {
+		outputbox.display("WELCOME, STAFF " + capitalize_name(admin.staff_name()));
 		choice = logged();
 		if (choice == 1)
 			admin.section();
-		if (choice == 2)
+		else if (choice == 2)
 			admin.view_profile();
-		if (choice == 3)
+		else if (choice == 3)
 			changepsw();
 	}
 }
@@ -348,4 +289,9 @@ void bar2(int n)
 	}
 	cout << " 100%" << endl;
 	cout << "\n\t\t\t\t\t\t\t\t\t\t  DONE!\n\n";
+}
+
+string capitalize_name(string name) {
+	transform(name.begin(), name.end(), name.begin(), toupper);
+	return name;
 }

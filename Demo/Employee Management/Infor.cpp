@@ -38,7 +38,7 @@ void Infor::InputInfor()
 				cin.ignore(2000, '\n');
 				ID = 0;
 			}
-			outputbox.display("Invalid input. Please input again." ) ;
+			outputbox.display("Invalid input. Please input again.");
 		}
 	} while (ID <= 0);
 	cin.ignore(1);
@@ -85,7 +85,7 @@ void Infor::EditInfor()
 		cout << "Which infor of this employee do you want to edit?" << endl;
 		graphical_menu menu;
 		choice = menu.operate("Field", "Name\nGender\nDate of birth\nPhone number\nAddress\n");
-		switch (choice+1)
+		switch (choice + 1)
 		{
 		case 0:
 		{
@@ -103,14 +103,11 @@ void Infor::EditInfor()
 		}
 		case 2:
 		{
-			//cin.ignore(1);
 			cout << "Editing the gender of the employee." << endl;
 			graphical_menu menu;
 			menu.setclear(0);
 			int choice = menu.operate("Gender", "Male\nFemale\n");
 			if (choice == 0) Gender = 'M'; else Gender = 'F';
-			/*cout << "Input new gender: ";
-			Gender = getchar();*/
 			break;
 		}
 		case 3:

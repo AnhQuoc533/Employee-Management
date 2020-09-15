@@ -8,10 +8,10 @@ int main() {
 	
 	mainmenu.setpos(OFX, OFY);
 	
-	graphical_loader loader(1, screen->getbufferh()/2, screen->getbufferw()-6, "Load");
+	graphical_loader loader(1, screen->getbufferh() / 2, screen->getbufferw() - 6, "Load");
 	loader.load(10);
 	
-	outputbox.init(1, screen->getbufferh() - 4, screen->getbufferw()-1, 4);
+	outputbox.init(1, screen->getbufferh() - 4, screen->getbufferw() - 1, 4);
 	outputbox.display("Welcome");
 
 	//loader.reset(2, screen->getbufferh() - 5, 20);

@@ -103,14 +103,11 @@ void Infor::EditInfor()
 		}
 		case 2:
 		{
-			//cin.ignore(1);
 			cout << "Editing the gender of the employee." << endl;
 			graphical_menu menu;
 			menu.setclear(0);
 			int choice = menu.operate("Gender", "Male\nFemale\n");
 			if (choice == 0) Gender = 'M'; else Gender = 'F';
-			/*cout << "Input new gender: ";
-			Gender = getchar();*/
 			break;
 		}
 		case 3:

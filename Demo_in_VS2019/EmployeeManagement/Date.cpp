@@ -218,13 +218,6 @@ Date Date::operator+(const int a)
 	long temp = (long)temp1;
 	temp = temp + a;
 	temp1.ConverLongtoDate(temp);
-	/*Date temp2;
-	while (count <= a)
-	{
-		temp2=temp1.Tomorrow();
-		count++;
-		temp1 = temp2;
-	}*/
 	return temp1;
 }
 
@@ -235,13 +228,6 @@ Date Date::operator-(const int a)
 	long temp = (long)temp1;
 	temp = temp - a;
 	temp1.ConverLongtoDate(temp);
-	/*Date temp2;
-	while (count <= a)
-	{
-		temp2 = temp1.Yesterday();
-		count++;
-		temp1 = temp2;
-	}*/
 	return temp1;
 }
 

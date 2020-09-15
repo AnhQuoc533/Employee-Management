@@ -5,12 +5,12 @@ screenctrl* screenctrl::inst = NULL;
 int main() {
 	screenctrl* screen = screenctrl::instance();
 	screen->init(WIDTH, HEIGHT);
-
+	
 	mainmenu.setpos(OFX, OFY);
-
+	
 	graphical_loader loader(1, screen->getbufferh() / 2, screen->getbufferw() - 6, "Load");
 	loader.load(10);
-
+	
 	outputbox.init(1, screen->getbufferh() - 4, screen->getbufferw() - 1, 4);
 	outputbox.display("Welcome");
 
@@ -21,11 +21,11 @@ int main() {
 	while (true) {
 		if (welcome() != 1)
 			return 0;
-		system("cls");
+		//system("cls");
 		Account A;
 		while (!A.login()) {
 			choice = incorrect_psw();
-			if (choice == 0)
+			if (choice == 1)
 				return 0;
 			system("cls");
 		}
