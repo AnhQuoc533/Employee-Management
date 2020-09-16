@@ -15,7 +15,7 @@ void Staff::section() {
 			Manage_Infor_Menu();
 			break;
 		case 2:
-
+			Manage_Record_Menu();
 			break;
 		case 3:
 			mainmenu.clear();
@@ -593,16 +593,6 @@ void Staff::Manage_Infor_Menu()
 	} while (choice != 0);
 }
 
-void Staff::Manage_Record_Menu() {
-	int choice = 0;
-	LoadfromTextfile();
-	if (ListEmpl.size() == 0) {
-		outputbox.display("No employee found. There is nothing to manange!");
-		mainmenu.clear();
-		return;
-	}
-}
-
 void Staff::createRecords()
 {
 	if (employeeRecords->hasData())
@@ -732,12 +722,18 @@ void Staff::viewRecords()
 	}
 }
 
-void Staff::RecordMenu()
+void Staff::Manage_Record_Menu()
 {
 	ifstream fin;
 	vector<string> months;
 	string tmp, menuOption;
 	int n, choice = 0, choice2 = 0;
+	LoadfromTextfile();
+	if (ListEmpl.size() == 0) {
+		outputbox.display("No employee found. There is nothing to manange!");
+		mainmenu.clear();
+		return;
+	}
 	fin.open("Month-Record.txt");
 	if (fin.is_open())
 	{

@@ -34,9 +34,9 @@ Record::Record()
 	fin.close();
 }
 
-void Record::reload(string recordName)
+Record::Record(string recordName)
 {
-	Date day(stoi(recordName.substr(2,4)), stoi(recordName.substr(0, 2)), 1);
+	Date day(stoi(recordName.substr(3,4)), stoi(recordName.substr(0, 2)), 1);
 	ifstream fin;
 	int* p;
 	filename = "Records-" + recordName + ".txt";
