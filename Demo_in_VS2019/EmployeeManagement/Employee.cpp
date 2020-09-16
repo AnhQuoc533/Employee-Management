@@ -75,10 +75,10 @@ bool Employee::loadEmplRecord(int month)
 			}
 		}
 		fi.close();
-		outputbox.display("Load successfully!");
+		//outputbox.display("Load successfully!");
 		return 1;
 	}
-	else outputbox.display("Can't load record for check-in.");
+	//else outputbox.display("Can't load record for check-in.");
 	return 0;
 }
 
@@ -119,25 +119,48 @@ void Employee::viewCheckin(int month)
 {
 	if (!loadEmplRecord(month)) return;
 	int sep = 5;
-	cout << "Month: " << month << left << setw(10) << "\nDay";
-	for (int i = 0; i < 31; i++) cout << setw(sep) << i + 1;
 
-	cout << setw(10) << left << "\nStatus: ";
+	graphical_box temp;
+	string word[] = { "January","February","March","April","May","June","July","August","September","October","November","December" };
+	cout << setw(10) << left << word[month - 1] << setw(2) << (char)179;
 	for (int i = 0; i < 31; i++)
 	{
 		cout << setw(sep);
-		if (record[i]) cout << "Yes"; else cout << "No";
-		
+		if (record[i]) //cout << "Yes"; else cout << "No";
+		{
+			temp.charColorate(GOOD);
+			cout << char(251);
+		}
+		else
+		{
+			temp.charColorate(BAD);
+			cout << "x";
+		}
 	}
+	cout << endl;
+	temp.charColorate(WHITE);
+}
+
+void Employee::boardsetup()
+{
+	int sep = 5;
+	cout << left << setw(10) << "Day" << setw(2) << (char)179;
+	for (int i = 0; i < 31; i++) cout << setw(sep) << i + 1;
+	cout << endl;
+	for (int i = 0; i < 31 * 5 + 12; i++)
+		if (i == 10) cout << (char)197; else cout << (char)196;
+	cout << endl;
 }
 
 void Employee::viewCheckin()
 {
+	boardsetup();
 	viewCheckin(logmonth);
 }
 
 void Employee::viewAnnualRecord()
 {
+	boardsetup();
 	for (int i = 1; i < 13; i++)
 	{
 		viewCheckin(i);
@@ -157,3 +180,4 @@ void Employee::EmployeeMenu()
 	case 4: return;
 	}
 }
+

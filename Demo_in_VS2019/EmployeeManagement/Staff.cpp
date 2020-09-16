@@ -360,13 +360,24 @@ void Staff::View_list_of_Empl()
 	int n = (int)ListEmpl.size();
 	int offset = 0;
 	screenctrl* screen = screenctrl::instance();
-	int partsize = screen->getbufferh() - 9 - TXTY;
+	int partsize = screen->getbufferh() - 11 - TXTY;
+	graphical_box temp;
 
 	while (1)
 	{
+		temp.turnCursor(0);
 		cout << "LIST OF EMPLOYEES:\n(press up/down to navigate)\n";
-		cout << setw(7) << "No" << setw(17) << "ID" << setw(27) << "Name" << endl;
-		if (offset != 0) cout << setw(7) << "..." << setw(18) << "..." << setw(25) << "..." << endl;
+		//cout << setw(7) << "No" << setw(17) << "ID" << setw(27) << "Name" << endl;
+		cout << setw(7) << "No" << setw(7) << (char)179 << setw(10) << "ID" << setw(15) << (char)179 << setw(12) << "Name" << endl;
+		for (int i = 0; i < 7 + 17 + 27+20; i++)
+			if (i == 13 || i == 13 + 25)
+			{
+				if (offset == 0) cout << (char)197;
+				else cout << (char)193;
+			}
+			else cout << (char)196;
+		cout << endl;
+		//if (offset != 0) cout << setw(7) << "..." << setw(18) << "..." << setw(25) << "..." << endl;
 		for (int i = offset; i < offset + partsize; i++)
 		{
 			ID.clear();
@@ -384,9 +395,9 @@ void Staff::View_list_of_Empl()
 			space1 = 5 + (int)No.length();
 			space2 = 15 - ((int)No.length() - 2) + (int)ID.length();
 			space3 = 23 - ((int)ID.length() - 2) + (int)ListEmpl[i].EInfor.getName().length();
-			cout << setw(space1) << No << setw(space2) << ID << setw(space3) << ListEmpl[i].EInfor.Name << endl;
+			cout << setw(space1) << No << setw(7) << (char)179 << setw(space2-7) << ID << setw(9) << (char)179 << setw(space3-9) << ListEmpl[i].EInfor.Name << endl;
 		}
-		if (offset + partsize != n) cout << setw(7) << "..." << setw(18) << "..." << setw(25) << "..." << endl;
+		if (offset + partsize != n) cout << setw(7) << "..." << setw(7) << (char)179 << setw(11) << "..." << setw(14) << (char)179 << setw(11) << "..." << endl;
 		char c = _getch();
 		if (c == -32)
 		{
@@ -395,13 +406,14 @@ void Staff::View_list_of_Empl()
 			{
 			case 72: offset = (offset > 0) ? offset - 1 : 0; break;
 			case 80: offset = (offset + partsize < n) ? offset + 1 : n - partsize; break;
-			}
-			outputbox.clearbuffer();
+			}			
 		}
 		if (c == '\r')
 		{
+			temp.turnCursor(1);
 			return;
 		}
+		outputbox.clearbuffer();
 	}
 
 }
