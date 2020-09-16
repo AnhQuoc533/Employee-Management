@@ -114,6 +114,7 @@ public:
 	void importRecords();
 	void clearRecordOfAnEmployee();
 	void viewRecords();
+	void RecordMenu();
 	void viewSalaryTable();
 	void Manage_Record_Menu();
 };
