@@ -41,6 +41,7 @@ private:
 	vector<int*> records;
 	string filename;
 	int nCol;
+	void reload(string recordName);
 public:
 	Record();
 	~Record();
@@ -62,8 +63,11 @@ private:
 	double Salary = 0;
 	int logday, logmonth, logyear;
 	bool record[31];
+	void boardsetup();
 public:
 	Employee();
+	Employee(Account);
+	string employee_name();
 	void View_Infor_Empl();
 	void loadEmplData(Account);
 	bool loadEmplRecord(int month);
@@ -73,6 +77,7 @@ public:
 	void viewAnnualRecord();
 	void viewAnnualSalary() {}
 	void EmployeeMenu();
+
 	friend class Staff;
 };
 
@@ -85,9 +90,9 @@ private:
 public:
 	Staff(Account);
 	~Staff() { delete employeeRecords; }
-	string capitalize_name();
 	void view_profile();
 	void section();
+	string staff_name();
 	//INFORMATION
 	void ImportListEmpfromCsv();
 	void SaveInfortoTextfile();
@@ -101,7 +106,7 @@ public:
 	void View_Infor_of_an_Empl();
 	void View_Profile();
 	void Reset_password_for_empl();
-	void Manage_Employee_Menu();
+	void Manage_Infor_Menu();
 	//RECORD
 	void createRecords();
 	void editRecordOfAnEmployee();
@@ -112,6 +117,7 @@ public:
 	void clearRecordOfAnEmployee();
 	void viewRecords();
 	void viewSalaryTable();
+	void Manage_Record_Menu();
 };
 
 #endif

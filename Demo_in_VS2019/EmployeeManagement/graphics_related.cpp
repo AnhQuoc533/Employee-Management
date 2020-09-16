@@ -150,7 +150,7 @@ int graphical_menu::operate()
 	screenctrl* screen = screenctrl::instance();
 	turnCursor(0);
 	evaluate(content, w, h);
-	if (title.length() > w) w = title.length()+1;
+	if (title.length() > w) w = (int)title.length()+1;
 	if (back)
 	{
 		back = 0;

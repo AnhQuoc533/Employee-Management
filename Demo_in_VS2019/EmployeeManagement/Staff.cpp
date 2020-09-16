@@ -6,6 +6,24 @@ Staff::Staff(Account acc) : StInfor(acc)
 	employeeRecords = new Record;
 }
 
+void Staff::section() {
+	int choice;
+	while (true) {
+		choice = mainmenu.operate("SECTION", "Information\nRecord\nBack\n") + 1;
+		switch (choice) {
+		case 1:
+			Manage_Infor_Menu();
+			break;
+		case 2:
+
+			break;
+		case 3:
+			mainmenu.clear();
+			return;
+		}
+	}
+}
+
 void Staff::SaveInfortoTextfile()
 {
 	ofstream fsave;
@@ -65,12 +83,12 @@ void Staff::LoadfromTextfile()
 	fload.open(namefile);
 	if (!fload.is_open())
 	{
-		outputbox.display("Cannot find the file " + namefile);
+		outputbox.display("Cannot open the file " + namefile);
 		return;
 	}
 	else
 	{
-		outputbox.display("Opened file " + namefile + " succeeded.\nStarting load its data to the program....");
+		outputbox.display("Opened file " + namefile + " succeeded.\nLoading data to the program....");
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
 		loader.load(30);
@@ -248,7 +266,7 @@ void Staff::Create_List_Empl_Manually()
 		Add_an_Empl_Manually();
 		cout << endl;
 	}
-	outputbox.display("The addition is completed.");
+	outputbox.display("The process is completed.");
 }
 
 void Staff::Edit_Infor_of_an_Empl()
@@ -332,7 +350,7 @@ void Staff::Remove_an_Empl()
 		ListEmpl[i].EInfor.No = ListEmpl[i].EInfor.getNo() - 1;
 	}
 	ListEmpl.erase(ListEmpl.begin() + index);
-	outputbox.display("Removed Successfully!"); // Thanh added.
+	outputbox.display("The employee was removed successfully!"); // Thanh added.
 }
 
 void Staff::View_list_of_Empl()
@@ -454,154 +472,142 @@ void Staff::View_Profile()
 	StInfor.OutputInfor();
 }
 
-void Staff::Manage_Employee_Menu()
+void Staff::Manage_Infor_Menu()
 {
-	int choice, choice2 = -1, choice3 = 0;
-	do
-	{
-		choice = mainmenu.operate("Manage Employee", "Import new list of employee from .csv file\nLoad existed list of employee from your database\nCreate new list of employee manually\nExit");
+	int choice = 0;
+	while (true) {
+		choice = mainmenu.operate("LOAD DATA", "Import new list of employee from .csv file\nLoad existed list of employee from your database\nCreate new list of employee manually\nExit");
 		switch (choice + 1)
 		{
-		case 4:
-		{
+			case 1:
+			{
+				ImportListEmpfromCsv();
+				break;
+			}
+			case 2:
+			{
+				LoadfromTextfile();
+				break;
+			}
+			case 3:
+			{
+				Create_List_Empl_Manually();
+				break;
+			}
+			case 4:
+			{
+				mainmenu.clear();
+				return;
+			}
+		}
+		if (ListEmpl.size() == 0) {
+			outputbox.display("No employee found. There is nothing to manange!");
 			mainmenu.clear();
-			return;
-			break;
-		}
-		case 1:
-		{
-			ImportListEmpfromCsv();
-			break;
-		}
-		case 2:
-		{
-			LoadfromTextfile();
-			break;
-		}
-		case 3:
-		{
-			Create_List_Empl_Manually();
-			break;
-		}
-		default:
-		{
-			cout << "Invalid choice." << endl;
-			break;
-		}
-		}
-		int n = (int)ListEmpl.size();
-		if (n == 0 && choice > 0 && choice <= 3)
-		{
-			cout << "There is nothing do to manage here." << endl;
-			choice2 = 0;
 		}
 		else
+			break;
+	}
+	do
+	{
+		mainmenu.autowarp(0);
+		choice = mainmenu.operate("MANAGE INFORMATION", "Exit\nAdd an employee\nEdit information of an employee\nRemove an employee\nView list of employees\nView information of an employee\nReset password of an employee\nCreate new records of a month\nRemove records data\nImport records data from csv file\nEdit record of an employee. \nView records of all employees\nClear record of an employee\nView salary of all employees");
+		switch (choice)
 		{
-			View_list_of_Empl();
-			//system("pause");
-			//system("CLS");
-			choice2 = 1;
-		}
-		do
-		{
-			if (choice2 >= 0)
-			{
-				mainmenu.autowarp(0);
-				choice2 = mainmenu.operate("Manage Employee", "Exit\nAdd an employee manually.\nEdit an employee's information.\nRemove an employee.\nView list of employees.\nView information of an employee.\nReset password for an employee. \nCreate new records of a month. \nRemove records data. \nImport records data from csv file. \nEdit record of an employee. \nView records of all employees. \nClear record of an employee. \nView salary of all employees");
-				switch (choice2)
-				{
-				case 0:
-				{
-					//cin.ignore(1);					
-					outputbox.display("Please wait while saving data before returning to the previous menu.");
-					SaveInfortoTextfile();
-					ListEmpl.clear();
-					outputbox.display("Returning to previous menu.");
-					mainmenu.clear();
-					mainmenu.autowarp(1);
-					//return;
-					break;
-				}
-				case 1:
-				{
-					cout << "Start adding an employee to the list manually." << endl;
-					Add_an_Empl_Manually();
-					break;
-				}
-				case 2:
-				{
-					cout << "Start editing an employee's information." << endl;
-					Edit_Infor_of_an_Empl();
-					break;
-				}
-				case 3:
-				{
-					cout << "Start removing an employee from the list." << endl;
-					Remove_an_Empl();
-					break;
-				}
-				case 4:
-				{
-					View_list_of_Empl();
-					break;
-				}
-				case 5:
-				{
-					View_Infor_of_an_Empl();
-					break;
-				}
-				case 6:
-				{
-					cout << "Start reseting the password for an employee." << endl;
-					Reset_password_for_empl();
-					break;
-				}
-				case 7:
-				{
-					createRecords();
-					break;
-				}
-				case 8:
-				{
-					removeRecords();
-					break;
-				}
-				case 9:
-				{
-					importRecords();
-					break;
-				}
-				case 10:
-				{
-					editRecordOfAnEmployee();
-					break;
-				}
-				case 11:
-				{
-					viewRecords();
-					break;
-				}
-				case 12:
-				{
-					clearRecordOfAnEmployee();
-					break;
-				}
-				case 13:
-				{
-					viewSalaryTable();
-					break;
-				}
-				}
+			case 0:
+			{	
+				outputbox.display("Please wait while saving data before returning to the previous menu.");
+				SaveInfortoTextfile();
+				ListEmpl.clear();
+				outputbox.display("Returning to previous menu....");
+				mainmenu.clear();
+				mainmenu.autowarp(1);
+				break;
 			}
-		} while (choice2 != 0);
+			case 1:
+			{
+				Add_an_Empl_Manually();
+				break;
+			}
+			case 2:
+			{
+				Edit_Infor_of_an_Empl();
+				break;
+			}
+			case 3:
+			{
+				Remove_an_Empl();
+				break;
+			}
+			case 4:
+			{
+				View_list_of_Empl();
+				break;
+			}
+			case 5:
+			{
+				View_Infor_of_an_Empl();
+				break;
+			}
+			case 6:
+			{
+				cout << "Start reseting the password for an employee." << endl;
+				Reset_password_for_empl();
+				break;
+			}
+			case 7:
+			{
+				createRecords();
+				break;
+			}
+			case 8:
+			{
+				removeRecords();
+				break;
+			}
+			case 9:
+			{
+				importRecords();
+				break;
+			}
+			case 10:
+			{
+				editRecordOfAnEmployee();
+				break;
+			}
+			case 11:
+			{
+				viewRecords();
+				break;
+			}
+			case 12:
+			{
+				clearRecordOfAnEmployee();
+				break;
+			}
+			case 13:
+			{
+				viewSalaryTable();
+				break;
+			}
+		}
 	} while (choice != 0);
+}
+
+void Staff::Manage_Record_Menu() {
+	int choice = 0;
+	LoadfromTextfile();
+	if (ListEmpl.size() == 0) {
+		outputbox.display("No employee found. There is nothing to manange!");
+		mainmenu.clear();
+		return;
+	}
 }
 
 void Staff::createRecords()
 {
 	if (employeeRecords->hasData())
 	{
-		outputbox.display("There's existing records data of this month. You cannot create new records.\nRemove records data of this month If you really want to create new records.");
+		outputbox.display("There's existing records data of this month. You cannot create new records.\nRemove records data of this month if you want to create new records.");
 		return;
 	}
 	int n = (int)ListEmpl.size();
@@ -836,10 +842,8 @@ void Staff::viewSalaryTable()
 	cout << "Total salary: " << setw(39) << total << endl;
 }
 
-string Staff::capitalize_name() {
-	string name = StInfor.getName();
-	transform(name.begin(), name.end(), name.begin(), toupper);
-	return name;
+string Staff::staff_name() {
+	return StInfor.Name;
 }
 
 void Staff::load_profile() {
@@ -869,21 +873,6 @@ void Staff::load_profile() {
 }
 
 void Staff::view_profile() {
-	cout << "__________________________________________________________\n\n";
 	cout << "Username: " << StInfor.ACC.Username << endl;
-	cout << "Name: " << StInfor.Name << endl;
-	cout << "Gender: ";
-	if (StInfor.Gender == 'M' || StInfor.Gender == 'm')
-	{
-		cout << "Male" << endl;
-	}
-	else if (StInfor.Gender == 'F' || StInfor.Gender == 'f')
-	{
-		cout << "Female" << endl;
-	}
-	cout << "Date of birth: " << StInfor.DoB << endl;
-	cout << "Phone: " << StInfor.Phone << endl;
-	cout << "Address: " << StInfor.Address << endl;
-	cout << "__________________________________________________________\n";
-	system("pause");
+	StInfor.OutputInfor();
 }

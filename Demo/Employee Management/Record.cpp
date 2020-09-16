@@ -29,8 +29,41 @@ Record::Record()
 	}
 	else
 	{
-		cout << "Cannot not load data.\n";
-		cout << "You can now create new records\n";
+		cout << "File not found. Cannot not load data.\n";
+	}
+	fin.close();
+}
+
+void Record::reload(string recordName)
+{
+	Date day(stoi(recordName.substr(2,4)), stoi(recordName.substr(0, 2)), 1);
+	ifstream fin;
+	int* p;
+	filename = "Records-" + recordName + ".txt";
+	fin.open(filename);
+	string str, tok;
+	istringstream iss;
+	nCol = day.Maxdayintmonth() + 1;
+	if (fin.is_open())
+	{
+		while (getline(fin, str))
+		{
+			iss.str("");
+			iss.clear();
+			iss.str(str);
+			p = new int[nCol];
+			for (int i = 0; i < nCol; i++)
+			{
+				getline(iss, tok, ',');
+				p[i] = stoi(tok);
+			}
+			records.push_back(p);
+			p = 0;
+		}
+	}
+	else
+	{
+		cout << "File not found. Cannot not load data.\n";
 	}
 	fin.close();
 }

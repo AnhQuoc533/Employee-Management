@@ -1,13 +1,19 @@
 #include"Employee_Management.h"
 
-Employee::Employee()
-{
-	Infor anInfor;
-	EInfor = anInfor;
+Employee::Employee() {
 	Salary = 0;
-	// for testing
-	//EInfor.setID(19127109);
-	time_t now = time(0);	tm cdate;
+	time_t now = time(0);
+	tm cdate;
+	localtime_s(&cdate, &now);
+	logday = cdate.tm_mday;
+	logmonth = cdate.tm_mon + 1;
+	logyear = cdate.tm_year + 1900;
+}
+
+Employee::Employee(Account acc) : EInfor(acc) {
+	Salary = 0;
+	time_t now = time(0);
+	tm cdate;
 	localtime_s(&cdate, &now);
 	logday = cdate.tm_mday;
 	logmonth = cdate.tm_mon + 1;
@@ -16,7 +22,12 @@ Employee::Employee()
 
 void Employee::View_Infor_Empl()
 {
+	cout << "ID: " << EInfor.getID() << endl;
 	EInfor.OutputInfor();
+}
+
+string Employee::employee_name() {
+	return EInfor.getName();
 }
 
 void Employee::loadEmplData(Account checker)
@@ -64,10 +75,10 @@ bool Employee::loadEmplRecord(int month)
 			}
 		}
 		fi.close();
-		//outputbox.display("Load successfully!");
+		outputbox.display("Load successfully!");
 		return 1;
 	}
-	//else outputbox.display("Can't load record for check-in.");
+	else outputbox.display("Can't load record for check-in.");
 	return 0;
 }
 
@@ -108,48 +119,25 @@ void Employee::viewCheckin(int month)
 {
 	if (!loadEmplRecord(month)) return;
 	int sep = 5;
+	cout << "Month: " << month << left << setw(10) << "\nDay";
+	for (int i = 0; i < 31; i++) cout << setw(sep) << i + 1;
 
-	graphical_box temp;
-	string word[] = { "January","February","March","April","May","June","July","August","September","October","November","December" };
-	cout << setw(10) << left << word[month-1] << setw(2) << (char)179;
+	cout << setw(10) << left << "\nStatus: ";
 	for (int i = 0; i < 31; i++)
 	{
 		cout << setw(sep);
-		if (record[i]) //cout << "Yes"; else cout << "No";
-		{
-			temp.charColorate(GOOD);
-			cout << char(251);
-		}
-		else 
-		{
-			temp.charColorate(BAD);
-			cout << "x";
-		}		
+		if (record[i]) cout << "Yes"; else cout << "No";
+		
 	}
-	cout << endl;
-	temp.charColorate(WHITE);
-}
-
-void Employee::boardsetup()
-{
-	int sep = 5;
-	cout << left << setw(10) << "Day" << setw(2) << (char)179;
-	for (int i = 0; i < 31; i++) cout << setw(sep) << i + 1;
-	cout << endl;
-	for (int i = 0; i < 31 * 5 + 12; i++)
-		if (i == 10) cout << (char)197; else cout << (char)196;
-	cout << endl;
 }
 
 void Employee::viewCheckin()
 {
-	boardsetup();
 	viewCheckin(logmonth);
 }
 
 void Employee::viewAnnualRecord()
 {
-	boardsetup();
 	for (int i = 1; i < 13; i++)
 	{
 		viewCheckin(i);
@@ -159,12 +147,13 @@ void Employee::viewAnnualRecord()
 void Employee::EmployeeMenu()
 {
 	graphical_menu menu(OFX, OFY, 0);
-	int choice = menu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\n");
+	int choice = menu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\nBack\n");
 	switch (choice)
 	{
 	case 0: checkin(); break;
 	case 1: viewCheckin(); break;
 	case 2: viewAnnualSalary(); break;
 	case 3: viewAnnualRecord(); break;
+	case 4: return;
 	}
 }

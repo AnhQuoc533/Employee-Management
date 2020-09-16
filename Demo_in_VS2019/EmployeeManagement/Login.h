@@ -33,10 +33,10 @@ public:
 };
 
 int welcome();
-void asteriskEncode(string &psw);
+void asteriskEncode(string&);
 int logged();
 void clonefile(ifstream&);
 int incorrect_psw();
-void bar2(int);
+string capitalize_name(string);
 
 #endif

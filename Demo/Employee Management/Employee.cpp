@@ -1,13 +1,19 @@
 #include"Employee_Management.h"
 
-Employee::Employee()
-{
-	Infor anInfor;
-	EInfor = anInfor;
+Employee::Employee() {
 	Salary = 0;
-	// for testing
-	//EInfor.setID(19127109);
-	time_t now = time(0);	tm cdate;
+	time_t now = time(0);
+	tm cdate;
+	localtime_s(&cdate, &now);
+	logday = cdate.tm_mday;
+	logmonth = cdate.tm_mon + 1;
+	logyear = cdate.tm_year + 1900;
+}
+
+Employee::Employee(Account acc) : EInfor(acc) {
+	Salary = 0;
+	time_t now = time(0);
+	tm cdate;
 	localtime_s(&cdate, &now);
 	logday = cdate.tm_mday;
 	logmonth = cdate.tm_mon + 1;
@@ -16,7 +22,12 @@ Employee::Employee()
 
 void Employee::View_Infor_Empl()
 {
+	cout << "ID: " << EInfor.getID() << endl;
 	EInfor.OutputInfor();
+}
+
+string Employee::employee_name() {
+	return EInfor.getName();
 }
 
 void Employee::loadEmplData(Account checker)
@@ -136,12 +147,13 @@ void Employee::viewAnnualRecord()
 void Employee::EmployeeMenu()
 {
 	graphical_menu menu(OFX, OFY, 0);
-	int choice = menu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\n");
+	int choice = menu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\nBack\n");
 	switch (choice)
 	{
 	case 0: checkin(); break;
 	case 1: viewCheckin(); break;
 	case 2: viewAnnualSalary(); break;
 	case 3: viewAnnualRecord(); break;
+	case 4: return;
 	}
 }
