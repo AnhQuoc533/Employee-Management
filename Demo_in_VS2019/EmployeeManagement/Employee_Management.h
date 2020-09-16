@@ -41,9 +41,9 @@ private:
 	vector<int*> records;
 	string filename;
 	int nCol;
-	void reload(string recordName);
 public:
 	Record();
+	Record(string recordName);
 	~Record();
 	void import(ifstream& fin);
 	void edit(int index, unsigned day, bool status);

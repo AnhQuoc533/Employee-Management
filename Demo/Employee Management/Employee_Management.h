@@ -41,9 +41,9 @@ private:
 	vector<int*> records;
 	string filename;
 	int nCol;
-	void reload(string recordName);
 public:
 	Record();
+	Record(string);
 	~Record();
 	void import(ifstream& fin);
 	void edit(int index, unsigned day, bool status);
@@ -108,12 +108,10 @@ public:
 	void Reset_password_for_empl();
 	void Manage_Infor_Menu();
 	//RECORD
-	void createRecords();
+	void createRecords(); // check for the need later
 	void editRecordOfAnEmployee();
-	void removeRecords();
+	void removeRecords(); // check for the need later
 	void importRecords();
-	void addRecord(); // no implementation
-	void editRecord(); // no implementation
 	void clearRecordOfAnEmployee();
 	void viewRecords();
 	void viewSalaryTable();
