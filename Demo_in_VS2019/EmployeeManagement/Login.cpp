@@ -22,7 +22,7 @@ int main() {
 			choice = incorrect_psw();
 			if (choice == 1)
 				return 0;
-			system("cls");
+			//system("cls");
 		}
 		system("cls");
 		if (!A.get_role())
