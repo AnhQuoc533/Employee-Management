@@ -73,16 +73,13 @@ Record::~Record()
 	ofstream fout;
 	int size = (int)records.size();
 	if (size == 0)
-	{
-		cout << "No changes to records data will be appiled\n";
 		return;
-	}
 	fout.open(filename);
 	if (!fout.is_open())
 	{
 		fout.close();
-		cout << "Cannot save data.\n";
-		cout << "Current data is now backed up in \"tmp.txt\"\n";
+		cout << "Cannot save record data.\n";
+		cout << "Current data is now backed up in tmp.txt\n";
 		fout.open("tmp.txt");
 	}
 	for (int i = 0; i < size; i++)

@@ -36,7 +36,7 @@ void Staff::SaveInfortoTextfile()
 	}
 	else
 	{
-		outputbox.display("Saving data to " + namefile + "....\nNOTE:Do not shutdown the program while saving!");
+		outputbox.display("Saving data to " + namefile + "....\nDO NOT shutdown the program while saving!");
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Save");
 		loader.load(30);
@@ -476,7 +476,7 @@ void Staff::Manage_Infor_Menu()
 {
 	int choice = 0;
 	while (true) {
-		choice = mainmenu.operate("LOAD DATA", "Import new list of employee from .csv file\nLoad existed list of employee from your database\nCreate new list of employee manually\nExit");
+		choice = mainmenu.operate("LOAD DATA", "Import new list of employee from csv file\nLoad existed list of employee from your database\nCreate new list of employee manually\nExit");
 		switch (choice + 1)
 		{
 			case 1:
@@ -507,22 +507,12 @@ void Staff::Manage_Infor_Menu()
 		else
 			break;
 	}
-	do
+	while (true)
 	{
 		mainmenu.autowarp(0);
-		choice = mainmenu.operate("MANAGE INFORMATION", "Exit\nAdd an employee\nEdit information of an employee\nRemove an employee\nView list of employees\nView information of an employee\nReset password of an employee\nCreate new records of a month\nRemove records data\nImport records data from csv file\nEdit record of an employee. \nView records of all employees\nClear record of an employee\nView salary of all employees");
-		switch (choice)
+		choice = mainmenu.operate("MANAGE INFORMATION", "Add an employee\nEdit information of an employee\nRemove an employee\nView list of employees\nView information of an employee\nReset password of an employee\nExit");
+		switch (choice + 1)
 		{
-			case 0:
-			{	
-				outputbox.display("Please wait while saving data before returning to the previous menu.");
-				SaveInfortoTextfile();
-				ListEmpl.clear();
-				outputbox.display("Returning to previous menu....");
-				mainmenu.clear();
-				mainmenu.autowarp(1);
-				break;
-			}
 			case 1:
 			{
 				Add_an_Empl_Manually();
@@ -550,56 +540,84 @@ void Staff::Manage_Infor_Menu()
 			}
 			case 6:
 			{
-				cout << "Start reseting the password for an employee." << endl;
 				Reset_password_for_empl();
 				break;
 			}
 			case 7:
 			{
-				createRecords();
-				break;
-			}
-			case 8:
-			{
-				removeRecords();
-				break;
-			}
-			case 9:
-			{
-				importRecords();
-				break;
-			}
-			case 10:
-			{
-				editRecordOfAnEmployee();
-				break;
-			}
-			case 11:
-			{
-				viewRecords();
-				break;
-			}
-			case 12:
-			{
-				clearRecordOfAnEmployee();
-				break;
-			}
-			case 13:
-			{
-				viewSalaryTable();
-				break;
+				//IS THE RECORD POINTER DELETED AFTER THIS?
+				outputbox.display("Please wait while saving data before returning to the previous menu.");
+				SaveInfortoTextfile();
+				ListEmpl.clear();
+				outputbox.display("Returning to previous menu....");
+				mainmenu.clear();
+				mainmenu.autowarp(1);
+				return;
 			}
 		}
-	} while (choice != 0);
+	}
 }
 
 void Staff::Manage_Record_Menu() {
 	int choice = 0;
 	LoadfromTextfile();
 	if (ListEmpl.size() == 0) {
-		outputbox.display("No employee found. There is nothing to manange!");
+		outputbox.display("No employee found in database. There is nothing to manange!");
 		mainmenu.clear();
 		return;
+	}
+	while (true)
+	{
+		mainmenu.autowarp(0);
+		choice = mainmenu.operate("MANAGE RECORD", "Create new records of a month\nRemove records data\nImport records data from csv file\nEdit record of an employee\nClear record of an employee\nView records of all employees\nView salary of all employees\nExit");
+		switch (choice + 1)
+		{
+		case 0:
+		{
+			outputbox.display("Please wait while saving data before returning to the previous menu.");
+			SaveInfortoTextfile();
+			ListEmpl.clear();
+			outputbox.display("Returning to previous menu....");
+			mainmenu.clear();
+			mainmenu.autowarp(1);
+			break;
+		}
+		case 7:
+		{
+			createRecords();
+			break;
+		}
+		case 8:
+		{
+			removeRecords();
+			break;
+		}
+		case 9:
+		{
+			importRecords();
+			break;
+		}
+		case 10:
+		{
+			editRecordOfAnEmployee();
+			break;
+		}
+		case 11:
+		{
+			viewRecords();
+			break;
+		}
+		case 12:
+		{
+			clearRecordOfAnEmployee();
+			break;
+		}
+		case 13:
+		{
+			viewSalaryTable();
+			break;
+		}
+		}
 	}
 }
 
@@ -618,7 +636,7 @@ void Staff::createRecords()
 	}
 	employeeRecords->newBlank(arr, n);
 	delete[] arr;
-	cout << "A blank record has been created\n";
+	cout << "A blank record has been created.\n";
 }
 
 void Staff::editRecordOfAnEmployee()
@@ -644,7 +662,7 @@ void Staff::editRecordOfAnEmployee()
 	cout << "Input the status of the employee (1 - Present; 0 - Absent): ";
 	cin >> status;
 	employeeRecords->edit(index, day, status);
-	cout << "Updated record of an employee\n";
+	cout << "The record of an employee was edited successfully.\n";
 }
 
 void Staff::removeRecords()
@@ -681,14 +699,6 @@ void Staff::importRecords()
 		cout << endl << "Finished importing " << filename << ".\n";
 	}
 	fin.close();
-}
-
-void Staff::addRecord()
-{
-}
-
-void Staff::editRecord()
-{
 }
 
 void Staff::clearRecordOfAnEmployee()
