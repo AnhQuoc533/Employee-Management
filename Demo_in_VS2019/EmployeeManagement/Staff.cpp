@@ -726,6 +726,98 @@ void Staff::viewRecords()
 	}
 }
 
+void Staff::RecordMenu()
+{
+	ifstream fin;
+	vector<string> months;
+	string tmp, menuOption;
+	int n, choice = 0, choice2 = 0;
+	fin.open("Month-Record.txt");
+	if (fin.is_open())
+	{
+		while (getline(fin, tmp))
+		{
+			months.push_back(tmp);
+		}
+		fin.close();
+	}
+	else
+	{
+		cout << "Cannot load data. Returning to previous menu." << endl;
+		fin.close();
+		return;
+	}
+	n = (int)months.size();
+	for (int i = 0; i < n; ++i)
+	{
+		menuOption.append(to_string(i + 1) + ". " + months[i] + '\n');
+	}
+	menuOption.append(to_string(n + 1) + ". Create new month record\n");
+	menuOption.append("0. Back\n");
+	while (true)
+	{
+		choice = mainmenu.operate("Manage Record", menuOption);
+		if (choice == 0)
+		{
+			break;
+		}
+		else if (choice == (n + 1))
+		{
+			createRecords();
+			break;
+		}
+		else
+		{
+			employeeRecords = new Record(months[static_cast<__int64>(choice) - 1]);
+			while (true)
+			{
+				mainmenu.autowarp(0);
+				choice2 = mainmenu.operate("Manage Record", "Exit\nImport records data from csv file. \nRemove records data. \nEdit record of an employee. \nView records of all employees. \nClear record of an employee. \nView salary of all employees");
+				switch (choice2)
+				{
+				case 0:
+				{
+					outputbox.display("Returning to previous menu.");
+					mainmenu.clear();
+					mainmenu.autowarp(1);
+					break;
+				}
+				case 1:
+				{
+					importRecords();
+					break;
+				}
+				case 2:
+				{
+					removeRecords();
+					break;
+				}
+				case 3:
+				{
+					editRecordOfAnEmployee();
+					break;
+				}
+				case 4:
+				{
+					viewRecords();
+					break;
+				}
+				case 5:
+				{
+					clearRecordOfAnEmployee();
+					break;
+				}
+				case 6:
+				{
+					viewSalaryTable();
+					break;
+				}
+				}
+			}
+		}
+	}
+}
+
 void Staff::viewSalaryTable()
 {
 	int n = (int)ListEmpl.size();

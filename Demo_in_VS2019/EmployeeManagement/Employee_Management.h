@@ -113,6 +113,7 @@ public:
 	void editRecord(); // no implementation
 	void clearRecordOfAnEmployee();
 	void viewRecords();
+	void RecordMenu();
 	void viewSalaryTable();
 };
 
