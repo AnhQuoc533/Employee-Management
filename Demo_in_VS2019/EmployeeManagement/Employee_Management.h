@@ -43,7 +43,7 @@ private:
 	int nCol;
 public:
 	Record();
-	Record(string recordName);
+	Record(string);
 	~Record();
 	void import(ifstream& fin);
 	void edit(int index, unsigned day, bool status);
@@ -108,16 +108,15 @@ public:
 	void Reset_password_for_empl();
 	void Manage_Infor_Menu();
 	//RECORD
-	void createRecords();
+	bool createRecords();
 	void editRecordOfAnEmployee();
-	void removeRecords();
+	void removeRecords(); // check for the need later
 	void importRecords();
-	void addRecord(); // no implementation
-	void editRecord(); // no implementation
 	void clearRecordOfAnEmployee();
 	void viewRecords();
 	void viewSalaryTable();
 	void Manage_Record_Menu();
+	string month_option(vector<string>&);
 };
 
 #endif

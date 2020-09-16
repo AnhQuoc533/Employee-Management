@@ -59,13 +59,20 @@ void graphics_abstract::clearbuffer()
 	turnCursor(0);
 	warp(0, TXTY);
 	screenctrl* screen = screenctrl::instance();
-	for (int i = 0; i < screen->getbufferh() - TXTY - 4; i++)
+	/*for (int i = 0; i < screen->getbufferh() - TXTY - 4; i++)
 	{
 		for (int j = 0; j < screen->getbufferw(); j++) cout << " ";
 		cout << endl;
-	}
+	}*/
+	DWORD written;
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(console, &csbi);
+	DWORD length = csbi.dwSize.X * (csbi.dwSize.Y-TXTY-6);
+	COORD anch{ 0,TXTY };
+	FillConsoleOutputCharacter(console, TEXT(' '), length, anch, &written);
+	FillConsoleOutputAttribute(console, csbi.wAttributes, length, anch, &written);
 	warp(0, TXTY);
-	turnCursor(1);
+	turnCursor(1);	
 }
 
 graphical_menu::graphical_menu()

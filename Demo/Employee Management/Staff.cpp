@@ -9,7 +9,7 @@ Staff::Staff(Account acc) : StInfor(acc)
 void Staff::section() {
 	int choice;
 	while (true) {
-		choice = mainmenu.operate("SECTION", "Information\nRecord\nBack\n") + 1;
+		choice = mainmenu.operate("STAFF MENU", "Information\nRecord\nBack\n") + 1;
 		switch (choice) {
 		case 1:
 			Manage_Infor_Menu();
@@ -350,7 +350,7 @@ void Staff::Remove_an_Empl()
 		ListEmpl[i].EInfor.No = ListEmpl[i].EInfor.getNo() - 1;
 	}
 	ListEmpl.erase(ListEmpl.begin() + index);
-	outputbox.display("The employee was removed successfully!"); // Thanh added.
+	outputbox.display("The employee was removed successfully!");
 }
 
 void Staff::View_list_of_Empl()
@@ -360,13 +360,22 @@ void Staff::View_list_of_Empl()
 	int n = (int)ListEmpl.size();
 	int offset = 0;
 	screenctrl* screen = screenctrl::instance();
-	int partsize = screen->getbufferh() - 9 - TXTY;
+	int partsize = screen->getbufferh() - 11 - TXTY;
+	graphical_box temp;
 
-	while (1)
+	while (true)
 	{
+		temp.turnCursor(0);
 		cout << "LIST OF EMPLOYEES:\n(press up/down to navigate)\n";
-		cout << setw(7) << "No" << setw(17) << "ID" << setw(27) << "Name" << endl;
-		if (offset != 0) cout << setw(7) << "..." << setw(18) << "..." << setw(25) << "..." << endl;
+		cout << setw(7) << "No" << setw(7) << (char)179 << setw(10) << "ID" << setw(15) << (char)179 << setw(12) << "Name" << endl;
+		for (int i = 0; i < 7 + 17 + 27 + 20; i++)
+			if (i == 13 || i == 13 + 25)
+			{
+				if (offset == 0) cout << (char)197;
+				else cout << (char)193;
+			}
+			else cout << (char)196;
+		cout << endl;
 		for (int i = offset; i < offset + partsize; i++)
 		{
 			ID.clear();
@@ -384,9 +393,9 @@ void Staff::View_list_of_Empl()
 			space1 = 5 + (int)No.length();
 			space2 = 15 - ((int)No.length() - 2) + (int)ID.length();
 			space3 = 23 - ((int)ID.length() - 2) + (int)ListEmpl[i].EInfor.getName().length();
-			cout << setw(space1) << No << setw(space2) << ID << setw(space3) << ListEmpl[i].EInfor.Name << endl;
+			cout << setw(space1) << No << setw(7) << (char)179 << setw(space2 - 7) << ID << setw(9) << (char)179 << setw(space3 - 9) << ListEmpl[i].EInfor.Name << endl;
 		}
-		if (offset + partsize != n) cout << setw(7) << "..." << setw(18) << "..." << setw(25) << "..." << endl;
+		if (offset + partsize != n) cout << setw(7) << "..." << setw(7) << (char)179 << setw(11) << "..." << setw(14) << (char)179 << setw(11) << "..." << endl;
 		char c = _getch();
 		if (c == -32)
 		{
@@ -396,14 +405,14 @@ void Staff::View_list_of_Empl()
 			case 72: offset = (offset > 0) ? offset - 1 : 0; break;
 			case 80: offset = (offset + partsize < n) ? offset + 1 : n - partsize; break;
 			}
-			outputbox.clearbuffer();
 		}
 		if (c == '\r')
 		{
+			temp.turnCursor(1);
 			return;
 		}
+		outputbox.clearbuffer();
 	}
-
 }
 
 void Staff::View_Infor_of_an_Empl()
@@ -545,10 +554,10 @@ void Staff::Manage_Infor_Menu()
 			}
 			case 7:
 			{
-				//IS THE RECORD POINTER DELETED AFTER THIS?
 				outputbox.display("Please wait while saving data before returning to the previous menu.");
 				SaveInfortoTextfile();
 				ListEmpl.clear();
+				delete employeeRecords;
 				outputbox.display("Returning to previous menu....");
 				mainmenu.clear();
 				mainmenu.autowarp(1);
@@ -558,18 +567,78 @@ void Staff::Manage_Infor_Menu()
 	}
 }
 
+string Staff::month_option(vector<string>& months) {
+	ifstream fin;
+	string tmp;
+	fin.open("Month-Record.txt");
+	if (fin.is_open())
+	{
+		while (getline(fin, tmp))
+		{
+			months.push_back(tmp);
+		}
+		fin.close();
+	}
+	else
+	{
+		outputbox.display("Cannot load data.\nReturning to previous menu....");
+		return tmp;
+	}
+	tmp.clear();
+	for (int i = 0; i < (int)months.size(); ++i)
+	{
+		tmp += months[i] + '\n';
+	}
+	tmp += "Create new month record\nBack";
+	return tmp;
+}
+
 void Staff::Manage_Record_Menu() {
-	int choice = 0;
 	LoadfromTextfile();
 	if (ListEmpl.size() == 0) {
 		outputbox.display("No employee found in database. There is nothing to manange!");
+		outputbox.display("Returning to previous menu....");
 		mainmenu.clear();
 		return;
+	}
+	int n, choice;
+	vector<string> months;
+	string option = month_option(months);
+	if (option.empty()) {
+		ListEmpl.clear();
+		mainmenu.clear();
+		return;
+	}
+	choice = mainmenu.operate("MONTH RECORD", option);
+	n = (int)months.size();
+	if (choice == n)
+	{
+		cout << "Enter the month you want to create its record: ";
+		cin >> option;
+		outputbox.display("Creating new record....");
+		employeeRecords = new Record(option);
+		if (createRecords()) {
+			// Write it to txt file
+		}
+		else {
+			//return the loop
+		}
+	}
+	else if (choice == (n + 1))
+	{
+		outputbox.display("Returning to previous menu....");
+		ListEmpl.clear();
+		mainmenu.clear();
+		return;
+	}
+	else
+	{
+		employeeRecords = new Record(months[choice]);
 	}
 	while (true)
 	{
 		mainmenu.autowarp(0);
-		choice = mainmenu.operate("MANAGE RECORD", "Create new records of a month\nRemove records data\nImport records data from csv file\nEdit record of an employee\nClear record of an employee\nView records of all employees\nView salary of all employees\nExit");
+		choice = mainmenu.operate("MANAGE RECORD", "Import records data from csv file\nEdit record of an employee\nClear record of an employee\nView records of all employees\nView salary of all employees\nExit");
 		switch (choice + 1)
 		{
 		case 0:
@@ -582,37 +651,27 @@ void Staff::Manage_Record_Menu() {
 			mainmenu.autowarp(1);
 			break;
 		}
-		case 7:
-		{
-			createRecords();
-			break;
-		}
-		case 8:
-		{
-			removeRecords();
-			break;
-		}
-		case 9:
+		case 1:
 		{
 			importRecords();
 			break;
 		}
-		case 10:
+		case 2:
 		{
 			editRecordOfAnEmployee();
 			break;
 		}
-		case 11:
-		{
-			viewRecords();
-			break;
-		}
-		case 12:
+		case 3:
 		{
 			clearRecordOfAnEmployee();
 			break;
 		}
-		case 13:
+		case 4:
+		{
+			viewRecords();
+			break;
+		}
+		case 5:
 		{
 			viewSalaryTable();
 			break;
@@ -621,12 +680,12 @@ void Staff::Manage_Record_Menu() {
 	}
 }
 
-void Staff::createRecords()
+bool Staff::createRecords()
 {
 	if (employeeRecords->hasData())
 	{
-		outputbox.display("There's existing records data of this month. You cannot create new records.\nRemove records data of this month if you want to create new records.");
-		return;
+		outputbox.display("There is existing record data of this month. You cannot create new record.\n");
+		return false;
 	}
 	int n = (int)ListEmpl.size();
 	int* arr = new int[n];
@@ -636,7 +695,8 @@ void Staff::createRecords()
 	}
 	employeeRecords->newBlank(arr, n);
 	delete[] arr;
-	cout << "A blank record has been created.\n";
+	outputbox.display("A blank record has been created.");
+	return true;
 }
 
 void Staff::editRecordOfAnEmployee()

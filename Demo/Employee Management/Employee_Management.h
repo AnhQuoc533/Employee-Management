@@ -108,7 +108,7 @@ public:
 	void Reset_password_for_empl();
 	void Manage_Infor_Menu();
 	//RECORD
-	void createRecords(); // check for the need later
+	bool createRecords();
 	void editRecordOfAnEmployee();
 	void removeRecords(); // check for the need later
 	void importRecords();
@@ -116,6 +116,7 @@ public:
 	void viewRecords();
 	void viewSalaryTable();
 	void Manage_Record_Menu();
+	string month_option(vector<string>&);
 };
 
 #endif
