@@ -5,7 +5,7 @@ int welcome() {
 	screenctrl* screen = screenctrl::instance();
 	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() / 2-4, 0);
 	menu.setalign(1,1);
-	return menu.operate("EMPLOYEE MANAGEMENT SYSTEM", "Login\nExit\n");
+	return menu.operate("EMPLOYEE MANAGEMENT SYSTEM", "Login\nExit");
 }
 
 void asteriskEncode(string &psw) {
@@ -80,9 +80,7 @@ int Account::track(ifstream &f) {
 }
 
 int logged() {
-	int choice;
-	choice = mainmenu.operate("COMMANDS", "Show privileged actions\nView profile\nChange password\nLog out\n") + 1;
-	return choice;
+	return mainmenu.operate("COMMANDS", "Show privileged actions\nView profile\nChange password\nLog out") + 1;
 }
 
 void clonefile(ifstream &in) {
@@ -155,28 +153,28 @@ void Account::changepsw() {
 	string tmp1, tmp2;
 	int choice;
 	while (true) {
-		cout << "Enter current password: ";
+		cout << "Input current password: ";
 		asteriskEncode(tmp1);
 		if (tmp1 != Password) {
 			outputbox.display("The password is incorrect.");
 			screenctrl* screen = screenctrl::instance();
 			graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() - 7, 0);
 			menu.setalign(1, 1);
-			choice = menu.operate("ACTION", "Try again\nBack\n");
+			choice = menu.operate("ACTION", "Try again\nBack");
 			if (choice)
 				return;
 		}
 		else {
-			cout << "Enter new password: ";
+			cout << "Input new password: ";
 			asteriskEncode(tmp1);
-			cout << "Enter new password again: ";
+			cout << "Input new password again: ";
 			asteriskEncode(tmp2);
 			if (tmp1 != tmp2) {
 				outputbox.display("Passwords do not match!");
 				screenctrl* screen = screenctrl::instance();
 				graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() - 7, 0);
 				menu.setalign(1, 1);
-				choice = mainmenu.operate("ACTION", "Try again\nBack\n");
+				choice = mainmenu.operate("ACTION", "Try again\nBack");
 				if (choice)
 					return;
 				else {
@@ -190,7 +188,7 @@ void Account::changepsw() {
 			}
 		}
 	}
-	outputbox.display("Your password is changed successfully");
+	outputbox.display("Your password is changed successfully.");
 }
 
 void Account::StaffLogin(int choice) {
@@ -215,11 +213,13 @@ void Account::EmployeeLogin(int choice) {
 	while (choice != 4) {
 		outputbox.display("WELCOME, " + capitalize_name(client.employee_name()));
 		choice = logged();
+		if (choice != 1)
+			mainmenu.setpos(OFX, OFY);
 		if (choice == 1)
 			client.EmployeeMenu();
 		else if (choice == 2)
 			client.View_Infor_Empl();
-		if (choice == 3)
+		else if (choice == 3)
 			changepsw();
 	}
 }
