@@ -67,7 +67,7 @@ void graphics_abstract::clearbuffer()
 	DWORD written;
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(console, &csbi);
-	DWORD length = csbi.dwSize.X * (csbi.dwSize.Y-TXTY-6);
+	DWORD length = csbi.dwSize.X * (csbi.dwSize.Y-TXTY-5);
 	COORD anch{ 0,TXTY };
 	FillConsoleOutputCharacter(console, TEXT(' '), length, anch, &written);
 	FillConsoleOutputAttribute(console, csbi.wAttributes, length, anch, &written);

@@ -164,10 +164,10 @@ void Account::changepsw() {
 			screenctrl* screen = screenctrl::instance();
 			graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() - 7, 0);
 			menu.setalign(1, 1);
-			choice = mainmenu.operate("ACTION", "Try again\nBack\n");
+			choice = menu.operate("ACTION", "Try again\nBack\n");
 			if (choice)
 				return;
-			system("cls");
+			//system("cls");
 		}
 		else {
 			cout << "Enter new password: ";
@@ -199,9 +199,10 @@ void Account::changepsw() {
 
 void Account::StaffLogin(int choice) {
 	Staff admin(*this);
-	while (choice != 4) {
+	while (choice != 4) {		
 		outputbox.display("WELCOME, STAFF " + capitalize_name(admin.staff_name()));
 		choice = logged();
+		if (choice!=1) mainmenu.setpos(OFX, OFY);
 		if (choice == 1)
 			admin.section();
 		else if (choice == 2)
