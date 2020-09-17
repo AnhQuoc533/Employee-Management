@@ -5,7 +5,7 @@ int welcome() {
 	screenctrl* screen = screenctrl::instance();
 	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() / 2-4, 0);
 	menu.setalign(1,1);
-	return menu.operate("EMPLOYEE MANAGEMENT SYSTEM ", "Login\nExit\n") + 1;
+	return menu.operate("EMPLOYEE MANAGEMENT SYSTEM", "Login\nExit\n") + 1;
 }
 
 void asteriskEncode(string &psw) {

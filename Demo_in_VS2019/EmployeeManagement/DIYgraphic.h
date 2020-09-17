@@ -16,7 +16,7 @@ using namespace std;
 #define OFX 10
 #define OFY 5
 #define TXTY 21
-#define SEMI 6+6*16
+#define SEMI 6
 
 class graphics_abstract
 {
@@ -134,6 +134,6 @@ template<class T>
 inline void graphical_inputbox::input(string content, T &var)
 {
 	warp(x+1, y+offset++);
-	cout << content;
-	cin >> var;
+	charColorate(SEMI); cout << content;
+	charColorate(WHITE); cin >> var;
 }

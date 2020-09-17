@@ -15,7 +15,7 @@ void graphics_abstract::charColorate(int x)
 }
 void graphics_abstract::charColorate(int x, int y)
 {
-	SetConsoleTextAttribute(console, x | y);
+	SetConsoleTextAttribute(console, x + 16*y);
 }
 void graphics_abstract::evaluate(string s, int& m, int& n)
 {
@@ -178,7 +178,8 @@ int graphical_menu::operate()
 	{
 		display();
 		charColorate(TONE2);
-		warp(x+1, y - border);  cout << title;
+		int offset = 1 + w / 2 - title.length() / 2;
+		warp(x+offset, y - border);  cout << title;
 		char c = _getch();
 		if (c == -32)
 		{
@@ -253,7 +254,8 @@ void graphical_menu::lostfocus()
 		line_offset++;
 	}
 	charColorate(INACT);
-	warp(this->x + 1, this->y - border);  cout << title;
+	int offset = 1 + w / 2 - title.length() / 2;
+	warp(this->x + offset, this->y - border);  cout << title;
 }
 
 void graphical_menu::setalign(bool hor, bool ver)
@@ -392,19 +394,20 @@ void graphical_loader::load(int time)
 		int percent = (int)ceil((float)(i + 1) / w * 100);
 		if (i == breakpoint)
 		{
-			Sleep(time * 4);
+			Sleep(time * 10);
 			if (breakcount > 0)
 			{
 				breakpoint = rand() % (w - i) + i + 1;
 				breakcount--;
 			}
 		}			
-		charColorate(SEMI);	warp(x+i, y);		
+		charColorate(SEMI,SEMI);	warp(x+i, y);		
 		cout << bg;
 		if (i < w) charColorate(WHITE);
 		warp(x + w + 2, y);
 		cout << percent << "%";
-		Sleep(time*i/breakpoint);
+		//Sleep(time*i/breakpoint);
+		Sleep(time);
 	}	
 	warp(x, y - 1); cout << content << " completed!";
 	charColorate(GOOD);
@@ -467,6 +470,6 @@ graphical_inputbox::graphical_inputbox(int posx, int posy, int width, int height
 void graphical_inputbox::inputhidden(string content, string& var)
 {
 	warp(x + 1, y + offset++);
-	cout << content;
-	asteriskEncode(var);
+	charColorate(SEMI); cout << content;
+	charColorate(WHITE); asteriskEncode(var);
 }
