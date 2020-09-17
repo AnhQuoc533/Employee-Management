@@ -513,55 +513,53 @@ void Staff::Manage_Infor_Menu()
 			outputbox.display("No employee found. There is nothing to manange!");
 			mainmenu.clear();
 		}
-		else
-			break;
-	}
-	while (true)
-	{
-		mainmenu.autowarp(0);
-		choice = mainmenu.operate("MANAGE INFORMATION", "Add an employee\nEdit information of an employee\nRemove an employee\nView list of employees\nView information of an employee\nReset password of an employee\nExit");
-		switch (choice + 1)
+		while (choice!=7)
 		{
-			case 1:
+			mainmenu.autowarp(0);
+			choice = mainmenu.operate("MANAGE INFORMATION", "Add an employee\nEdit information of an employee\nRemove an employee\nView list of employees\nView information of an employee\nReset password of an employee\nExit")+1;
+			switch (choice)
 			{
-				Add_an_Empl_Manually();
-				break;
-			}
-			case 2:
-			{
-				Edit_Infor_of_an_Empl();
-				break;
-			}
-			case 3:
-			{
-				Remove_an_Empl();
-				break;
-			}
-			case 4:
-			{
-				View_list_of_Empl();
-				break;
-			}
-			case 5:
-			{
-				View_Infor_of_an_Empl();
-				break;
-			}
-			case 6:
-			{
-				Reset_password_for_empl();
-				break;
-			}
-			case 7:
-			{
-				outputbox.display("Please wait while saving data before returning to the previous menu.");
-				SaveInfortoTextfile();
-				ListEmpl.clear();
-				delete employeeRecords;
-				outputbox.display("Returning to previous menu....");
-				mainmenu.clear();
-				mainmenu.autowarp(1);
-				return;
+				case 1:
+				{
+					Add_an_Empl_Manually();
+					break;
+				}
+				case 2:
+				{
+					Edit_Infor_of_an_Empl();
+					break;
+				}
+				case 3:
+				{
+					Remove_an_Empl();
+					break;
+				}
+				case 4:
+				{
+					View_list_of_Empl();
+					break;
+				}
+				case 5:
+				{
+					View_Infor_of_an_Empl();
+					break;
+				}
+				case 6:
+				{
+					Reset_password_for_empl();
+					break;
+				}
+				case 7:
+				{
+					outputbox.display("Please wait while saving data before returning to the previous menu.");
+					SaveInfortoTextfile();
+					ListEmpl.clear();
+					delete employeeRecords;
+					outputbox.display("Returning to previous menu....");
+					mainmenu.clear();
+					mainmenu.autowarp(1);
+					break;
+				}
 			}
 		}
 	}

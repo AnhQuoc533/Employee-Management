@@ -178,7 +178,7 @@ int graphical_menu::operate()
 	{
 		display();
 		charColorate(TONE2);
-		int offset = 1 + w / 2 - title.length() / 2;
+		int offset = 1 + w / 2 - (int)title.length() / 2;
 		warp(x+offset, y - border);  cout << title;
 		char c = _getch();
 		if (c == -32)
@@ -254,7 +254,7 @@ void graphical_menu::lostfocus()
 		line_offset++;
 	}
 	charColorate(INACT);
-	int offset = 1 + w / 2 - title.length() / 2;
+	int offset = 1 + w / 2 - (int)title.length() / 2;
 	warp(this->x + offset, this->y - border);  cout << title;
 }
 

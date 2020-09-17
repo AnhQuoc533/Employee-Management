@@ -5,7 +5,7 @@ int welcome() {
 	screenctrl* screen = screenctrl::instance();
 	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() / 2-4, 0);
 	menu.setalign(1,1);
-	return menu.operate("EMPLOYEE MANAGEMENT SYSTEM", "Login\nExit\n") + 1;
+	return menu.operate("EMPLOYEE MANAGEMENT SYSTEM", "Login\nExit\n");
 }
 
 void asteriskEncode(string &psw) {
@@ -102,13 +102,11 @@ void clonefile(ifstream &in) {
 }
 
 int incorrect_psw() {
-	int choice;
 	outputbox.display("The username or password is incorrect.");
 	screenctrl* screen = screenctrl::instance();
 	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() - 7, 0);
 	menu.setalign(1, 1);
-	choice = menu.operate("ACTION", "Try again\nExit\n");
-	return choice;
+	return menu.operate("ACTION", "Try again\nExit\n");
 }
 
 void Account::changeData(ofstream &out) {
@@ -167,7 +165,6 @@ void Account::changepsw() {
 			choice = menu.operate("ACTION", "Try again\nBack\n");
 			if (choice)
 				return;
-			//system("cls");
 		}
 		else {
 			cout << "Enter new password: ";
@@ -183,7 +180,6 @@ void Account::changepsw() {
 				if (choice)
 					return;
 				else {
-					system("cls");
 					continue;
 				}
 			}
@@ -202,7 +198,8 @@ void Account::StaffLogin(int choice) {
 	while (choice != 4) {		
 		outputbox.display("WELCOME, STAFF " + capitalize_name(admin.staff_name()));
 		choice = logged();
-		if (choice!=1) mainmenu.setpos(OFX, OFY);
+		if (choice != 1)
+			mainmenu.setpos(OFX, OFY);
 		if (choice == 1)
 			admin.section();
 		else if (choice == 2)

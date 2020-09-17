@@ -9,20 +9,16 @@ int main() {
 	graphical_loader loader(1, screen->getbufferh() / 2, screen->getbufferw() - 6, "Load");
 	outputbox.init(1, screen->getbufferh() - 4, screen->getbufferw() - 1, 4);
 	loader.load(10);
-	//loader.reset(2, screen->getbufferh() - 5, 20);
-	//loader.load(50);
 
 	int choice = -1;
 	while (true) {
-		if (welcome() != 1)
+		if (welcome())
 			return 0;
-		//system("cls");
 		Account A;
 		while (!A.login()) {
 			choice = incorrect_psw();
-			if (choice == 1)
+			if (choice)
 				return 0;
-			system("cls");
 		}
 		system("cls");
 		if (!A.get_role())
