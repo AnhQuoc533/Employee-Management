@@ -89,7 +89,6 @@ private:
 	void load_profile();
 public:
 	Staff(Account);
-	~Staff() { delete employeeRecords; }
 	void view_profile();
 	void section();
 	string staff_name();
@@ -108,7 +107,8 @@ public:
 	void Reset_password_for_empl();
 	void Manage_Infor_Menu();
 	//RECORD
-	string month_option(vector<string>&);
+	string load_month(vector<string>&);
+	bool add_month(string);
 	bool createRecords();
 	void editRecordOfAnEmployee();
 	void removeRecords(); // check for the need later
