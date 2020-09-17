@@ -112,7 +112,7 @@ void Staff::ImportListEmpfromCsv()
 	ifstream fload;
 	string namefile;
 	Employee anEmpl;
-	cout << "Input the name of .csv file: ";
+	cout << "Input the name of csv file: ";
 	getline(cin, namefile);
 	namefile.append(".csv");
 	fload.open(namefile);

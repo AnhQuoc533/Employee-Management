@@ -1,7 +1,6 @@
 #include"Employee_Management.h"
 
 Employee::Employee() {
-	Salary = 0;
 	time_t now = time(0);
 	tm cdate;
 	localtime_s(&cdate, &now);
@@ -11,7 +10,6 @@ Employee::Employee() {
 }
 
 Employee::Employee(Account acc) : EInfor(acc) {
-	Salary = 0;
 	time_t now = time(0);
 	tm cdate;
 	localtime_s(&cdate, &now);

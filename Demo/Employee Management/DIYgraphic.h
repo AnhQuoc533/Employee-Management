@@ -61,7 +61,7 @@ class graphical_menu : public graphics_abstract
 {
 private:
 	string content, title; bool back = 0, dynamic = 1, willclear = 1;
-	int x, y, w, h, border, select = 0, orix;
+	int x, y, w, h, border, select = 0, orix = 0;
 	bool halign = 0, valign = 0;
 	graphical_box box;
 public:

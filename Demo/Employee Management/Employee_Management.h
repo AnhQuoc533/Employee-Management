@@ -62,7 +62,7 @@ private:
 	Infor EInfor;
 	double Salary = 0;
 	int logday, logmonth, logyear;
-	bool record[31];
+	vector<bool> record;
 	void boardsetup();
 public:
 	Employee();
@@ -86,9 +86,9 @@ private:
 	Infor StInfor;
 	vector<Employee> ListEmpl;
 	Record* employeeRecords;
-	void load_profile();
 public:
 	Staff(Account);
+	void load_profile();
 	void view_profile();
 	void section();
 	string staff_name();
