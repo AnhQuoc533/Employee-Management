@@ -16,6 +16,7 @@ using namespace std;
 #define OFX 10
 #define OFY 5
 #define TXTY 21
+#define SEMI 6+6*16
 
 class graphics_abstract
 {

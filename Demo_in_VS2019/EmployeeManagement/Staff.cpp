@@ -513,15 +513,13 @@ void Staff::Manage_Infor_Menu()
 			outputbox.display("No employee found. There is nothing to manange!");
 			mainmenu.clear();
 		}
-		else
-			break;
-	}
-	while (true)
-	{
-		mainmenu.autowarp(0);
-		choice = mainmenu.operate("MANAGE INFORMATION", "Add an employee\nEdit information of an employee\nRemove an employee\nView list of employees\nView information of an employee\nReset password of an employee\nExit");
-		switch (choice + 1)
+		/*else break;*/
+		while (choice!=7)
 		{
+			mainmenu.autowarp(0);
+			choice = mainmenu.operate("MANAGE INFORMATION", "Add an employee\nEdit information of an employee\nRemove an employee\nView list of employees\nView information of an employee\nReset password of an employee\nExit")+1;
+			switch (choice)
+			{
 			case 1:
 			{
 				Add_an_Empl_Manually();
@@ -561,10 +559,12 @@ void Staff::Manage_Infor_Menu()
 				outputbox.display("Returning to previous menu....");
 				mainmenu.clear();
 				mainmenu.autowarp(1);
-				return;
+				break;
+			}
 			}
 		}
 	}
+	
 }
 
 string Staff::month_option(vector<string>& months) {

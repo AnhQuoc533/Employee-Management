@@ -399,15 +399,18 @@ void graphical_loader::load(int time)
 				breakcount--;
 			}
 		}			
-		charColorate(GOOD);	warp(x+i, y);		
+		charColorate(SEMI);	warp(x+i, y);		
 		cout << bg;
 		if (i < w) charColorate(WHITE);
 		warp(x + w + 2, y);
 		cout << percent << "%";
 		Sleep(time*i/breakpoint);
 	}	
-	warp(x, y - 1); cout << content << " successfully!";
+	warp(x, y - 1); cout << content << " completed!";
+	charColorate(GOOD);
+	warp(x, y);		for (int i = 0; i < w; i++) cout << bg;
 	Sleep(600);
+	charColorate(WHITE);
 	warp(x, y);		for (int i = 0; i < w + 6; i++) cout << " ";
 	warp(x, y-1);	for (int i = 0; i < 20; i++) cout << " ";
 	turnCursor(1);
