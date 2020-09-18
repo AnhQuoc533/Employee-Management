@@ -84,14 +84,33 @@ void Staff::SaveInfortoTextfile()
 		}
 		outputbox.display("Finished saving data to file " + namefile + " succeeded.\nClosing the file....");
 		fsave.close();
-		if (!fsave.is_open())
-		{
-			outputbox.display("The file " + namefile + " was closed successfully.");
-		}
-		else
+		if (fsave.is_open())
 		{
 			outputbox.display("Failed to close file " + namefile);
 		}
+	}
+}
+
+void Staff::LoadInforInRecord()
+{
+	ifstream fload;
+	string namefile = "Employee.txt";
+	fload.open(namefile);
+	if (!fload.is_open())
+	{
+		outputbox.display("Cannot open the file " + namefile);
+		return;
+	}
+	else
+	{
+		Employee anEmpl;
+		while (fload.peek() != EOF)
+		{
+			anEmpl.EInfor.LoadInforfrom(fload);
+			anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
+			ListEmpl.push_back(anEmpl);
+		}
+		fload.close();
 	}
 }
 
@@ -112,7 +131,7 @@ void Staff::LoadfromTextfile()
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
 		loader.load(30);
-		while (!fload.eof())
+		while (fload.peek() != EOF)
 		{
 			anEmpl.EInfor.LoadInforfrom(fload);
 			anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
@@ -120,10 +139,10 @@ void Staff::LoadfromTextfile()
 		}
 		outputbox.display("Finished loading " + namefile + "\nClosing the file....");
 		fload.close();
-		if (!fload.is_open())
-			outputbox.display("The file " + namefile + " was closed successfully.");
-		else
+		if (fload.is_open())
+		{
 			outputbox.display("Failed to close file " + namefile);
+		}
 	}
 }
 
@@ -149,7 +168,7 @@ void Staff::ImportListEmpfromCsv()
 		loader.load(30);
 		string temp;
 		Date tempDate;
-		while (!fload.eof())
+		while (fload.peek() != EOF)
 		{
 			getline(fload, temp, ',');
 			anEmpl.EInfor.No = stoi(temp);
@@ -171,11 +190,7 @@ void Staff::ImportListEmpfromCsv()
 		}
 		outputbox.display("Finished importing " + namefile + "\nClosing the file....");
 		fload.close();
-		if (!fload.is_open())
-		{
-			outputbox.display("The file " + namefile + " was closed successfully.");
-		}
-		else
+		if (fload.is_open())
 		{
 			outputbox.display("Failed to close file " + namefile);
 		}

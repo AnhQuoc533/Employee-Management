@@ -87,6 +87,8 @@ private:
 	Infor StInfor;
 	vector<Employee> ListEmpl;
 	Record* employeeRecords;
+protected:
+	void LoadInforInRecord();
 public:
 	Staff(Account);
 	void view_profile();
