@@ -3,7 +3,7 @@
 Staff::Staff(Account acc) : StInfor(acc)
 {
 	load_profile();
-	employeeRecords = new Record;
+	employeeRecords = 0;
 }
 
 void Staff::section() {
@@ -554,7 +554,6 @@ void Staff::Manage_Infor_Menu()
 					outputbox.display("Please wait while saving data before returning to the previous menu.");
 					SaveInfortoTextfile();
 					ListEmpl.clear();
-					delete employeeRecords;
 					outputbox.display("Returning to previous menu....");
 					mainmenu.clear();
 					mainmenu.autowarp(1);
@@ -571,7 +570,7 @@ string Staff::load_month(vector<string>& months) {
 	fin.open("Month-Record.txt");
 	if (fin.is_open())
 	{
-		while (getline(fin, tmp))
+		while (getline(fin, tmp, ','))
 		{
 			months.push_back(tmp);
 		}
@@ -624,11 +623,13 @@ void Staff::Manage_Record_Menu() {
 				}
 				else {
 					delete employeeRecords;
+					employeeRecords = 0;
 					continue;
 				}
 			}
 			else {
 				delete employeeRecords;
+				employeeRecords = 0;
 				continue;
 			}
 		}
@@ -644,7 +645,7 @@ void Staff::Manage_Record_Menu() {
 			employeeRecords = new Record(months[choice]);
 		}
 		choice = 0;
-		while (choice != 6)
+		while (choice != 5)
 		{
 			mainmenu.autowarp(0);
 			choice = mainmenu.operate("MANAGE RECORD", "Import records data from csv file\nEdit record of an employee\nClear record of an employee\nView records of all employees\nView salary of all employees\nExit");
@@ -679,6 +680,7 @@ void Staff::Manage_Record_Menu() {
 				{
 					outputbox.display("Please wait while saving data before returning to the previous menu.");
 					delete employeeRecords;
+					employeeRecords = 0;
 					// Loading graphic
 					outputbox.display("Returning to previous menu....");
 					mainmenu.clear();
