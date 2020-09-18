@@ -11,6 +11,10 @@ int main() {
 	outputbox.init(1, screen->getbufferh() - 4, screen->getbufferw() - 1, 4);
 	loader.load(10);
 
+	graphical_bigtext emp(2,1), gr3(screen->getbufferw()-7*6+3,1);
+	emp.display("EMPLOYEE\nMANAGEMENT\nSYSTEM");
+	gr3.display("GROUP 3");
+
 	int choice = -1;
 	while (true) {
 		if (welcome())
