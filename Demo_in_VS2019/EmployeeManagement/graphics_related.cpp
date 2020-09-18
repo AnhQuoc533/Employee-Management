@@ -329,12 +329,19 @@ void graphical_textbox::display(string s)
 				cout << "   ";
 			}
 		}
-		if (i > 5 && GetAsyncKeyState(VK_RETURN) < 0) delay_time = 0;
-		Sleep(delay_time);
+		if (focus)
+		{
+			if (i > 5 && GetAsyncKeyState(VK_RETURN) < 0) delay_time = 0;
+			Sleep(delay_time);
+		}			
 	}
 	if (delay_time==0) cin.ignore();	
-	while (_getch() != 13);
-	clearbuffer();
+	if (focus)
+	{
+		while (_getch() != 13);
+		clearbuffer();
+	}
+	else warp(0, TXTY);
 }
 
 void graphical_textbox::display()
@@ -475,4 +482,56 @@ void graphical_inputbox::inputhidden(string content, string& var)
 	warp(x + 1, y + offset++);
 	charColorate(SEMI); cout << content;
 	charColorate(WHITE); asteriskEncode(var);
+}
+
+graphical_bigtext::graphical_bigtext()
+{
+	x = 1; y = 1;
+	bigtext['E'] = { {1,3,3,3,3},{1,0,0,0,0},{1,3,3,3,3},{1,0,0,0,0},{1,2,2,2,2}, };
+	bigtext['3'] = {{3,3,3,3,1},{0,0,0,0,1},{3,3,3,3,1},{0,0,0,0,1},{2,2,2,2,1},};
+	bigtext['M'] = {{1,0,0,0,1},{1,3,2,3,1},{1,0,0,0,1},{1,0,0,0,1},{1,0,0,0,1},};
+	bigtext['N'] = {{1,0,0,0,1},{1,1,0,0,1},{1,0,1,0,1},{1,0,0,1,1},{1,0,0,0,1},};
+	bigtext['A'] = {{1,3,3,3,1},{1,0,0,0,1},{1,3,3,3,1},{1,0,0,0,1},{1,0,0,0,1},};
+	bigtext['R'] = {{1,3,3,3,2},{1,0,0,0,1},{1,3,3,1,3},{1,0,0,3,2},{1,0,0,0,1},};
+	bigtext['P'] = {{1,3,3,3,2},{1,0,0,0,1},{1,3,3,3,0},{1,0,0,0,0},{1,0,0,0,0},};
+	bigtext['L'] = {{1,0,0,0,0},{1,0,0,0,0},{1,0,0,0,0},{1,0,0,0,0},{1,2,2,2,2},};
+	bigtext['U'] = { {1,0,0,0,1},{1,0,0,0,1},{1,0,0,0,1},{1,0,0,0,1},{1,2,2,2,1}, };
+	bigtext['O'] = {{1,3,3,3,1},{1,0,0,0,1},{1,0,0,0,1},{1,0,0,0,1},{1,2,2,2,1},};
+	bigtext['G'] = {{1,3,3,3,3},{1,0,0,0,0},{1,0,3,3,1},{1,0,0,0,1},{1,2,2,2,1},};
+	bigtext['S'] = {{1,3,3,3,3},{1,0,0,0,0},{3,3,3,3,1},{0,0,0,0,1},{2,2,2,2,1},};
+	bigtext['Y'] = {{1,0,0,0,1},{0,1,0,1,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,1,0,0},};
+	bigtext['T'] = {{3,3,1,3,3},{0,0,1,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,1,0,0},};
+}
+
+void graphical_bigtext::display(string s)
+{
+	int n = s.length(),
+		xbuffer = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (s[i] == '\n')
+		{
+			y += 6;
+			xbuffer = 0;
+			continue;
+		}
+		if (s[i] == ' ')
+		{
+			x += 4;
+			continue;
+		}
+		for (int y = 0; y < 5; y++)
+		{
+			warp(this->x+xbuffer, this->y+y);
+			for (int x = 0; x < 5; x++)
+			{
+				int z = bigtext[s[i]][y][x];
+				if (z == 1) cout << (char)219;
+				else if (z == 2) cout << (char)220;
+				else if (z == 3) cout << (char)223;
+				else cout << " ";
+			}				
+		}
+		xbuffer += 6;
+	}
 }

@@ -167,15 +167,14 @@ void Employee::viewAnnualRecord()
 
 void Employee::EmployeeMenu()
 {
-	graphical_menu menu(OFX, OFY, 0);
-	int choice = menu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\nBack\n");
+	int choice = mainmenu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\nBack\n");
 	switch (choice)
 	{
 	case 0: checkin(); break;
 	case 1: viewCheckin(); break;
 	case 2: viewAnnualSalary(); break;
 	case 3: viewAnnualRecord(); break;
-	case 4: return;
+	case 4: mainmenu.clear(); return;
 	}
 }
 
