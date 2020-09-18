@@ -35,7 +35,7 @@ bool Account::login() {
 	graphical_inputbox inputbox(screen->getbufferw() / 2-15, screen->getbufferh() / 2, 30, 3);
 	inputbox.input("USERNAME: ", Username);
 	inputbox.inputhidden("PASSWORD: ", Password);
-	graphical_loader loader(2, screen->getbufferh() - 1, 20, "Check");
+	graphical_loader loader(2, screen->getbufferh() - 5, 20, "Check");
 	loader.load(30);
 	return openfiles();
 }

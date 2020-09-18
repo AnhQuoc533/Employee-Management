@@ -797,8 +797,7 @@ void Staff::editRecordOfAnEmployee()
 	index = employeeRecords->getIndex(ID);
 	if (index == -1)
 	{
-		cout << "There is no employee possessing the ID " << ID << " in records database.\n";
-		cout << "You should recheck the data.\n";
+		outputbox.display("There is no employee possessing the ID " +to_string(ID)+ " in records database.\nYou should recheck the data.");
 		return;
 	}
 	cout << "Input the day of month: ";
@@ -808,10 +807,11 @@ void Staff::editRecordOfAnEmployee()
 		cout << "Invalid input day. (1 - " << today.Maxdayintmonth() << ")\n";
 		return;
 	}
-	cout << "Input the status of the employee (1 - Present; 0 - Absent): ";
-	cin >> status;
+	cout << "Input the status of the employee\n";
+	graphical_menu menu;
+	status = 1-menu.operate("Status", "Present\nAbsent\n");
 	employeeRecords->edit(index, day, status);
-	cout << "The record of an employee was edited successfully.\n";
+	outputbox.display("The record of an employee was edited successfully.");
 }
 
 void Staff::removeRecords()
@@ -858,12 +858,11 @@ void Staff::clearRecordOfAnEmployee()
 	index = employeeRecords->getIndex(ID);
 	if (index == -1)
 	{
-		cout << "There is no employee possessing the ID " << ID << " in records database.\n";
-		cout << "You should recheck the data.\n";
+		outputbox.display("There is no employee possessing the ID " + to_string(ID) + " in records database.\nYou should recheck the data.");
 		return;
 	}
 	employeeRecords->clear(index);
-	cout << "Cleared record of an employee\n";
+	outputbox.display("Cleared record of an employee");
 }
 
 void Staff::viewRecords()
@@ -878,12 +877,12 @@ void Staff::viewRecords()
 	{
 		temp.turnCursor(0);
 		cout << left << setw(10) << "Day" << setw(2) << (char)179;
-		for (int i = 1; i <= employeeRecords->number_of()+1; ++i)
+		for (int i = 1; i <= employeeRecords->number_of(); ++i)
 		{
 			cout << setw(5) << i;
 		}
 		cout << endl;
-		for (int i = 0; i < 31 * 5 + 12; i++)
+		for (int i = 0; i < employeeRecords->number_of() * 5 + 12; i++)
 			if (i == 10) cout << (char)197; else cout << (char)196;
 		cout << endl;
 		for (int i = offset; i < offset+partsize; ++i)
@@ -895,7 +894,7 @@ void Staff::viewRecords()
 				cout << "You should recheck the data." << endl;
 				continue;
 			}
-			cout << setw(10) << ListEmpl[i].EInfor.getID() << setw(2) << (char)179;
+			//cout << setw(10) << ListEmpl[i].EInfor.getID() << setw(2) << (char)179;
 			employeeRecords->view(index);
 		}
 		char c = _getch();
