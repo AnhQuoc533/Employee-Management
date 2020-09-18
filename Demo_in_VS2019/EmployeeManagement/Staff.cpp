@@ -209,8 +209,9 @@ void Staff::ImportListEmpfromCsv()
 			outputbox.display("Failed to close file " + namefile);
 		}
 		outputbox.display("Your data will be saved to a text file now.");
+		graphical_menu menu(5, TXTY, 0);
 		int choice = 0;
-		choice = mainmenu.operate("Choose the way you want to save this import:", "Overwrite old data (delete old data and save)\nDon't overwrit the old data (new data will be merge with all old data)");
+		choice = menu.operate("Saving Method", "Overwrite existing data\nAdd to existing data\n");
 		switch (choice + 1)
 		{
 		case 1:
@@ -253,21 +254,17 @@ void Staff::Add_an_Empl_Manually()
 		int index = findEmplWithID(anEmpl.EInfor.ID);
 		if (index != -1)
 		{
-			cout << "ERROR: The employee with the ID " << anEmpl.EInfor.getID() << "is already existed." << endl;
+			outputbox.display("ERROR: The employee with the ID " + to_string(anEmpl.EInfor.getID()) + " is already existed.");
 			cout << "Employee information:" << endl;
 			ListEmpl[index].View_Infor_Empl();
-			system("pause");
-			system("CLS");
-			//Need Yes/No graphic
-			cout << "Enter 1 to input the ID again or any key to cancel the addition: ";
-			cin >> choice;
+			graphical_menu menu;
+			choice = 1-menu.operate("Action", "Try again\nBack\n");
 			if (cin.fail())
 			{
 				cin.clear();
 				cin.ignore(2000, '\n');
 				choice = -1;
 			}
-			system("CLS");
 		}
 		else break;
 		if (choice == 1)
@@ -288,8 +285,7 @@ void Staff::Add_an_Empl_Manually()
 					outputbox.display("Invalid input. Please input again.");
 				}
 			} while (id <= 0);
-			anEmpl.EInfor.ID = id;
-			employeeRecords->newBlank(id);
+			anEmpl.EInfor.ID = id;			
 		}
 		else
 		{
@@ -297,10 +293,11 @@ void Staff::Add_an_Empl_Manually()
 			return;
 		}
 	} while (choice == 1);
-	anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
+	anEmpl.EInfor.No = (int)ListEmpl.size() + 1; 
 	anEmpl.EInfor.ACC.Username = to_string(anEmpl.EInfor.ID);
 	anEmpl.EInfor.ACC.Password = anEmpl.EInfor.DoB.toStr();
 	ListEmpl.push_back(anEmpl);
+	employeeRecords->newBlank(anEmpl.EInfor.ID);
 	outputbox.display("New employee was added successfully.");
 }
 
@@ -335,27 +332,24 @@ void Staff::Create_List_Empl_Manually()
 void Staff::Edit_Infor_of_an_Empl()
 {
 	int id, choice = 1;
-	do
+	cout << "Please input the ID of the employee you want to edit: ";
+	cin >> id;
+	if (cin.fail() || id <= 0)
 	{
-		cout << "Please input the ID of the employee you want to edit: ";
-		cin >> id;
-		if (cin.fail() || id <= 0)
+		if (cin.fail())
 		{
-			if (cin.fail())
-			{
-				cin.clear();
-				cin.ignore(2000, '\n');
-			}
-			id = 0;
-			cout << "Invalid ID." << endl;
-			outputbox.display("The editting will be canceled.");
-			return;
+			cin.clear();
+			cin.ignore(2000, '\n');
 		}
-		cout << "Are you sure that you want to edit the employee with the ID " << id << "?" << endl;
-		graphical_menu yesno;
-		yesno.setclear(0);
-		choice = yesno.operate("Answer", "Yes\nNo");
-	} while (choice == 1);
+		id = 0;
+		cout << "Invalid ID." << endl;
+		outputbox.display("The editting will be canceled.");
+		return;
+	}
+	/*cout << "Are you sure that you want to edit the employee with the ID " << id << "?" << endl;
+	graphical_menu yesno;
+	yesno.setclear(0);
+	choice = yesno.operate("Answer", "Yes\nNo");*/
 	int index = findEmplWithID(id);
 	if (index == -1)
 	{
@@ -399,12 +393,8 @@ void Staff::Remove_an_Empl()
 		cin.ignore(1);
 		return;
 	}
-	int idx = employeeRecords->getIndex(id);
-	if (idx == -1)
-	{
-		outputbox.display("There is no employee possessing the ID " + to_string(id) + " in record database.");
-	}
-	else
+	int idx = employeeRecords->getIndex(id);	
+	if (idx!=-1)
 		employeeRecords->remove(idx);
 	outputbox.display("Start removing....");
 	int n = (int)ListEmpl.size();
@@ -547,12 +537,17 @@ void Staff::Manage_Infor_Menu()
 {
 	int choice = 0;
 	while (true) {
-		choice = mainmenu.operate("LOAD DATA", "Import new list of employee from csv file\nLoad existed list of employee from database\nCreate new list of employee manually\nBack");
+		choice = mainmenu.operate("LOAD DATA", "Import new list of employee from csv file\nLoad existed list of employee from database\nCreate new list of employee manually\nBack\n");
 		switch (choice + 1)
 		{
 			case 1:
 			{
 				ImportListEmpfromCsv();
+				mainmenu.autowarp(0);
+				mainmenu.clear();
+				mainmenu.autowarp(1);
+				ListEmpl.clear();
+				continue;
 				break;
 			}
 			case 2:
@@ -580,15 +575,11 @@ void Staff::Manage_Infor_Menu()
 			}
 			mainmenu.clear();
 			continue;
-		}
-		if (choice == 1)
-		{
-			continue;
-		}
+		}		
 		while (choice != 7)
 		{
 			mainmenu.autowarp(0);
-			choice = mainmenu.operate("MANAGE INFORMATION", "Add an employee\nEdit information of an employee\nRemove an employee\nView list of employees\nView information of an employee\nReset password of an employee\nBack") + 1;
+			choice = mainmenu.operate("MANAGE INFORMATION", "Add an employee\nEdit information of an employee\nRemove an employee\nView list of employees\nView information of an employee\nReset password of an employee\nSave and Back") + 1;
 			switch (choice)
 			{
 				case 1:
@@ -695,7 +686,7 @@ void Staff::Manage_Record_Menu() {
 		{
 			while (true) {
 				cout << "Input the month you want to create its record (MM-YYYY): ";
-				cin >> option;
+				getline(cin,option);
 				if (valid_month_record(option))
 					break;
 				outputbox.display("Invalid input. Please try again.");
@@ -704,7 +695,9 @@ void Staff::Manage_Record_Menu() {
 			employeeRecords = new Record(option);
 			if (createRecords()) {
 				if (add_month(option, n)) {
-					// Loading graphic needed
+					screenctrl* screen = screenctrl::instance();
+					graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
+					loader.load(30);
 					outputbox.display("New month was added successfully.");
 				}
 				else {
@@ -731,7 +724,7 @@ void Staff::Manage_Record_Menu() {
 		while (choice != 6)
 		{
 			mainmenu.autowarp(0);
-			choice = mainmenu.operate("MANAGE RECORD", "Import record data from csv file\nEdit record of an employee\nClear record of an employee\nView record of all employees\nView salary of all employees\nBack") + 1;
+			choice = mainmenu.operate("MANAGE RECORD", "Import record data from csv file\nEdit record of an employee\nClear record of an employee\nView record of all employees\nView salary of all employees\nSave and back") + 1;
 			switch (choice)
 			{
 				case 1:
@@ -764,10 +757,13 @@ void Staff::Manage_Record_Menu() {
 				{
 					outputbox.display("Please wait while saving data before returning to the previous menu.");
 					delete employeeRecords;
-					// Loading graphic
+					screenctrl* screen = screenctrl::instance();
+					graphical_loader loader(2, screen->getbufferh() - 5, 20, "Save");
+					loader.load(30);
 					outputbox.display("Returning to previous menu....");
 					mainmenu.clear();
 					mainmenu.autowarp(1);
+					ListEmpl.clear();
 					break;
 				}
 			}
@@ -811,7 +807,10 @@ bool Staff::createRecords()
 {
 	if (employeeRecords->hasData())
 	{
-		outputbox.display("There is existing record data of this month. You cannot create new record.\n");
+		outputbox.display("There is existing record data of this month. You cannot create new record.");
+		mainmenu.autowarp(0);
+		mainmenu.clear();
+		mainmenu.autowarp(1);
 		return false;
 	}
 	int n = (int)ListEmpl.size();
@@ -857,11 +856,6 @@ void Staff::removeRecords()
 	if (employeeRecords->hasData())
 	{
 		employeeRecords->clearData();
-		outputbox.display("Removed record data successfully");
-	}
-	else
-	{
-		outputbox.display("There's no record data to remove");
 	}
 }
 
@@ -961,7 +955,7 @@ void Staff::viewSalaryTable()
 	screenctrl* screen = screenctrl::instance();
 	int partsize = screen->getbufferh() - 9 - TXTY;
 	graphical_box temp;
-	for (int i=0;i<n;i++) total += ListEmpl[i].Salary;
+	for (int i=0;i<n;i++) total += employeeRecords->calcSalary(i);
 	graphical_textbox totalbox(screen->getbufferw() * 2 / 3, screen->getbufferh() / 2, 50, 3, 0);
 	totalbox.setfocus(0);	
 	while (true)
@@ -985,7 +979,6 @@ void Staff::viewSalaryTable()
 			cout << left << setw(10) << ListEmpl[i].EInfor.getID() << setw(2) << (char)179;
 			cout << setw(28) << ListEmpl[i].EInfor.getName() << setw(2) << (char)179;
 			cout << right << setw(12) << salary << endl;
-			total += salary;
 		}
 		char c = _getch();
 		if (c == -32)

@@ -7,6 +7,8 @@ Employee::Employee() {
 	logday = cdate.tm_mday;
 	logmonth = cdate.tm_mon + 1;
 	logyear = cdate.tm_year + 1900;
+	loghour = cdate.tm_hour;
+	logmin = cdate.tm_min;
 }
 
 Employee::Employee(Account acc) : EInfor(acc) {
@@ -16,6 +18,8 @@ Employee::Employee(Account acc) : EInfor(acc) {
 	logday = cdate.tm_mday;
 	logmonth = cdate.tm_mon + 1;
 	logyear = cdate.tm_year + 1900;
+	loghour = cdate.tm_hour;
+	logmin = cdate.tm_min;
 }
 
 void Employee::View_Infor_Empl()
@@ -81,6 +85,11 @@ bool Employee::loadEmplRecord(int month)
 
 void Employee::checkin()
 {
+	if (loghour < 13 || loghour > 14 || (loghour == 14 && logmin > 0))
+	{
+		outputbox.display("Checkin failed.");
+		return;
+	}
 	string file = "Record-";
 	if (logmonth < 10) file += "0";
 	file += to_string(logmonth) + "-" + to_string(logyear) + ".txt";

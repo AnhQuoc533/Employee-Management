@@ -63,7 +63,7 @@ class Employee {
 private:
 	Infor EInfor;
 	double Salary = 0;
-	int logday, logmonth, logyear;
+	int logday, logmonth, logyear, logmin, loghour;
 	bool record[31];
 	void boardsetup();
 public:

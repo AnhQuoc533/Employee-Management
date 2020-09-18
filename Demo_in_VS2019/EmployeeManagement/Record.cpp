@@ -27,10 +27,6 @@ Record::Record()
 			p = 0;
 		}
 	}
-	else
-	{
-		cout << "File not found. Cannot not load data.\n";
-	}
 	fin.close();
 }
 
@@ -61,10 +57,6 @@ Record::Record(string recordName)
 			p = 0;
 		}
 	}
-	else
-	{
-		cout << "File not found. Cannot not load data.\n";
-	}
 	fin.close();
 }
 
@@ -78,8 +70,7 @@ Record::~Record()
 	if (!fout.is_open())
 	{
 		fout.close();
-		cout << "Cannot save record data.\n";
-		cout << "Current data is now backed up in tmp.txt\n";
+		outputbox.display("Cannot save record data.\nCurrent data is now backed up in tmp.txt");
 		fout.open("tmp.txt");
 	}
 	for (int i = 0; i < size; i++)
