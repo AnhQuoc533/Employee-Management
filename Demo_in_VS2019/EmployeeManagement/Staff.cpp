@@ -721,15 +721,14 @@ void Staff::Manage_Record_Menu() {
 			employeeRecords = new Record(months[choice]);
 		}
 		choice = 0;
-		while (choice != 6)
+		while (choice != 8)
 		{
 			mainmenu.autowarp(0);
-			choice = mainmenu.operate("MANAGE RECORD", "Import record data from csv file\nEdit record of an employee\nClear record of an employee\nView record of all employees\nView salary of all employees\nSave and back") + 1;
+			choice = mainmenu.operate("MANAGE RECORD", "Import record data from csv file\nEdit record of an employee\nClear record of an employee\nView record of all employees\nView salary of all employees\nAdd comment to an employee\nView all of your comments\nSave and back") + 1;
 			switch (choice)
 			{
 				case 1:
 				{
-					removeRecords();
 					importRecords();
 					break;
 				}
@@ -754,6 +753,16 @@ void Staff::Manage_Record_Menu() {
 					break;
 				}
 				case 6:
+				{
+					add_cmt();
+					break;
+				}
+				case 7:
+				{
+					view_cmt();
+					break;
+				}
+				case 8:
 				{
 					outputbox.display("Please wait while saving data before returning to the previous menu.");
 					delete employeeRecords;
@@ -846,7 +855,7 @@ void Staff::editRecordOfAnEmployee()
 	}
 	cout << "Input the status of the employee\n";
 	graphical_menu menu;
-	status = 1-menu.operate("Status", "Present\nAbsent");
+	status = 1 - menu.operate("Status", "Present\nAbsent");
 	employeeRecords->edit(index, day, status);
 	outputbox.display("The record of an employee was edited successfully.");
 }
@@ -869,10 +878,11 @@ void Staff::importRecords()
 	fin.open(filename);
 	if (!fin.is_open())
 	{
-		outputbox.display("Cannot import data from record database.");
+		outputbox.display("Cannot import data from " + filename);
 	}
 	else
 	{
+		removeRecords();
 		screenctrl* screen = screenctrl::instance();
 		outputbox.display("Openned file " + filename + " successfully.\nLoading data to the program...");
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
@@ -962,7 +972,7 @@ void Staff::viewSalaryTable()
 	{
 		temp.turnCursor(0);
 		totalbox.display("Total salary: " + to_string((int)total));
-		cout << "\nSalary table of all employees (press up/down to navigate)\n";
+		cout << "Salary table\n(press up/down to navigate)\n";
 		cout << left << setw(10) << "ID" << setw(2) << (char)179 << setw(28) << "Name" << setw(2) << (char)179 << right << setw(12) << "Salary" << endl;
 		for (int i = 0; i < 30+2*12; i++)
 			if (i == 10||i==40) cout << (char)197; else cout << (char)196;
@@ -1006,4 +1016,65 @@ string Staff::staff_name() {
 void Staff::view_profile() {
 	cout << "Username: " << StInfor.ACC.Username << endl;
 	StInfor.OutputInfor();
+}
+
+void Staff::add_cmt() {
+	int ID, index, money;
+	string cmt;
+	cout << "Input the ID of the employee: ";
+	cin >> ID;
+	index = employeeRecords->getIndex(ID);
+	if (index == -1)
+	{
+		outputbox.display("There is no employee possessing the ID " + to_string(ID) + " in record database.");
+		return;
+	}
+	graphical_menu menu;
+	index = menu.operate("Action", "Reward\nFine");
+	cout << "Input the amount of money: ";
+	cin >> money;
+	if (index)
+		money = -money;
+	cout << "Input your reason: ";
+	cin.ignore(1);
+	getline(cin, cmt);
+	save_cmt(ID, money, cmt);
+}
+
+void Staff::save_cmt(int id, int money, string cmt) {
+	ofstream f("Comment.txt", ios::app);
+	if (f.is_open()) {
+		outputbox.display("Saving your comment....");
+		screenctrl* screen = screenctrl::instance();
+		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Save");
+		loader.load(30);
+		if (f.tellp() == EOF) {
+			f << endl;
+		}
+		f << employeeRecords->month_record() << ',' << id << ',' << money << ',' << cmt;
+		f.close();
+		outputbox.display("Your comment was saved successfully!");
+	}
+	else
+		outputbox.display("Failed to save your comment.");
+}
+// Graphics
+void Staff::view_cmt() {
+	ifstream f("Comment.txt");
+	string tmp;
+	if (f.is_open()) {
+		cout << "Month\t\tEmployee\t\tBonus/Fine\t\tComment";
+		while (f.good()) {
+			cout << endl;
+			for (int i = 0; i < 3; ++i) {
+				getline(f, tmp, ',');
+				cout << tmp << "\t\t";
+			}
+			getline(f, tmp);
+			cout << tmp << "\t\t";
+		}
+		f.close();
+	}
+	else
+		outputbox.display("Failed to load your comments.");
 }

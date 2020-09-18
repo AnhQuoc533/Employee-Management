@@ -45,6 +45,7 @@ public:
 	Record();
 	Record(string);
 	~Record();
+	string month_record() { return filename.substr(7, 7); }
 	void import(ifstream& fin);
 	void edit(int index, unsigned day, bool status);
 	void clear(int index);
@@ -57,13 +58,14 @@ public:
 	void view(int index);
 	void remove(int index);
 	int calcSalary(int index);
+	int bonus(int id);
 };
 
 class Employee {
 private:
 	Infor EInfor;
 	double Salary = 0;
-	int logday, logmonth, logyear;
+	int logday, logmonth, logyear, logmin, loghour;
 	bool record[31];
 	void boardsetup();
 public:
@@ -120,6 +122,9 @@ public:
 	void clearRecordOfAnEmployee();
 	void viewRecords();
 	void viewSalaryTable();
+	void add_cmt();
+	void save_cmt(int, int, string);
+	void view_cmt();
 	void Manage_Record_Menu();
 };
 

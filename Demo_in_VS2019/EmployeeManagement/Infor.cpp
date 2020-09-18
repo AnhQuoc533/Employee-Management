@@ -119,8 +119,8 @@ void Infor::EditInfor()
 		}
 		case 4:
 		{
-			cout << "Editing the phonenumber of the employee." << endl;
-			cout << "Input the new phonenumber for this employee: ";
+			cout << "Editing the phone number of the employee." << endl;
+			cout << "Input the new phone number for this employee: ";
 			cin.ignore(1);
 			getline(cin, Phone);
 			break;

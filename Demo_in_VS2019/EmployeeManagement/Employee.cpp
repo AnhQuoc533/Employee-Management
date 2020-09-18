@@ -178,7 +178,7 @@ void Employee::viewAnnualRecord()
 void Employee::viewAnnualSalary() {
 	string word[] = { "January","February","March","April","May","June","July","August","September","October","November","December" };
 	int daymax[] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
-	int sep = 15; int workcount = 0, scale = 300000;
+	int sep = 15, workcount = 0, scale = 300000;
 	cout << left << setw(sep) << "Month" << setw(2) << (char)179 << setw(sep) << "Day worked" << setw(2) << (char)179 << setw(sep) << "Salary" << endl;
 	for (int i = 0; i < (sep + 2) * 3; i++) if (i == 15 || i == 32) cout << (char)197; else cout << (char)196;
 	cout << endl;

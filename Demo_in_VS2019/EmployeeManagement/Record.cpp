@@ -200,5 +200,32 @@ int Record::calcSalary(int index)
 	{
 		salary += records[index][i] * 300000;
 	}
-	return salary;
+	return salary + bonus(records[index][0]);
+}
+
+int Record::bonus(int id) {
+	int bonus = 0;
+	string tmp;
+	ifstream f("Comment.txt");
+	if (f.is_open()) {
+		while (f.good()) {
+			getline(f, tmp, ',');
+			if (tmp == month_record()) {
+				getline(f, tmp, ',');
+				if (tmp == to_string(id)) {
+					getline(f, tmp, ',');
+					bonus += stoi(tmp);
+					getline(f, tmp);
+				}
+				else
+					getline(f, tmp);
+			}
+			else
+				getline(f, tmp);
+		}
+		f.close();
+		return bonus;
+	}
+	else
+		return 0;
 }

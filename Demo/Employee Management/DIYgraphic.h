@@ -168,5 +168,5 @@ inline void graphical_inputbox::input(string content, T &var)
 {
 	warp(x+1, y+offset++);
 	charColorate(SEMI); cout << content;
-	charColorate(WHITE); cin >> var;
+	charColorate(WHITE); getline(cin, var);
 }

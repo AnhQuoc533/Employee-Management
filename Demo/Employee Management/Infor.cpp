@@ -84,7 +84,7 @@ void Infor::EditInfor()
 	{
 		cout << "Which infor of this employee do you want to edit?" << endl;
 		graphical_menu menu;
-		choice = menu.operate("Field", "Name\nGender\nDate of birth\nPhone number\nAddress");
+		choice = menu.operate("Field", "Name\nGender\nDate of birth\nPhone number\nAddress\nQuit\n");
 		switch (choice + 1)
 		{
 		case 0:
@@ -119,8 +119,8 @@ void Infor::EditInfor()
 		}
 		case 4:
 		{
-			cout << "Editing the phonenumber of the employee." << endl;
-			cout << "Input the new phonenumber for this employee: ";
+			cout << "Editing the phone number of the employee." << endl;
+			cout << "Input the new phone number for this employee: ";
 			cin.ignore(1);
 			getline(cin, Phone);
 			break;
@@ -133,11 +133,8 @@ void Infor::EditInfor()
 			getline(cin, Address);
 			break;
 		}
-		default:
-		{
-			cout << "Invalid choice." << endl;
-			break;
-		}
+		case 6:
+			return;
 		}
 		cout << "Do you still want to edit this employee?" << endl;
 		graphical_menu yesno;

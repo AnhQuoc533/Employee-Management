@@ -174,7 +174,7 @@ void Account::changepsw() {
 				screenctrl* screen = screenctrl::instance();
 				graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() - 7, 0);
 				menu.setalign(1, 1);
-				choice = mainmenu.operate("ACTION", "Try again\nBack");
+				choice = menu.operate("ACTION", "Try again\nBack");
 				if (choice)
 					return;
 				else {
