@@ -3,7 +3,7 @@
 Staff::Staff(Account acc) : StInfor(acc)
 {
 	load_profile();
-	employeeRecords = 0;
+	employeeRecords = new Record;
 }
 
 void Staff::section() {
@@ -513,7 +513,6 @@ void Staff::Manage_Infor_Menu()
 			mainmenu.clear();
 			continue;
 		}
-		employeeRecords = new Record;
 		while (choice != 7)
 		{
 			mainmenu.autowarp(0);
@@ -556,7 +555,6 @@ void Staff::Manage_Infor_Menu()
 					SaveInfortoTextfile();
 					ListEmpl.clear();
 					delete employeeRecords;
-					employeeRecords = 0;
 					outputbox.display("Returning to previous menu....");
 					mainmenu.clear();
 					mainmenu.autowarp(1);
@@ -570,6 +568,7 @@ void Staff::Manage_Infor_Menu()
 string Staff::load_month(vector<string>& months) {
 	ifstream fin;
 	string tmp;
+	months.clear();
 	fin.open("Month-Record.txt");
 	if (fin.is_open())
 	{
@@ -594,13 +593,6 @@ string Staff::load_month(vector<string>& months) {
 }
 
 void Staff::Manage_Record_Menu() {
-	LoadfromTextfile();
-	if (ListEmpl.size() == 0) {
-		outputbox.display("No employee found in database. There is nothing to manange!");
-		outputbox.display("Returning to previous menu....");
-		mainmenu.clear();
-		return;
-	}
 	vector<string> months;
 	string option;
 	int n, choice;
@@ -615,8 +607,13 @@ void Staff::Manage_Record_Menu() {
 		n = (int)months.size();
 		if (choice == n)
 		{
-			cout << "Input the month you want to create its record: ";
-			cin >> option;
+			while (true) {
+				cout << "Input the month you want to create its record (MM-YYYY): ";
+				cin >> option;
+				if (valid_month_record(option))
+					break;
+				outputbox.display("Invalid input. Please try again.");
+			}
 			outputbox.display("Creating new record....");
 			employeeRecords = new Record(option);
 			if (createRecords()) {
@@ -626,20 +623,17 @@ void Staff::Manage_Record_Menu() {
 				}
 				else {
 					delete employeeRecords;
-					employeeRecords = 0;
 					continue;
 				}
 			}
 			else {
 				delete employeeRecords;
-				employeeRecords = 0;
 				continue;
 			}
 		}
 		else if (choice == (n + 1))
 		{
 			outputbox.display("Returning to previous menu....");
-			ListEmpl.clear();
 			mainmenu.clear();
 			return;
 		}
@@ -648,7 +642,7 @@ void Staff::Manage_Record_Menu() {
 			employeeRecords = new Record(months[choice]);
 		}
 		choice = 0;
-		while (choice != 5)
+		while (choice != 6)
 		{
 			mainmenu.autowarp(0);
 			choice = mainmenu.operate("MANAGE RECORD", "Import records data from csv file\nEdit record of an employee\nClear record of an employee\nView records of all employees\nView salary of all employees\nExit") + 1;
@@ -684,7 +678,6 @@ void Staff::Manage_Record_Menu() {
 				{
 					outputbox.display("Please wait while saving data before returning to the previous menu.");
 					delete employeeRecords;
-					employeeRecords = 0;
 					// Loading graphic
 					outputbox.display("Returning to previous menu....");
 					mainmenu.clear();
@@ -710,6 +703,22 @@ bool Staff::add_month(string month, int n) {
 		outputbox.display("Cannot add month.");
 		return false;
 	}
+}
+
+bool Staff::valid_month_record(const string& month) {
+	if (month.size() != 7 || month[2] != '-')
+		return false;
+	for (int i = 0; i < 7; ++i) {
+		if (i == 2)
+			continue;
+		if (month[i] < 48 || month[i]> 57)
+			return false;
+	}
+	string m(month, 0, 2);
+	string y(month, 3, 4);
+	if (stoi(m) < 1 || stoi(m) > 12 || stoi(y) < 1)
+		return false;
+	return true;
 }
 
 bool Staff::createRecords()

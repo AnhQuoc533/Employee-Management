@@ -110,9 +110,10 @@ public:
 	//RECORD
 	string load_month(vector<string>&);
 	bool add_month(string, int);
+	bool valid_month_record(const string&);
 	bool createRecords();
 	void editRecordOfAnEmployee();
-	void removeRecords(); // check for the need later
+	void removeRecords();
 	void importRecords();
 	void clearRecordOfAnEmployee();
 	void viewRecords();
