@@ -625,6 +625,7 @@ string Staff::load_month(vector<string>& months) {
 }
 
 void Staff::Manage_Record_Menu() {
+	LoadfromTextfile();
 	vector<string> months;
 	string option;
 	int n, choice;
@@ -854,41 +855,97 @@ void Staff::viewRecords()
 {
 	int index;
 	int n = (int)ListEmpl.size();
-	cout << setw(8);
-	for (int i = 1; i <= employeeRecords->number_of(); ++i)
+	int offset = 0;
+	screenctrl* screen = screenctrl::instance();
+	int partsize = screen->getbufferh() - 8 - TXTY;
+	graphical_box temp;
+	while (1)
 	{
-		cout << i << setw(3);
-	}
-	cout << endl;
-	for (int i = 0; i < n; ++i)
-	{
-		index = employeeRecords->getIndex(ListEmpl[i].EInfor.getID());
-		if (index == -1)
+		temp.turnCursor(0);
+		cout << left << setw(10) << "Day" << setw(2) << (char)179;
+		for (int i = 1; i <= employeeRecords->number_of()+1; ++i)
 		{
-			cout << "There is no employee possessing the ID " << ListEmpl[i].EInfor.getID() << " in records database.\n";
-			cout << "You should recheck the data." << endl;
-			continue;
+			cout << setw(5) << i;
 		}
-		employeeRecords->view(index);
+		cout << endl;
+		for (int i = 0; i < 31 * 5 + 12; i++)
+			if (i == 10) cout << (char)197; else cout << (char)196;
+		cout << endl;
+		for (int i = offset; i < offset+partsize; ++i)
+		{
+			index = employeeRecords->getIndex(ListEmpl[i].EInfor.getID());
+			if (index == -1)
+			{
+				cout << "There is no employee possessing the ID " << ListEmpl[i].EInfor.getID() << " in records database.\n";
+				cout << "You should recheck the data." << endl;
+				continue;
+			}
+			cout << setw(10) << ListEmpl[i].EInfor.getID() << setw(2) << (char)179;
+			employeeRecords->view(index);
+		}
+		char c = _getch();
+		if (c == -32)
+		{
+			c = _getch();
+			switch (c)
+			{
+			case 72: offset = (offset > 0) ? offset - 1 : 0; break;
+			case 80: offset = (offset + partsize < n) ? offset + 1 : n - partsize; break;
+			}
+		}
+		if (c == '\r')
+		{
+			temp.turnCursor(1);
+			return;
+		}
+		outputbox.clearbuffer();
 	}
+	
 }
 
 void Staff::viewSalaryTable()
 {
 	int n = (int)ListEmpl.size();
 	double total = 0;
-	cout << "\n\tSalary table of all employees\n\n";
-	cout << left << setw(12) << "ID" << setw(30) << "Name" << right << setw(12) << "Salary" << endl;
-	cout << "______________________________________________________\n";
-	for (int i = 0; i < n; ++i)
+	int offset = 0;
+	screenctrl* screen = screenctrl::instance();
+	int partsize = screen->getbufferh() - 9 - TXTY;
+	graphical_box temp;
+	for (int i=0;i<n;i++) total += ListEmpl[i].Salary;
+	graphical_textbox totalbox(screen->getbufferw() * 2 / 3, screen->getbufferh() / 2, 50, 3, 0);
+	totalbox.setfocus(0);	
+	while (1)
 	{
-		cout << left << setw(12) << ListEmpl[i].EInfor.getID();
-		cout << setw(30) << ListEmpl[i].EInfor.getName();
-		cout << right << setw(12) << ListEmpl[i].Salary << endl;
-		total += ListEmpl[i].Salary;
-	}
-	cout << "______________________________________________________\n";
-	cout << "Total salary: " << setw(39) << total << endl;
+		totalbox.display("Total salary: " + to_string((int)total));
+		cout << "Salary table of all employees (press up/down to navigate)\n";
+		cout << left << setw(10) << "ID" << setw(2) << (char)179 << setw(28) << "Name" << setw(2) << (char)179 << right << setw(12) << "Salary" << endl;
+		for (int i = 0; i < 30+2*12; i++)
+			if (i == 10||i==40) cout << (char)197; else cout << (char)196;
+		cout << endl;
+		for (int i = offset; i < offset+partsize; ++i)
+		{
+			cout << left << setw(10) << ListEmpl[i].EInfor.getID() << setw(2) << (char)179;
+			cout << setw(28) << ListEmpl[i].EInfor.getName() << setw(2) << (char)179;
+			cout << right << setw(12) << ListEmpl[i].Salary << endl;
+			total += ListEmpl[i].Salary;
+		}
+		char c = _getch();
+		if (c == -32)
+		{
+			c = _getch();
+			switch (c)
+			{
+			case 72: offset = (offset > 0) ? offset - 1 : 0; break;
+			case 80: offset = (offset + partsize < n) ? offset + 1 : n - partsize; break;
+			}
+		}
+		if (c == '\r')
+		{
+			temp.turnCursor(1);
+			return;
+		}
+		outputbox.clearbuffer();
+	}		
 }
 
 string Staff::staff_name() {
