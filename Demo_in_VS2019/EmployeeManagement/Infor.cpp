@@ -46,7 +46,7 @@ void Infor::InputInfor()
 	getline(cin, Name);
 	graphical_menu genmenu;
 	genmenu.setclear(0);
-	int choice = genmenu.operate("Gender", "Male\nFemale\n");
+	int choice = genmenu.operate("Gender", "Male\nFemale");
 	if (choice == 0) Gender = 'M'; else Gender = 'F';
 	cout << "Input date of birth:" << endl;
 	cin >> DoB;
@@ -84,7 +84,7 @@ void Infor::EditInfor()
 	{
 		cout << "Which infor of this employee do you want to edit?" << endl;
 		graphical_menu menu;
-		choice = menu.operate("Field", "Name\nGender\nDate of birth\nPhone number\nAddress\n");
+		choice = menu.operate("Field", "Name\nGender\nDate of birth\nPhone number\nAddress");
 		switch (choice + 1)
 		{
 		case 0:
@@ -106,7 +106,7 @@ void Infor::EditInfor()
 			cout << "Editing the gender of the employee." << endl;
 			graphical_menu menu;
 			menu.setclear(0);
-			int choice = menu.operate("Gender", "Male\nFemale\n");
+			int choice = menu.operate("Gender", "Male\nFemale");
 			if (choice == 0) Gender = 'M'; else Gender = 'F';
 			break;
 		}
@@ -141,6 +141,6 @@ void Infor::EditInfor()
 		}
 		cout << "Do you still want to edit this employee?" << endl;
 		graphical_menu yesno;
-		choice = yesno.operate("Confirmation", "Yes\nNo\n");
+		choice = yesno.operate("Confirmation", "Yes\nNo");
 	} while (choice == 0);
 }

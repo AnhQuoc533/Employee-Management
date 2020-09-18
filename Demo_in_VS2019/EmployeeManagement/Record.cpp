@@ -5,7 +5,7 @@ Record::Record()
 	Date today;
 	ifstream fin;
 	int* p;
-	filename = "Records-" + (today.toStr()).substr(2, 2) + "-" + (today.toStr()).substr(4, 4) + ".txt";
+	filename = "Record-" + (today.toStr()).substr(2, 2) + "-" + (today.toStr()).substr(4, 4) + ".txt";
 	fin.open(filename);
 	string str, tok;
 	istringstream iss;
@@ -39,7 +39,7 @@ Record::Record(string recordName)
 	Date day(stoi(recordName.substr(3,4)), stoi(recordName.substr(0, 2)), 1);
 	ifstream fin;
 	int* p;
-	filename = "Records-" + recordName + ".txt";
+	filename = "Record-" + recordName + ".txt";
 	fin.open(filename);
 	string str, tok;
 	istringstream iss;

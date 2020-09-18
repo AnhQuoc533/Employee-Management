@@ -50,7 +50,7 @@ void Employee::loadEmplData(Account checker)
 
 bool Employee::loadEmplRecord(int month)
 {
-	string file = "Records-";
+	string file = "Record-";
 	if (month < 10) file += "0";
 	file += to_string(month) + "-" + to_string(logyear) + ".txt";
 	ifstream fi(file);
@@ -80,7 +80,7 @@ bool Employee::loadEmplRecord(int month)
 
 void Employee::checkin()
 {
-	string file = "Records-";
+	string file = "Record-";
 	if (logmonth < 10) file += "0";
 	file += to_string(logmonth) + "-" + to_string(logyear) + ".txt";
 	ifstream fi(file);
