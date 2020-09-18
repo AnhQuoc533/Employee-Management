@@ -890,8 +890,7 @@ void Staff::viewRecords()
 			index = employeeRecords->getIndex(ListEmpl[i].EInfor.getID());
 			if (index == -1)
 			{
-				cout << "There is no employee possessing the ID " << ListEmpl[i].EInfor.getID() << " in records database.\n";
-				cout << "You should recheck the data." << endl;
+				outputbox.display("There is no employee possessing the ID " + to_string(ListEmpl[i].EInfor.getID()) + " in records database.\nYou should recheck the data.");
 				continue;
 			}
 			employeeRecords->view(index);
@@ -920,7 +919,7 @@ void Staff::viewSalaryTable()
 {
 	int n = (int)ListEmpl.size();
 	double total = 0;
-	int offset = 0;
+	int offset = 0, salary, index;
 	screenctrl* screen = screenctrl::instance();
 	int partsize = screen->getbufferh() - 9 - TXTY;
 	graphical_box temp;
@@ -937,10 +936,17 @@ void Staff::viewSalaryTable()
 		cout << endl;
 		for (int i = offset; i < offset+partsize; ++i)
 		{
+			index = employeeRecords->getIndex(ListEmpl[i].EInfor.getID());
+			if (index == -1)
+			{
+				outputbox.display("There is no employee possessing the ID " + to_string(ListEmpl[i].EInfor.getID()) + " in records database.\nYou should recheck the data.");
+				continue;
+			}
+			salary = employeeRecords->calcSalary(index);
 			cout << left << setw(10) << ListEmpl[i].EInfor.getID() << setw(2) << (char)179;
 			cout << setw(28) << ListEmpl[i].EInfor.getName() << setw(2) << (char)179;
-			cout << right << setw(12) << ListEmpl[i].Salary << endl;
-			total += ListEmpl[i].Salary;
+			cout << right << setw(12) << salary << endl;
+			total += salary;
 		}
 		char c = _getch();
 		if (c == -32)
