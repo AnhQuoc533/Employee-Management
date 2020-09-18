@@ -640,7 +640,7 @@ string Staff::load_month(vector<string>& months) {
 }
 
 void Staff::Manage_Record_Menu() {
-	LoadfromTextfile();
+	LoadInforInRecord();
 	vector<string> months;
 	string option;
 	int n, choice;
