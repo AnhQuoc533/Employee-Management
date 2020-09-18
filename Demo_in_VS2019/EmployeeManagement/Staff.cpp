@@ -513,6 +513,7 @@ void Staff::Manage_Infor_Menu()
 			mainmenu.clear();
 			continue;
 		}
+		employeeRecords = new Record;
 		while (choice != 7)
 		{
 			mainmenu.autowarp(0);
@@ -554,6 +555,8 @@ void Staff::Manage_Infor_Menu()
 					outputbox.display("Please wait while saving data before returning to the previous menu.");
 					SaveInfortoTextfile();
 					ListEmpl.clear();
+					delete employeeRecords;
+					employeeRecords = 0;
 					outputbox.display("Returning to previous menu....");
 					mainmenu.clear();
 					mainmenu.autowarp(1);
