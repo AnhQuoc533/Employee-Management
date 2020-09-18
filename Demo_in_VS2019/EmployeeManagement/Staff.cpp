@@ -454,9 +454,9 @@ void Staff::View_list_of_Empl()
 			}
 			ID.append(to_string(ListEmpl[i].EInfor.ID));
 			space1 = 5 + (int)No.length();
-			space2 = 15 - ((int)No.length() - 2) + (int)ID.length();
-			space3 = 23 - ((int)ID.length() - 2) + (int)ListEmpl[i].EInfor.getName().length();
-			cout << setw(space1) << No << setw(7) << (char)179 << setw(space2 - 7) << ID << setw(9) << (char)179 << setw(space3 - 9) << ListEmpl[i].EInfor.Name << endl;
+			space2 = 15 - ((int)No.length() - 2) + (int)ID.length() - 7;
+			space3 = 23 - ((int)ID.length() - 2) + (int)ListEmpl[i].EInfor.getName().length() - 9;
+			cout << setw(space1) << No << setw(7) << (char)179 << setw(space2) << ID << setw(9) << (char)179 << setw(space3) << ListEmpl[i].EInfor.Name << endl;
 		}
 		if (offset + partsize != n) cout << setw(7) << "..." << setw(7) << (char)179 << setw(11) << "..." << setw(14) << (char)179 << setw(11) << "..." << endl;
 		char c = _getch();
