@@ -165,7 +165,7 @@ void Employee::viewAnnualRecord()
 
 void Employee::EmployeeMenu()
 {
-	int choice = mainmenu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\nBack");
+	int choice = mainmenu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Records\nBack");
 	switch (choice)
 	{
 	case 0: checkin(); break;
