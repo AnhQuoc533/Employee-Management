@@ -201,13 +201,3 @@ void Record::remove(int index)
 	delete[] records[index];
 	records.erase(records.begin() + index);
 }
-
-int Record::calcSalary(int index)
-{
-	int salary = 0;
-	for (int i = 1; i < nCol; ++i)
-	{
-		salary += records[index][i] * 300000;
-	}
-	return salary;
-}
