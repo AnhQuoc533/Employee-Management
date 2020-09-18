@@ -63,7 +63,7 @@ private:
 	Infor EInfor;
 	double Salary = 0;
 	int logday, logmonth, logyear;
-	vector<bool> record;
+	bool record[31];
 	void boardsetup();
 public:
 	Employee();
@@ -76,7 +76,7 @@ public:
 	void viewCheckin(int month);
 	void viewCheckin();
 	void viewAnnualRecord();
-	void viewAnnualSalary() {}
+	void viewAnnualSalary();
 	void EmployeeMenu();
 
 	friend class Staff;

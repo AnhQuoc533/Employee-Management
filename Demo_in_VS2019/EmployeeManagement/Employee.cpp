@@ -42,7 +42,7 @@ void Employee::loadEmplData(Account checker)
 				fail = 0;
 				break;
 			}
-		}		
+		}
 		fi.close();
 	}
 	if (fail) outputbox.display("Load failed!");
@@ -64,7 +64,8 @@ bool Employee::loadEmplRecord(int month)
 			getline(iss, tok, ',');
 			if (tok == to_string(EInfor.getID()))
 			{
-				for (int i = 0; i < 31; i++)
+				int daymax[] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
+				for (int i = 0; i < daymax[month-1]; i++)
 				{
 					getline(iss, tok, ',');
 					record[i] = stoi(tok);
@@ -97,7 +98,7 @@ void Employee::checkin()
 			{
 				int offset = (int)input.find(",");
 				int i = offset + (logday * 2 - 1);
-				input[i] = '1';				
+				input[i] = '1';
 			}
 			save.push_back(input);
 		}
@@ -115,11 +116,12 @@ void Employee::viewCheckin(int month)
 {
 	if (!loadEmplRecord(month)) return;
 	int sep = 5;
+	int daymax[] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
 
 	graphical_box temp;
 	string word[] = { "January","February","March","April","May","June","July","August","September","October","November","December" };
 	cout << setw(10) << left << word[month - 1] << setw(2) << (char)179;
-	for (int i = 0; i < 31; i++)
+	for (int i = 0; i < daymax[month-1]; i++)
 	{
 		cout << setw(sep);
 		if (record[i])
@@ -150,8 +152,10 @@ void Employee::boardsetup()
 
 void Employee::viewCheckin()
 {
+	cout << "Today is " << logday << "/" << logmonth << "/" << logyear << endl;
 	boardsetup();
 	viewCheckin(logmonth);
+	outputbox.display("Here is your check-in of this month.");
 }
 
 void Employee::viewAnnualRecord()
@@ -161,18 +165,40 @@ void Employee::viewAnnualRecord()
 	{
 		viewCheckin(i);
 	}
+	outputbox.display("Your check-in of this year (" +to_string(logyear)+").");
+}
+
+void Employee::viewAnnualSalary()
+{
+	string word[] = { "January","February","March","April","May","June","July","August","September","October","November","December" };
+	int daymax[] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
+	int sep = 15; int workcount = 0, scale = 300000;
+	cout << left << setw(sep) << "Month" << setw(2) << (char)179 << setw(sep) << "Day worked" << setw(2) << (char)179 << setw(sep) << "Salary" << endl;
+	for (int i = 0; i < (sep+2)*3; i++) if (i==15||i==32) cout << (char)197; else cout << (char)196;
+	cout << endl;
+	for (int i = 1; i < 13; i++)
+	{
+		if (!loadEmplRecord(i)) continue;
+		workcount = 0;
+		for (int j = 0; j < daymax[i - 1]; j++) if (record[j]) workcount++;
+		cout << left << setw(sep) << word[i-1] << setw(2) << (char)179 << setw(sep) << workcount << setw(2) << (char)179 << setw(sep) << workcount*scale << endl;
+	}
+	outputbox.display("This is your salary from months of this year.");
 }
 
 void Employee::EmployeeMenu()
 {
-	int choice = mainmenu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\nBack");
-	switch (choice)
+	while (1)
 	{
-	case 0: checkin(); break;
-	case 1: viewCheckin(); break;
-	case 2: viewAnnualSalary(); break;
-	case 3: viewAnnualRecord(); break;
-	case 4: mainmenu.clear(); return;
+		mainmenu.autowarp(0);
+		int choice = mainmenu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\nBack\n");
+		switch (choice)
+		{
+		case 0: checkin(); break;
+		case 1: viewCheckin(); break;
+		case 2: viewAnnualSalary(); break;
+		case 3: viewAnnualRecord(); break;
+		case 4: mainmenu.clear(); mainmenu.autowarp(1); return;
+		}
 	}
 }
-
