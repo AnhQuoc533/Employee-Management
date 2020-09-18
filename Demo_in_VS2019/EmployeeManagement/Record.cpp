@@ -180,7 +180,6 @@ void Record::view(int index)
 	cout << setw(10) << records[index][0] << setw(2) << (char)179;
 	for (int i = 1; i < nCol; ++i)
 	{
-		//cout << records[index][i] << setw(3);
 		cout << setw(5);
 		if (records[index][i])
 		{

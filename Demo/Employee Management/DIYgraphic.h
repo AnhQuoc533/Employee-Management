@@ -3,6 +3,7 @@
 
 #include <Windows.h>
 #include <conio.h>
+#include <map>
 using namespace std;
 
 #define TONE1 1
@@ -108,7 +109,7 @@ public:
 class graphical_textbox : public graphics_abstract
 {
 private:
-	string content;
+	string content; bool focus = 1;
 	int x, y, w, h, border, select = 0;
 	graphical_box box;
 public:
@@ -120,6 +121,7 @@ public:
 	void wipe();
 	void display(string s);
 	void display();
+	void setfocus(bool v) { focus = 0; }
 };
 
 class graphical_inputbox : public graphics_abstract
@@ -143,6 +145,17 @@ public:
 		x(posx), y(posy), w(width), content(s) { srand((unsigned)time(0)); }
 	void load(int time);
 	void reset(int posx, int posy, int width);
+};
+
+class graphical_bigtext :public graphics_abstract
+{
+private:
+	map<char, vector<vector<int>>> bigtext;
+	int x, y;
+public:
+	graphical_bigtext();
+	graphical_bigtext(int xx, int yy) :graphical_bigtext() { x = xx; y = yy; }
+	void display(string s);
 };
 
 extern graphical_textbox outputbox;

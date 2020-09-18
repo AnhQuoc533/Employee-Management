@@ -87,8 +87,6 @@ private:
 	Infor StInfor;
 	vector<Employee> ListEmpl;
 	Record* employeeRecords;
-protected:
-	void LoadInforInRecord();
 public:
 	Staff(Account);
 	void view_profile();
@@ -114,6 +112,7 @@ public:
 	bool add_month(string, int);
 	bool valid_month_record(const string&);
 	bool createRecords();
+	void LoadInforInRecord();
 	void editRecordOfAnEmployee();
 	void removeRecords();
 	void importRecords();

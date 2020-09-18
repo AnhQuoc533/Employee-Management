@@ -13,6 +13,10 @@ int main() {
 
 	int choice = -1;
 	while (true) {
+		graphical_bigtext emp(2, 1), gr3(screen->getbufferw() - 7 * 6 + 3, 1);
+		outputbox.display("Welcome to Employee Management System");
+		emp.display("EMPLOYEE\nMANAGEMENT\nSYSTEM");
+		gr3.display("GROUP 3");
 		if (welcome())
 			return 0;
 		Account A;

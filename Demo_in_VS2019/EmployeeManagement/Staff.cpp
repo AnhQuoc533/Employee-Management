@@ -894,7 +894,6 @@ void Staff::viewRecords()
 				cout << "You should recheck the data." << endl;
 				continue;
 			}
-			//cout << setw(10) << ListEmpl[i].EInfor.getID() << setw(2) << (char)179;
 			employeeRecords->view(index);
 		}
 		char c = _getch();

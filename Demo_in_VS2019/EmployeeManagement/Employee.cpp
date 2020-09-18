@@ -73,10 +73,8 @@ bool Employee::loadEmplRecord(int month)
 			}
 		}
 		fi.close();
-		//outputbox.display("Load successfully!");
 		return 1;
 	}
-	//else outputbox.display("Can't load record for check-in.");
 	return 0;
 }
 
@@ -108,9 +106,9 @@ void Employee::checkin()
 		int n = (int)save.size();
 		for (int i = 0; i < n; i++) fo << save[i] << endl;
 		fo.close();
-		outputbox.display("Checkin successfully!");
+		outputbox.display("Checked in successfully!");
 	}
-	else outputbox.display("Can't load record for check-in.");
+	else outputbox.display("Cannot load record for check-in.");
 }
 
 void Employee::viewCheckin(int month)
@@ -124,7 +122,7 @@ void Employee::viewCheckin(int month)
 	for (int i = 0; i < 31; i++)
 	{
 		cout << setw(sep);
-		if (record[i]) //cout << "Yes"; else cout << "No";
+		if (record[i])
 		{
 			temp.charColorate(GOOD);
 			cout << char(251);
@@ -167,7 +165,7 @@ void Employee::viewAnnualRecord()
 
 void Employee::EmployeeMenu()
 {
-	int choice = mainmenu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\nBack\n");
+	int choice = mainmenu.operate("Employee Menu", "Check-in\nView Check-in Result\nView Annual Salary\nView Annual Record\nBack");
 	switch (choice)
 	{
 	case 0: checkin(); break;

@@ -131,26 +131,26 @@ void graphical_menu::display(string title, string content)
 	charColorate(0xF);
 }
 
-//void graphical_menu::formoutline(int color)
-//{
-//	charColorate(color);
-//	char hl = (char)196, vl = (char)179, c1 = (char)218, c2 = (char)191, c3 = (char)192, c4 = (char)217;
-//	if (border) hl = char(205), vl = char(186), c1 = char(201), c2 = char(187), c3 = char(200), c4 = char(188);
-//	for (int i = 1; i < w; i++)
-//	{
-//		warp(x + i, y); cout << hl;
-//		warp(x + i, y + h); cout << hl;
-//	}
-//	for (int i = 1; i < h; i++)
-//	{
-//		warp(x, y + i); cout << vl;
-//		warp(x + w, y + i); cout << vl;
-//	}
-//	warp(x, y); cout << c1;
-//	warp(x + w, y); cout << c2;
-//	warp(x, y + h); cout << c3;
-//	warp(x + w, y + h); cout << c4;
-//}
+/*void graphical_menu::formoutline(int color)
+{
+	charColorate(color);
+	char hl = (char)196, vl = (char)179, c1 = (char)218, c2 = (char)191, c3 = (char)192, c4 = (char)217;
+	if (border) hl = char(205), vl = char(186), c1 = char(201), c2 = char(187), c3 = char(200), c4 = char(188);
+	for (int i = 1; i < w; i++)
+	{
+		warp(x + i, y); cout << hl;
+		warp(x + i, y + h); cout << hl;
+	}
+	for (int i = 1; i < h; i++)
+	{
+		warp(x, y + i); cout << vl;
+		warp(x + w, y + i); cout << vl;
+	}
+	warp(x, y); cout << c1;
+	warp(x + w, y); cout << c2;
+	warp(x, y + h); cout << c3;
+	warp(x + w, y + h); cout << c4;
+}*/
 
 int graphical_menu::operate()
 {
@@ -374,7 +374,7 @@ void screenctrl::init(int width, int height)
 	SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
 	GetConsoleScreenBufferInfo(console, &csbi);
 	newsize.X = csbi.dwSize.X;
-	newsize.Y = csbi.srWindow.Bottom - csbi.srWindow.Top+1;//SBInfo.dwSize.Y;
+	newsize.Y = csbi.srWindow.Bottom - csbi.srWindow.Top+1;
 	SetConsoleScreenBufferSize(console, newsize);
 
 	bwidth = csbi.srWindow.Right - csbi.srWindow.Left;
@@ -416,7 +416,6 @@ void graphical_loader::load(int time)
 		if (i < w) charColorate(WHITE);
 		warp(x + w + 2, y);
 		cout << percent << "%";
-		//Sleep(time*i/breakpoint);
 		Sleep(time);
 	}	
 	warp(x, y - 1); cout << content << " completed!";
@@ -505,7 +504,7 @@ graphical_bigtext::graphical_bigtext()
 
 void graphical_bigtext::display(string s)
 {
-	int n = s.length(),
+	int n = (int)s.length(),
 		xbuffer = 0;
 	for (int i = 0; i < n; i++)
 	{

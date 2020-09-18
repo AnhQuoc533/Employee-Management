@@ -84,14 +84,33 @@ void Staff::SaveInfortoTextfile()
 		}
 		outputbox.display("Finished saving data to file " + namefile + " succeeded.\nClosing the file....");
 		fsave.close();
-		if (!fsave.is_open())
-		{
-			outputbox.display("The file " + namefile + " was closed successfully.");
-		}
-		else
+		if (fsave.is_open())
 		{
 			outputbox.display("Failed to close file " + namefile);
 		}
+	}
+}
+
+void Staff::LoadInforInRecord()
+{
+	ifstream fload;
+	string namefile = "Employee.txt";
+	fload.open(namefile);
+	if (!fload.is_open())
+	{
+		outputbox.display("Cannot open the file " + namefile);
+		return;
+	}
+	else
+	{
+		Employee anEmpl;
+		while (fload.peek() != EOF)
+		{
+			anEmpl.EInfor.LoadInforfrom(fload);
+			anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
+			ListEmpl.push_back(anEmpl);
+		}
+		fload.close();
 	}
 }
 
@@ -112,7 +131,7 @@ void Staff::LoadfromTextfile()
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
 		loader.load(30);
-		while (!fload.eof())
+		while (fload.peek() != EOF)
 		{
 			anEmpl.EInfor.LoadInforfrom(fload);
 			anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
@@ -120,10 +139,10 @@ void Staff::LoadfromTextfile()
 		}
 		outputbox.display("Finished loading " + namefile + "\nClosing the file....");
 		fload.close();
-		if (!fload.is_open())
-			outputbox.display("The file " + namefile + " was closed successfully.");
-		else
+		if (fload.is_open())
+		{
 			outputbox.display("Failed to close file " + namefile);
+		}
 	}
 }
 
@@ -149,7 +168,7 @@ void Staff::ImportListEmpfromCsv()
 		loader.load(30);
 		string temp;
 		Date tempDate;
-		while (!fload.eof())
+		while (fload.peek() != EOF)
 		{
 			getline(fload, temp, ',');
 			anEmpl.EInfor.No = stoi(temp);
@@ -171,11 +190,7 @@ void Staff::ImportListEmpfromCsv()
 		}
 		outputbox.display("Finished importing " + namefile + "\nClosing the file....");
 		fload.close();
-		if (!fload.is_open())
-		{
-			outputbox.display("The file " + namefile + " was closed successfully.");
-		}
-		else
+		if (fload.is_open())
 		{
 			outputbox.display("Failed to close file " + namefile);
 		}
@@ -625,6 +640,7 @@ string Staff::load_month(vector<string>& months) {
 }
 
 void Staff::Manage_Record_Menu() {
+	LoadInforInRecord();
 	vector<string> months;
 	string option;
 	int n, choice;
@@ -781,8 +797,7 @@ void Staff::editRecordOfAnEmployee()
 	index = employeeRecords->getIndex(ID);
 	if (index == -1)
 	{
-		cout << "There is no employee possessing the ID " << ID << " in records database.\n";
-		cout << "You should recheck the data.\n";
+		outputbox.display("There is no employee possessing the ID " +to_string(ID)+ " in records database.\nYou should recheck the data.");
 		return;
 	}
 	cout << "Input the day of month: ";
@@ -792,10 +807,11 @@ void Staff::editRecordOfAnEmployee()
 		cout << "Invalid input day. (1 - " << today.Maxdayintmonth() << ")\n";
 		return;
 	}
-	cout << "Input the status of the employee (1 - Present; 0 - Absent): ";
-	cin >> status;
+	cout << "Input the status of the employee\n";
+	graphical_menu menu;
+	status = 1-menu.operate("Status", "Present\nAbsent\n");
 	employeeRecords->edit(index, day, status);
-	cout << "The record of an employee was edited successfully.\n";
+	outputbox.display("The record of an employee was edited successfully.");
 }
 
 void Staff::removeRecords()
@@ -842,53 +858,107 @@ void Staff::clearRecordOfAnEmployee()
 	index = employeeRecords->getIndex(ID);
 	if (index == -1)
 	{
-		cout << "There is no employee possessing the ID " << ID << " in records database.\n";
-		cout << "You should recheck the data.\n";
+		outputbox.display("There is no employee possessing the ID " + to_string(ID) + " in records database.\nYou should recheck the data.");
 		return;
 	}
 	employeeRecords->clear(index);
-	cout << "Cleared record of an employee\n";
+	outputbox.display("Cleared record of an employee");
 }
 
 void Staff::viewRecords()
 {
 	int index;
 	int n = (int)ListEmpl.size();
-	cout << setw(8);
-	for (int i = 1; i <= employeeRecords->number_of(); ++i)
+	int offset = 0;
+	screenctrl* screen = screenctrl::instance();
+	int partsize = screen->getbufferh() - 8 - TXTY;
+	graphical_box temp;
+	while (1)
 	{
-		cout << i << setw(3);
-	}
-	cout << endl;
-	for (int i = 0; i < n; ++i)
-	{
-		index = employeeRecords->getIndex(ListEmpl[i].EInfor.getID());
-		if (index == -1)
+		temp.turnCursor(0);
+		cout << left << setw(10) << "Day" << setw(2) << (char)179;
+		for (int i = 1; i <= employeeRecords->number_of(); ++i)
 		{
-			cout << "There is no employee possessing the ID " << ListEmpl[i].EInfor.getID() << " in records database.\n";
-			cout << "You should recheck the data." << endl;
-			continue;
+			cout << setw(5) << i;
 		}
-		employeeRecords->view(index);
+		cout << endl;
+		for (int i = 0; i < employeeRecords->number_of() * 5 + 12; i++)
+			if (i == 10) cout << (char)197; else cout << (char)196;
+		cout << endl;
+		for (int i = offset; i < offset+partsize; ++i)
+		{
+			index = employeeRecords->getIndex(ListEmpl[i].EInfor.getID());
+			if (index == -1)
+			{
+				cout << "There is no employee possessing the ID " << ListEmpl[i].EInfor.getID() << " in records database.\n";
+				cout << "You should recheck the data." << endl;
+				continue;
+			}
+			employeeRecords->view(index);
+		}
+		char c = _getch();
+		if (c == -32)
+		{
+			c = _getch();
+			switch (c)
+			{
+			case 72: offset = (offset > 0) ? offset - 1 : 0; break;
+			case 80: offset = (offset + partsize < n) ? offset + 1 : n - partsize; break;
+			}
+		}
+		if (c == '\r')
+		{
+			temp.turnCursor(1);
+			return;
+		}
+		outputbox.clearbuffer();
 	}
+	
 }
 
 void Staff::viewSalaryTable()
 {
 	int n = (int)ListEmpl.size();
 	double total = 0;
-	cout << "\n\tSalary table of all employees\n\n";
-	cout << left << setw(12) << "ID" << setw(30) << "Name" << right << setw(12) << "Salary" << endl;
-	cout << "______________________________________________________\n";
-	for (int i = 0; i < n; ++i)
+	int offset = 0;
+	screenctrl* screen = screenctrl::instance();
+	int partsize = screen->getbufferh() - 9 - TXTY;
+	graphical_box temp;
+	for (int i=0;i<n;i++) total += ListEmpl[i].Salary;
+	graphical_textbox totalbox(screen->getbufferw() * 2 / 3, screen->getbufferh() / 2, 50, 3, 0);
+	totalbox.setfocus(0);	
+	while (1)
 	{
-		cout << left << setw(12) << ListEmpl[i].EInfor.getID();
-		cout << setw(30) << ListEmpl[i].EInfor.getName();
-		cout << right << setw(12) << ListEmpl[i].Salary << endl;
-		total += ListEmpl[i].Salary;
-	}
-	cout << "______________________________________________________\n";
-	cout << "Total salary: " << setw(39) << total << endl;
+		totalbox.display("Total salary: " + to_string((int)total));
+		cout << "Salary table of all employees (press up/down to navigate)\n";
+		cout << left << setw(10) << "ID" << setw(2) << (char)179 << setw(28) << "Name" << setw(2) << (char)179 << right << setw(12) << "Salary" << endl;
+		for (int i = 0; i < 30+2*12; i++)
+			if (i == 10||i==40) cout << (char)197; else cout << (char)196;
+		cout << endl;
+		for (int i = offset; i < offset+partsize; ++i)
+		{
+			cout << left << setw(10) << ListEmpl[i].EInfor.getID() << setw(2) << (char)179;
+			cout << setw(28) << ListEmpl[i].EInfor.getName() << setw(2) << (char)179;
+			cout << right << setw(12) << ListEmpl[i].Salary << endl;
+			total += ListEmpl[i].Salary;
+		}
+		char c = _getch();
+		if (c == -32)
+		{
+			c = _getch();
+			switch (c)
+			{
+			case 72: offset = (offset > 0) ? offset - 1 : 0; break;
+			case 80: offset = (offset + partsize < n) ? offset + 1 : n - partsize; break;
+			}
+		}
+		if (c == '\r')
+		{
+			temp.turnCursor(1);
+			return;
+		}
+		outputbox.clearbuffer();
+	}		
 }
 
 string Staff::staff_name() {

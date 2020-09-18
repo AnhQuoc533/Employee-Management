@@ -112,6 +112,7 @@ public:
 	bool add_month(string, int);
 	bool valid_month_record(const string&);
 	bool createRecords();
+	void LoadInforInRecord();
 	void editRecordOfAnEmployee();
 	void removeRecords();
 	void importRecords();

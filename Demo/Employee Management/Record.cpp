@@ -176,10 +176,23 @@ void Record::clearData()
 
 void Record::view(int index)
 {
-	for (int i = 0; i < nCol; ++i)
+	graphical_box temp;
+	cout << setw(10) << records[index][0] << setw(2) << (char)179;
+	for (int i = 1; i < nCol; ++i)
 	{
-		cout << records[index][i] << setw(3);
+		cout << setw(5);
+		if (records[index][i])
+		{
+			temp.charColorate(GOOD);
+			cout << char(251);
+		}
+		else
+		{
+			temp.charColorate(BAD);
+			cout << "x";
+		}
 	}
+	temp.charColorate(WHITE);
 	cout << endl;
 }
 

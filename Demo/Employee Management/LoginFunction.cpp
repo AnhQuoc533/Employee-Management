@@ -3,7 +3,7 @@
 
 int welcome() {
 	screenctrl* screen = screenctrl::instance();
-	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() / 2-4, 0);
+	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() / 2 - 4, 0);
 	menu.setalign(1,1);
 	return menu.operate("EMPLOYEE MANAGEMENT SYSTEM", "Login\nExit");
 }
@@ -104,7 +104,7 @@ int incorrect_psw() {
 	screenctrl* screen = screenctrl::instance();
 	graphical_menu menu(screen->getbufferw() / 2, screen->getbufferh() - 7, 0);
 	menu.setalign(1, 1);
-	return menu.operate("ACTION", "Try again\nExit\n");
+	return menu.operate("ACTION", "Try again\nExit");
 }
 
 void Account::changeData(ofstream &out) {
