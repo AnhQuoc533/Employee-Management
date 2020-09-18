@@ -531,6 +531,10 @@ void Staff::Manage_Infor_Menu()
 		}
 		if (ListEmpl.size() == 0) {
 			outputbox.display("No employee found. There is nothing to manange!");
+			if (employeeRecords) {
+				delete employeeRecords;
+				employeeRecords = nullptr;
+			}
 			mainmenu.clear();
 			continue;
 		}
