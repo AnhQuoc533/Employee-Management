@@ -44,11 +44,18 @@ void Staff::section() {
 	}
 }
 
-void Staff::SaveInfortoTextfile()
+void Staff::SaveInfortoTextfile(string waytoSave)
 {
 	ofstream fsave;
 	string namefile = "Employee.txt";
-	fsave.open(namefile);
+	if (waytoSave == "overwrite")
+	{
+		fsave.open(namefile);
+	}
+	else
+	{
+		fsave.open(namefile, ios::app);
+	}
 	if (!fsave.is_open())
 	{
 		outputbox.display("Cannot create file.\nSaving canceled");
@@ -56,6 +63,13 @@ void Staff::SaveInfortoTextfile()
 	}
 	else
 	{
+		if (waytoSave == "Not overwrite")
+		{
+			if (fsave.beg == fsave.end)
+			{
+				fsave << endl;
+			}
+		}
 		outputbox.display("Saving data to " + namefile + "....\nDO NOT shutdown the program while saving!");
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Save");
@@ -195,7 +209,21 @@ void Staff::ImportListEmpfromCsv()
 			outputbox.display("Failed to close file " + namefile);
 		}
 		outputbox.display("Your data will be saved to a text file now.");
-		SaveInfortoTextfile();
+		int choice = 0;
+		choice = mainmenu.operate("Choose the way you want to save this import:", "Overwrite old data (delete old data and save)\nDon't overwrit the old data (new data will be merge with all old data)");
+		switch (choice + 1)
+		{
+		case 1:
+		{
+			SaveInfortoTextfile("overwrite");
+			break;
+		}
+		case 2:
+		{
+			SaveInfortoTextfile("Not overwrite");
+			break;
+		}
+		}
 	}
 }
 
@@ -553,6 +581,10 @@ void Staff::Manage_Infor_Menu()
 			mainmenu.clear();
 			continue;
 		}
+		if (choice == 1)
+		{
+			continue;
+		}
 		while (choice != 7)
 		{
 			mainmenu.autowarp(0);
@@ -601,7 +633,7 @@ void Staff::Manage_Infor_Menu()
 
 void Staff::exit_infor_menu() {
 	outputbox.display("Please wait while saving data before returning to the previous menu.");
-	SaveInfortoTextfile();
+	SaveInfortoTextfile("overwrite");
 	ListEmpl.clear();
 	if (employeeRecords) {
 		delete employeeRecords;

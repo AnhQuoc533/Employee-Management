@@ -95,7 +95,7 @@ public:
 	string staff_name();
 	//INFORMATION
 	void ImportListEmpfromCsv();
-	void SaveInfortoTextfile();
+	void SaveInfortoTextfile(string waytoSave);
 	void LoadfromTextfile();
 	int findEmplWithID(int id);
 	void Add_an_Empl_Manually();
