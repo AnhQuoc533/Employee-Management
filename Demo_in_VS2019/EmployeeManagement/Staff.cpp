@@ -572,18 +572,25 @@ void Staff::Manage_Infor_Menu()
 				}
 				case 7:
 				{
-					outputbox.display("Please wait while saving data before returning to the previous menu.");
-					SaveInfortoTextfile();
-					ListEmpl.clear();
-					delete employeeRecords;
-					outputbox.display("Returning to previous menu....");
-					mainmenu.clear();
-					mainmenu.autowarp(1);
+					exit_infor_menu();
 					break;
 				}
 			}
 		}
 	}
+}
+
+void Staff::exit_infor_menu() {
+	outputbox.display("Please wait while saving data before returning to the previous menu.");
+	SaveInfortoTextfile();
+	ListEmpl.clear();
+	if (employeeRecords) {
+		delete employeeRecords;
+		employeeRecords = nullptr;
+	}
+	outputbox.display("Returning to previous menu....");
+	mainmenu.clear();
+	mainmenu.autowarp(1);
 }
 
 string Staff::load_month(vector<string>& months) {

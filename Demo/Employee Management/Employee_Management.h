@@ -105,6 +105,7 @@ public:
 	void View_Infor_of_an_Empl();
 	void View_Profile();
 	void Reset_password_for_empl();
+	void exit_infor_menu();
 	void Manage_Infor_Menu();
 	//RECORD
 	string load_month(vector<string>&);
