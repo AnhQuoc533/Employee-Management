@@ -89,7 +89,6 @@ private:
 	Record* employeeRecords;
 public:
 	Staff(Account);
-	void load_profile();
 	void view_profile();
 	void section();
 	string staff_name();

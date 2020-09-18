@@ -1,9 +1,29 @@
 #include"Employee_Management.h"
 
-Staff::Staff(Account acc) : StInfor(acc)
-{
-	load_profile();
-	employeeRecords = new Record;
+Staff::Staff(Account acc) : StInfor(acc), employeeRecords(nullptr) {
+	ifstream f("Staff.txt");
+	string tmp;
+	while (true) {
+		getline(f, tmp, ',');
+		if (tmp == StInfor.ACC.Username) {
+			getline(f, tmp, ',');
+			getline(f, tmp, ',');
+			StInfor.Name = tmp;
+			getline(f, tmp, ',');
+			StInfor.Gender = tmp[0];
+			getline(f, tmp, ',');
+			StInfor.DoB.stoDate(tmp);
+			getline(f, tmp, ',');
+			StInfor.Phone = tmp;
+			getline(f, tmp);
+			StInfor.Address = tmp;
+			break;
+		}
+		else {
+			getline(f, tmp);
+		}
+	}
+	f.close();
 }
 
 void Staff::section() {
@@ -861,32 +881,6 @@ void Staff::viewSalaryTable()
 
 string Staff::staff_name() {
 	return StInfor.Name;
-}
-
-void Staff::load_profile() {
-	ifstream f("Staff.txt");
-	string tmp;
-	while (true) {
-		getline(f, tmp, ',');
-		if (tmp == StInfor.ACC.Username) {
-			getline(f, tmp, ',');
-			getline(f, tmp, ',');
-			StInfor.Name = tmp;
-			getline(f, tmp, ',');
-			StInfor.Gender = tmp[0];
-			getline(f, tmp, ',');
-			StInfor.DoB.stoDate(tmp);
-			getline(f, tmp, ',');
-			StInfor.Phone = tmp;
-			getline(f, tmp);
-			StInfor.Address = tmp;
-			break;
-		}
-		else {
-			getline(f, tmp);
-		}
-	}
-	f.close();
 }
 
 void Staff::view_profile() {
