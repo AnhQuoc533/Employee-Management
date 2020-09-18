@@ -307,7 +307,7 @@ istream& operator>>(istream& ist, Date& D)
 	} while (D.year == -1);
 	do
 	{
-		cout << "Input month (from 1 to 12): ";
+		cout << "Input month (1 - 12): ";
 		cin >> D.month;
 		if (cin.fail() || D.month > 12 || D.month <= 0)
 		{
@@ -323,7 +323,7 @@ istream& operator>>(istream& ist, Date& D)
 	int maxd = D.Maxdayintmonth();
 	do
 	{
-		cout << "Input day (from 1 to " << maxd << "): ";
+		cout << "Input day (1 - " << maxd << "): ";
 		cin >> D.day;
 		if (cin.fail() || D.day > maxd || D.day <= 0)
 		{

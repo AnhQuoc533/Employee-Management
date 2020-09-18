@@ -50,6 +50,7 @@ public:
 	void clear(int index);
 	int getIndex(int ID);
 	bool hasData() { return records.size(); }
+	int number_of() { return nCol - 1; }
 	void newBlank(int* arr, int n);
 	void newBlank(int ID);
 	void clearData();
@@ -62,7 +63,7 @@ private:
 	Infor EInfor;
 	double Salary = 0;
 	int logday, logmonth, logyear;
-	bool record[31];
+	vector<bool> record;
 	void boardsetup();
 public:
 	Employee();
@@ -86,9 +87,9 @@ private:
 	Infor StInfor;
 	vector<Employee> ListEmpl;
 	Record* employeeRecords;
-	void load_profile();
 public:
 	Staff(Account);
+	void load_profile();
 	void view_profile();
 	void section();
 	string staff_name();
@@ -108,7 +109,7 @@ public:
 	void Manage_Infor_Menu();
 	//RECORD
 	string load_month(vector<string>&);
-	bool add_month(string);
+	bool add_month(string, int);
 	bool createRecords();
 	void editRecordOfAnEmployee();
 	void removeRecords(); // check for the need later

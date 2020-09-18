@@ -112,7 +112,7 @@ void Staff::ImportListEmpfromCsv()
 	ifstream fload;
 	string namefile;
 	Employee anEmpl;
-	cout << "Input the name of .csv file: ";
+	cout << "Input the name of csv file: ";
 	getline(cin, namefile);
 	namefile.append(".csv");
 	fload.open(namefile);
@@ -571,7 +571,7 @@ string Staff::load_month(vector<string>& months) {
 	fin.open("Month-Record.txt");
 	if (fin.is_open())
 	{
-		while (getline(fin, tmp))
+		while (getline(fin, tmp, ','))
 		{
 			months.push_back(tmp);
 		}
@@ -618,7 +618,7 @@ void Staff::Manage_Record_Menu() {
 			outputbox.display("Creating new record....");
 			employeeRecords = new Record(option);
 			if (createRecords()) {
-				if (add_month(option)) {
+				if (add_month(option, n)) {
 					// Loading graphic needed
 					outputbox.display("New month was added successfully.");
 				}
@@ -647,11 +647,12 @@ void Staff::Manage_Record_Menu() {
 		while (choice != 6)
 		{
 			mainmenu.autowarp(0);
-			choice = mainmenu.operate("MANAGE RECORD", "Import records data from csv file\nEdit record of an employee\nClear record of an employee\nView records of all employees\nView salary of all employees\nExit");
-			switch (choice + 1)
+			choice = mainmenu.operate("MANAGE RECORD", "Import records data from csv file\nEdit record of an employee\nClear record of an employee\nView records of all employees\nView salary of all employees\nExit") + 1;
+			switch (choice)
 			{
 				case 1:
 				{
+					removeRecords();
 					importRecords();
 					break;
 				}
@@ -690,10 +691,13 @@ void Staff::Manage_Record_Menu() {
 	}
 }
 
-bool Staff::add_month(string month) {
+bool Staff::add_month(string month, int n) {
 	ofstream f("Month-Record.txt", ios::app);
 	if (f.is_open()) {
-		f << ',' << month;
+		if (n)
+			f << ',' << month;
+		else
+			f << month;
 		f.close();
 		return true;
 	}
@@ -765,21 +769,21 @@ void Staff::importRecords()
 {
 	ifstream fin;
 	string filename;
-	cout << "Input the name of the csv file (do not input the type of the file): ";
+	cout << "Input the name of the csv file: ";
 	getline(cin, filename);
 	filename.append(".csv");
 	fin.open(filename);
 	if (!fin.is_open())
 	{
-		cout << "Cannot find the file " << filename << ".\n";
+		cout << "Cannot find the file " << filename << endl;
 		cout << "Cannot import data.\n";
 	}
 	else
 	{
 		cout << "Openned file " << filename << " successfully.\n";
-		cout << "Starting load its data to the program...\n";
+		cout << "Loading data to the program...\n";
 		employeeRecords->import(fin);
-		cout << endl << "Finished importing " << filename << ".\n";
+		cout << endl << "Finished importing " << filename << endl;
 	}
 	fin.close();
 }
@@ -802,12 +806,10 @@ void Staff::clearRecordOfAnEmployee()
 
 void Staff::viewRecords()
 {
-	Date today;
 	int index;
 	int n = (int)ListEmpl.size();
-	int maxDay = today.Maxdayintmonth();
-	cout << "Day" << setw(8);
-	for (int i = 1; i <= maxDay; ++i)
+	cout << setw(8);
+	for (int i = 1; i <= employeeRecords->number_of(); ++i)
 	{
 		cout << i << setw(3);
 	}
