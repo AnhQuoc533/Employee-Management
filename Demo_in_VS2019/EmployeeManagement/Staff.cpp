@@ -843,12 +843,11 @@ void Staff::clearRecordOfAnEmployee()
 	index = employeeRecords->getIndex(ID);
 	if (index == -1)
 	{
-		cout << "There is no employee possessing the ID " << ID << " in records database.\n";
-		cout << "You should recheck the data.\n";
+		outputbox.display("There is no employee possessing the ID " + to_string(ID) + " in records database.\nYou should recheck the data.");
 		return;
 	}
 	employeeRecords->clear(index);
-	cout << "Cleared record of an employee\n";
+	outputbox.display("Cleared record of an employee");
 }
 
 void Staff::viewRecords()
