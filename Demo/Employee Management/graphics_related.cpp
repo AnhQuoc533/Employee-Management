@@ -344,7 +344,10 @@ void graphical_textbox::display()
 
 screenctrl* screenctrl::instance()
 {
-	if (!inst) inst = new screenctrl;
+	if (!inst) {
+		inst = new screenctrl;
+		destroyer.SetSingleton(inst);
+	}
 	return inst;
 }
 

@@ -1,6 +1,7 @@
 #include "Employee_Management.h"
 #include "Login.h"
 screenctrl* screenctrl::inst = NULL;
+SingletonDestroyer screenctrl::destroyer;
 
 int main() {
 	screenctrl* screen = screenctrl::instance();
