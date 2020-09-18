@@ -515,6 +515,7 @@ void Staff::Manage_Infor_Menu()
 			case 2:
 			{
 				LoadfromTextfile();
+				employeeRecords = new Record;
 				break;
 			}
 			case 3:
