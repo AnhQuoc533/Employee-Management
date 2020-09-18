@@ -56,6 +56,7 @@ public:
 	void clearData();
 	void view(int index);
 	void remove(int index);
+	int calcSalary(int index);
 };
 
 class Employee {
