@@ -673,6 +673,12 @@ string Staff::load_month(vector<string>& months) {
 
 void Staff::Manage_Record_Menu() {
 	LoadInforInRecord();
+	if (ListEmpl.size() == 0) {
+		outputbox.display("No employee found in database. There is nothing to manange!");
+		outputbox.display("Returning to previous menu....");
+		mainmenu.clear();
+		return;
+	}
 	vector<string> months;
 	string option;
 	int n, choice;
@@ -851,11 +857,11 @@ void Staff::removeRecords()
 	if (employeeRecords->hasData())
 	{
 		employeeRecords->clearData();
-		cout << "Removed records data successfully\n";
+		outputbox.display("Removed records data successfully.");
 	}
 	else
 	{
-		cout << "There's no records data to remove\n";
+		outputbox.display("There's no records data to remove");
 	}
 }
 
@@ -869,15 +875,16 @@ void Staff::importRecords()
 	fin.open(filename);
 	if (!fin.is_open())
 	{
-		cout << "Cannot find the file " << filename << endl;
-		cout << "Cannot import data.\n";
+		outputbox.display("Cannot find the file " + filename +"\nCannot import data.");
 	}
 	else
 	{
-		cout << "Openned file " << filename << " successfully.\n";
-		cout << "Loading data to the program...\n";
+		screenctrl* screen = screenctrl::instance();
+		outputbox.display("Openned file " + filename + " successfully.\nLoading data to the program...");
+		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
+		loader.load(30);
 		employeeRecords->import(fin);
-		cout << endl << "Finished importing " << filename << endl;
+		outputbox.display("Finished importing " + filename);
 	}
 	fin.close();
 }
@@ -922,8 +929,7 @@ void Staff::viewRecords()
 			index = employeeRecords->getIndex(ListEmpl[i].EInfor.getID());
 			if (index == -1)
 			{
-				cout << "There is no employee possessing the ID " << ListEmpl[i].EInfor.getID() << " in records database.\n";
-				cout << "You should recheck the data." << endl;
+				outputbox.display("There is no employee possessing the ID " + to_string(ListEmpl[i].EInfor.getID()) + " in records database.\nYou should recheck the data.");
 				continue;
 			}
 			employeeRecords->view(index);
@@ -952,7 +958,7 @@ void Staff::viewSalaryTable()
 {
 	int n = (int)ListEmpl.size();
 	double total = 0;
-	int offset = 0;
+	int offset = 0, salary, index;
 	screenctrl* screen = screenctrl::instance();
 	int partsize = screen->getbufferh() - 9 - TXTY;
 	graphical_box temp;
@@ -961,6 +967,7 @@ void Staff::viewSalaryTable()
 	totalbox.setfocus(0);	
 	while (1)
 	{
+		temp.turnCursor(0);
 		totalbox.display("Total salary: " + to_string((int)total));
 		cout << "Salary table of all employees (press up/down to navigate)\n";
 		cout << left << setw(10) << "ID" << setw(2) << (char)179 << setw(28) << "Name" << setw(2) << (char)179 << right << setw(12) << "Salary" << endl;
@@ -969,10 +976,17 @@ void Staff::viewSalaryTable()
 		cout << endl;
 		for (int i = offset; i < offset+partsize; ++i)
 		{
+			index = employeeRecords->getIndex(ListEmpl[i].EInfor.getID());
+			if (index == -1)
+			{
+				outputbox.display("There is no employee possessing the ID " + to_string(ListEmpl[i].EInfor.getID()) + " in records database.\nYou should recheck the data.");
+				continue;
+			}
+			salary = employeeRecords->calcSalary(index);
 			cout << left << setw(10) << ListEmpl[i].EInfor.getID() << setw(2) << (char)179;
 			cout << setw(28) << ListEmpl[i].EInfor.getName() << setw(2) << (char)179;
-			cout << right << setw(12) << ListEmpl[i].Salary << endl;
-			total += ListEmpl[i].Salary;
+			cout << right << setw(12) << salary << endl;
+			total += salary;
 		}
 		char c = _getch();
 		if (c == -32)

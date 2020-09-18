@@ -374,7 +374,7 @@ void Staff::Remove_an_Empl()
 	int idx = employeeRecords->getIndex(id);
 	if (idx == -1)
 	{
-		outputbox.display("There is no employee possessing the ID " + to_string(id) + " in records database.\nYou should re-check the data.");
+		outputbox.display("There is no employee possessing the ID " + to_string(id) + " in record database.");
 	}
 	else
 		employeeRecords->remove(idx);
@@ -519,7 +519,7 @@ void Staff::Manage_Infor_Menu()
 {
 	int choice = 0;
 	while (true) {
-		choice = mainmenu.operate("LOAD DATA", "Import new list of employee from csv file\nLoad existed list of employee from your database\nCreate new list of employee manually\nExit");
+		choice = mainmenu.operate("LOAD DATA", "Import new list of employee from csv file\nLoad existed list of employee from database\nCreate new list of employee manually\nBack");
 		switch (choice + 1)
 		{
 			case 1:
@@ -556,7 +556,7 @@ void Staff::Manage_Infor_Menu()
 		while (choice != 7)
 		{
 			mainmenu.autowarp(0);
-			choice = mainmenu.operate("MANAGE INFORMATION", "Add an employee\nEdit information of an employee\nRemove an employee\nView list of employees\nView information of an employee\nReset password of an employee\nExit") + 1;
+			choice = mainmenu.operate("MANAGE INFORMATION", "Add an employee\nEdit information of an employee\nRemove an employee\nView list of employees\nView information of an employee\nReset password of an employee\nBack") + 1;
 			switch (choice)
 			{
 				case 1:
@@ -693,7 +693,7 @@ void Staff::Manage_Record_Menu() {
 		while (choice != 6)
 		{
 			mainmenu.autowarp(0);
-			choice = mainmenu.operate("MANAGE RECORD", "Import records data from csv file\nEdit record of an employee\nClear record of an employee\nView records of all employees\nView salary of all employees\nExit") + 1;
+			choice = mainmenu.operate("MANAGE RECORD", "Import record data from csv file\nEdit record of an employee\nClear record of an employee\nView record of all employees\nView salary of all employees\nBack") + 1;
 			switch (choice)
 			{
 				case 1:
@@ -797,7 +797,7 @@ void Staff::editRecordOfAnEmployee()
 	index = employeeRecords->getIndex(ID);
 	if (index == -1)
 	{
-		outputbox.display("There is no employee possessing the ID " +to_string(ID)+ " in records database.\nYou should recheck the data.");
+		outputbox.display("There is no employee possessing the ID " +to_string(ID)+ " in record database.");
 		return;
 	}
 	cout << "Input the day of month: ";
@@ -809,7 +809,7 @@ void Staff::editRecordOfAnEmployee()
 	}
 	cout << "Input the status of the employee\n";
 	graphical_menu menu;
-	status = 1-menu.operate("Status", "Present\nAbsent\n");
+	status = 1-menu.operate("Status", "Present\nAbsent");
 	employeeRecords->edit(index, day, status);
 	outputbox.display("The record of an employee was edited successfully.");
 }
@@ -837,15 +837,14 @@ void Staff::importRecords()
 	fin.open(filename);
 	if (!fin.is_open())
 	{
-		cout << "Cannot find the file " << filename << endl;
-		cout << "Cannot import data.\n";
+		outputbox.display("Cannot import data from record database.");
 	}
 	else
 	{
-		cout << "Openned file " << filename << " successfully.\n";
-		cout << "Loading data to the program...\n";
+		outputbox.display("Openned file " + filename + " successfully.");
+		outputbox.display("Loading data to the program...");
 		employeeRecords->import(fin);
-		cout << endl << "Finished importing " << filename << endl;
+		outputbox.display("Finished importing " + filename);
 	}
 	fin.close();
 }
@@ -858,11 +857,11 @@ void Staff::clearRecordOfAnEmployee()
 	index = employeeRecords->getIndex(ID);
 	if (index == -1)
 	{
-		outputbox.display("There is no employee possessing the ID " + to_string(ID) + " in records database.\nYou should recheck the data.");
+		outputbox.display("There is no employee possessing the ID " + to_string(ID) + " in record database.");
 		return;
 	}
 	employeeRecords->clear(index);
-	outputbox.display("Cleared record of an employee");
+	outputbox.display("Record of the employee was cleared successfully.");
 }
 
 void Staff::viewRecords()
@@ -876,7 +875,7 @@ void Staff::viewRecords()
 	while (1)
 	{
 		temp.turnCursor(0);
-		cout << left << setw(10) << "Day" << setw(2) << (char)179;
+		cout << left << setw(10) << "   " << setw(2) << (char)179;
 		for (int i = 1; i <= employeeRecords->number_of(); ++i)
 		{
 			cout << setw(5) << i;
@@ -890,8 +889,7 @@ void Staff::viewRecords()
 			index = employeeRecords->getIndex(ListEmpl[i].EInfor.getID());
 			if (index == -1)
 			{
-				cout << "There is no employee possessing the ID " << ListEmpl[i].EInfor.getID() << " in records database.\n";
-				cout << "You should recheck the data." << endl;
+				cout << "There is no employee possessing the ID " << ListEmpl[i].EInfor.getID() << " in record database.\n";
 				continue;
 			}
 			employeeRecords->view(index);
@@ -930,7 +928,7 @@ void Staff::viewSalaryTable()
 	while (1)
 	{
 		totalbox.display("Total salary: " + to_string((int)total));
-		cout << "Salary table of all employees (press up/down to navigate)\n";
+		cout << "\nSalary table of all employees (press up/down to navigate)\n";
 		cout << left << setw(10) << "ID" << setw(2) << (char)179 << setw(28) << "Name" << setw(2) << (char)179 << right << setw(12) << "Salary" << endl;
 		for (int i = 0; i < 30+2*12; i++)
 			if (i == 10||i==40) cout << (char)197; else cout << (char)196;
