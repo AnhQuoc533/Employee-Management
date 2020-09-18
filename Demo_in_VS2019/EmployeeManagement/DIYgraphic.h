@@ -18,6 +18,40 @@ using namespace std;
 #define TXTY 21
 #define SEMI 6
 
+class SingletonDestroyer;
+
+class screenctrl
+{
+private:
+	int swidth = 0, sheight = 0;
+	int bwidth = 0, bheight = 0;
+	static screenctrl* inst;
+	static SingletonDestroyer destroyer;
+	screenctrl() {}
+	~screenctrl() {}
+public:
+	static screenctrl* instance();
+	void init(int width, int height);
+	int getbufferw() { return bwidth; }
+	int getbufferh() { return bheight; }
+
+	friend class SingletonDestroyer;
+};
+
+class SingletonDestroyer {
+private:
+	screenctrl* inst;
+
+	SingletonDestroyer() : inst(nullptr) {}
+	~SingletonDestroyer() { delete inst; }
+	void SetSingleton(screenctrl* arg) { inst = arg; }
+
+	SingletonDestroyer(const SingletonDestroyer&) = delete;
+	SingletonDestroyer& operator=(const SingletonDestroyer&) = delete;
+
+	friend class screenctrl;
+};
+
 class graphics_abstract
 {
 protected:
@@ -43,25 +77,11 @@ public:
 	void display(int color);
 };
 
-class screenctrl
-{
-private:
-	int swidth = 0, sheight = 0;
-	int bwidth = 0, bheight = 0;
-	static screenctrl* inst;
-	screenctrl() {}
-public:
-	static screenctrl* instance();
-	void init(int width, int height);
-	int getbufferw() { return bwidth; }
-	int getbufferh() { return bheight; }
-};
-
 class graphical_menu : public graphics_abstract
 {
 private:
 	string content, title; bool back = 0, dynamic = 1, willclear = 1;
-	int x, y, w, h, border, select = 0, orix;
+	int x, y, w, h, border, select = 0, orix = 0;
 	bool halign = 0, valign = 0;
 	graphical_box box;
 public:

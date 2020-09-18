@@ -13,7 +13,7 @@ class Account {
 private:
 	string Username;
 	string Password;
-	int role;
+	int role = 1;
 public:
 	string getUsername() { return Username; }
 	string getPassword() { return Password; }
