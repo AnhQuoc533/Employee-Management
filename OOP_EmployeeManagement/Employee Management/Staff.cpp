@@ -65,12 +65,13 @@ void Staff::SaveInfortoTextfile(string waytoSave)
 	{
 		if (waytoSave == "Not overwrite")
 		{
-			if (fsave.beg != fsave.end)
+			fsave.seekp(fsave.beg, fsave.end);
+			if (fsave.tellp() != 0)
 			{
 				fsave << endl;
 			}
 		}
-		outputbox.display("Saving data to " + namefile + "....\nDO NOT shutdown the program while saving!");
+		outputbox.display("Saving data to information database....\nDO NOT shutdown the program while saving!");
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Save");
 		loader.load(30);
@@ -96,7 +97,7 @@ void Staff::SaveInfortoTextfile(string waytoSave)
 				fsave << endl;
 			}
 		}
-		outputbox.display("Finished saving data to file " + namefile + " succeeded.\nClosing the file....");
+		outputbox.display("Finished saving data to information database succeeded.");
 		fsave.close();
 		if (fsave.is_open())
 		{
@@ -112,7 +113,7 @@ void Staff::LoadInforInRecord()
 	fload.open(namefile);
 	if (!fload.is_open())
 	{
-		outputbox.display("Cannot open the file " + namefile);
+		outputbox.display("Cannot open the information database.");
 		return;
 	}
 	else
@@ -136,12 +137,12 @@ void Staff::LoadfromTextfile()
 	fload.open(namefile);
 	if (!fload.is_open())
 	{
-		outputbox.display("Cannot open the file " + namefile);
+		outputbox.display("Cannot open the information database.");
 		return;
 	}
 	else
 	{
-		outputbox.display("Opened file " + namefile + " succeeded.\nLoading data to the program....");
+		outputbox.display("Opened file the information database succeeded.\nLoading data to the program....");
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
 		loader.load(30);
@@ -151,7 +152,7 @@ void Staff::LoadfromTextfile()
 			anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
 			ListEmpl.push_back(anEmpl);
 		}
-		outputbox.display("Finished loading " + namefile + "\nClosing the file....");
+		outputbox.display("Finished loading data.");
 		fload.close();
 		if (fload.is_open())
 		{
@@ -208,10 +209,9 @@ void Staff::ImportListEmpfromCsv()
 		{
 			outputbox.display("Failed to close file " + namefile);
 		}
-		outputbox.display("Your data will be saved to a text file now.");
-		graphical_menu menu(5, TXTY, 0);
+		outputbox.display("Your data will be saved to the information database now.");
 		int choice = 0;
-		choice = menu.operate("Saving Method", "Overwrite existing data\nAdd to existing data\n");
+		choice = mainmenu.operate("Saving Method", "Overwrite existing data\nAdd to existing data\n");
 		switch (choice + 1)
 		{
 		case 1:
@@ -223,8 +223,9 @@ void Staff::ImportListEmpfromCsv()
 		{
 			SaveInfortoTextfile("Not overwrite");
 			break;
+		}		
 		}
-		}
+		mainmenu.clear();
 	}
 }
 
@@ -420,9 +421,9 @@ void Staff::View_list_of_Empl()
 	{
 		temp.turnCursor(0);
 		cout << "LIST OF EMPLOYEES:\n(press up/down to navigate)\n";
-		cout << setw(7) << "No" << setw(7) << (char)179 << setw(10) << "ID" << setw(15) << (char)179 << setw(12) << "Name" << endl;
-		for (int i = 0; i < 7 + 17 + 27 + 20; i++)
-			if (i == 13 || i == 13 + 25)
+		cout << right << setw(10) << "No" << setw(3) << (char)179 << setw(15) << "ID" << setw(3) << (char)179 << setw(5) << " " << left << setw(20) << "Name" << endl;
+		for (int i = 0; i < 17 + 27 + 20; i++)
+			if (i == 12 || i == 13 + 25 - 8)
 			{
 				if (offset == 0) cout << (char)197;
 				else cout << (char)193;
@@ -446,9 +447,9 @@ void Staff::View_list_of_Empl()
 			space1 = 5 + (int)No.length();
 			space2 = 15 - ((int)No.length() - 2) + (int)ID.length() - 7;
 			space3 = 23 - ((int)ID.length() - 2) + (int)ListEmpl[i].EInfor.getName().length() - 9;
-			cout << setw(space1) << No << setw(7) << (char)179 << setw(space2) << ID << setw(9) << (char)179 << setw(space3) << ListEmpl[i].EInfor.Name << endl;
+			cout << right << setw(10) << No << setw(3) << (char)179 << setw(15) << ID << setw(3) << (char)179 << setw(5) << " " << left << setw(20) << ListEmpl[i].EInfor.Name << endl;
 		}
-		if (offset + partsize != n) cout << setw(7) << "..." << setw(7) << (char)179 << setw(11) << "..." << setw(14) << (char)179 << setw(11) << "..." << endl;
+		if (offset + partsize != n) cout << right << setw(10) << "..." << setw(3) << (char)179 << setw(15) << "..." << setw(3) << (char)179 << setw(5) << " " << left << setw(20) << "..." << endl;
 		char c = _getch();
 		if (c == -32)
 		{
@@ -572,8 +573,10 @@ void Staff::Manage_Infor_Menu()
 			if (employeeRecords) {
 				delete employeeRecords;
 				employeeRecords = nullptr;
+				mainmenu.autowarp(0);
+				mainmenu.clear();
+				mainmenu.autowarp(1);
 			}
-			mainmenu.clear();
 			continue;
 		}		
 		while (choice != 7)
@@ -667,7 +670,9 @@ void Staff::Manage_Record_Menu() {
 	if (ListEmpl.size() == 0) {
 		outputbox.display("No employee found in database. There is nothing to manange!");
 		outputbox.display("Returning to previous menu....");
+		mainmenu.autowarp(0);
 		mainmenu.clear();
+		mainmenu.autowarp(1);
 		return;
 	}
 	vector<string> months;
@@ -960,7 +965,7 @@ void Staff::viewRecords()
 void Staff::viewSalaryTable()
 {
 	int n = (int)ListEmpl.size();
-	double total = 0;
+	int total = 0;
 	int offset = 0, salary, index;
 	screenctrl* screen = screenctrl::instance();
 	int partsize = screen->getbufferh() - 9 - TXTY;
@@ -970,8 +975,8 @@ void Staff::viewSalaryTable()
 	totalbox.setfocus(0);	
 	while (true)
 	{
+		totalbox.display("Total salary: " + to_string(total));
 		temp.turnCursor(0);
-		totalbox.display("Total salary: " + to_string((int)total));
 		cout << "Salary table\n(press up/down to navigate)\n";
 		cout << left << setw(10) << "ID" << setw(2) << (char)179 << setw(28) << "Name" << setw(2) << (char)179 << right << setw(12) << "Salary" << endl;
 		for (int i = 0; i < 30+2*12; i++)
@@ -1048,9 +1053,9 @@ void Staff::save_cmt(int id, int money, string cmt) {
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Save");
 		loader.load(30);
-		if (f.tellp() == EOF) {
+		f.seekp(f.beg, f.end);
+		if (f.tellp() != 0)
 			f << endl;
-		}
 		f << employeeRecords->month_record() << ',' << id << ',' << money << ',' << cmt;
 		f.close();
 		outputbox.display("Your comment was saved successfully!");
@@ -1063,17 +1068,24 @@ void Staff::view_cmt() {
 	ifstream f("Comment.txt");
 	string tmp;
 	if (f.is_open()) {
-		cout << "Employee\t\tBonus/Fine\t\tComment";
+		cout << right << setw(20) << "Employee" << setw(2) << (char)179 << right << setw(20) << "Bonus/Fine" << setw(2) << (char)179 << setw(5) << " " << left << setw(20) << "Comment" << endl;
+		for (int i = 0; i < 30 + 3 * 12; i++)
+			if (i == 21 || i == 43) cout << (char)197; else cout << (char)196;
+		cout << endl;
 		while (f.good()) {
 			getline(f, tmp, ',');
 			if (tmp == employeeRecords->month_record()) {
-				cout << endl;
-				for (int i = 0; i < 2; ++i) {
-					getline(f, tmp, ',');
-					cout << tmp << "\t\t";
-				}
+				graphical_box z;
+				z.charColorate(WHITE);
+				getline(f, tmp, ',');
+				cout << right << setw(20) << tmp << setw(2) << (char)179;
+				getline(f, tmp, ',');
+				if (stoi(tmp) < 0) z.charColorate(BAD);
+				else z.charColorate(GOOD);
+				cout << right << setw(20) << tmp;
 				getline(f, tmp);
-				cout << tmp << "\t\t";
+				z.charColorate(WHITE);
+				cout << setw(2) << (char)179 << setw(5) << " " << left << setw(12) << tmp << endl;
 			}
 			else
 				getline(f, tmp);

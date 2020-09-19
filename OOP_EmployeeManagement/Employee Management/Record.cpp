@@ -32,7 +32,7 @@ Record::Record()
 
 Record::Record(string recordName)
 {
-	Date day(stoi(recordName.substr(3,4)), stoi(recordName.substr(0, 2)), 1);
+	Date day(stoi(recordName.substr(3, 4)), stoi(recordName.substr(0, 2)), 1);
 	ifstream fin;
 	int* p;
 	filename = "Record-" + recordName + ".txt";
