@@ -537,7 +537,7 @@ void Staff::Manage_Infor_Menu()
 {
 	int choice = 0;
 	while (true) {
-		choice = mainmenu.operate("LOAD DATA", "Import new list of employee from csv file (only put data in csv file to the information database)\nLoad existed list of employee from database\nCreate new list of employee manually\nBack\n");
+		choice = mainmenu.operate("LOAD DATA", "Import new list of employee from csv file\nLoad existed list of employee from database\nCreate new list of employee manually\nBack\n");
 		switch (choice + 1)
 		{
 			case 1:
