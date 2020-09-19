@@ -670,7 +670,9 @@ void Staff::Manage_Record_Menu() {
 	if (ListEmpl.size() == 0) {
 		outputbox.display("No employee found in database. There is nothing to manange!");
 		outputbox.display("Returning to previous menu....");
+		mainmenu.autowarp(0);
 		mainmenu.clear();
+		mainmenu.autowarp(1);
 		return;
 	}
 	vector<string> months;
