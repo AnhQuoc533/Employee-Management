@@ -58,7 +58,7 @@ public:
 	void view(int index);
 	void remove(int index);
 	int calcSalary(int index);
-	int bonus(int id);
+	int addition(int id);
 };
 
 class Employee {
@@ -80,6 +80,7 @@ public:
 	void viewCheckin();
 	void viewAnnualRecord();
 	void viewAnnualSalary();
+	void get_cmt(int*, string*);
 	void EmployeeMenu();
 
 	friend class Staff;

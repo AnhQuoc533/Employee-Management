@@ -74,11 +74,10 @@ bool Employee::loadEmplRecord(int month)
 					getline(iss, tok, ',');
 					record[i] = stoi(tok);
 				}
-				break;
+				return 1;
 			}
 		}
 		fi.close();
-		return 1;
 	}
 	return 0;
 }
@@ -179,17 +178,52 @@ void Employee::viewAnnualSalary() {
 	string word[] = { "January","February","March","April","May","June","July","August","September","October","November","December" };
 	int daymax[] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
 	int sep = 15, workcount = 0, scale = 300000;
-	cout << left << setw(sep) << "Month" << setw(2) << (char)179 << setw(sep) << "Day worked" << setw(2) << (char)179 << setw(sep) << "Salary" << endl;
-	for (int i = 0; i < (sep + 2) * 3; i++) if (i == 15 || i == 32) cout << (char)197; else cout << (char)196;
+	int addition[] = { 0,0,0,0,0,0,0,0,0,0,0,0 };
+	string cmt[12];
+	get_cmt(addition, cmt);
+	cout << left << setw(sep) << "Month" << setw(2) << (char)179 << setw(sep) << "Day worked" << setw(2) << (char)179 << setw(sep) << "Salary" << setw(2) << (char)179 << setw(15) << "Bonus/fine" << setw(2) << (char)179 << setw(15) << "Comment" << endl;
+	for (int i = 0; i < (sep + 2) * 6; i++) if (i == 15 || i == 32 || i== 49 || i== 66) cout << (char)197; else cout << (char)196;
 	cout << endl;
 	for (int i = 1; i < 13; i++)
 	{
 		if (!loadEmplRecord(i)) continue;
 		workcount = 0;
 		for (int j = 0; j < daymax[i - 1]; j++) if (record[j]) workcount++;
-		cout << left << setw(sep) << word[i - 1] << setw(2) << (char)179 << setw(sep) << workcount << setw(2) << (char)179 << setw(sep) << workcount * scale << endl;
+		cout << left << setw(sep) << word[i - 1] << setw(2) << (char)179 << setw(sep) << workcount << setw(2) << (char)179 << setw(sep) << workcount * scale << setw(2) << (char)179 << setw(15);
+		if (addition[i - 1])
+		{
+			graphical_box temp;
+			if (addition[i - 1] > 0) temp.charColorate(GOOD);
+			else temp.charColorate(BAD);
+			cout << addition[i - 1];
+			temp.charColorate(WHITE);
+			cout << setw(2) << (char)179 << setw(15) << cmt[i - 1];
+		}
+		else cout << " " << setw(2) << (char)179;
+		cout << endl;		
 	}
 	outputbox.display("This is your salary of this year.");
+}
+
+void Employee::get_cmt(int* addition, string* cmt) {
+	ifstream f("Comment.txt");
+	if (f.is_open()) {
+		string month, tmp;
+		while (f.good()) {
+			getline(f, month, ',');
+			getline(f, tmp, ',');
+			if (tmp == to_string(EInfor.getID())) {
+				int index = stoi(month.substr(0, 2)) - 1;
+				getline(f, tmp, ',');
+				addition[index] = stoi(tmp);
+				getline(f, tmp);
+				cmt[index] = tmp;
+			}
+			else
+				getline(f, tmp);
+		}
+		f.close();
+	}
 }
 
 void Employee::EmployeeMenu()
@@ -197,7 +231,7 @@ void Employee::EmployeeMenu()
 	while (true)
 	{
 		mainmenu.autowarp(0);
-		int choice = mainmenu.operate("COMMANDS", "Check in\nView check-in Result\nView annual salary\nView annual record\nBack");
+		int choice = mainmenu.operate("COMMANDS", "Check in\nView check-in result\nView annual salary\nView annual record\nBack");
 		switch (choice)
 		{
 		case 0: checkin(); break;

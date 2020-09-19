@@ -32,7 +32,7 @@ Record::Record()
 
 Record::Record(string recordName)
 {
-	Date day(stoi(recordName.substr(3,4)), stoi(recordName.substr(0, 2)), 1);
+	Date day(stoi(recordName.substr(3, 4)), stoi(recordName.substr(0, 2)), 1);
 	ifstream fin;
 	int* p;
 	filename = "Record-" + recordName + ".txt";
@@ -200,10 +200,10 @@ int Record::calcSalary(int index)
 	{
 		salary += records[index][i] * 300000;
 	}
-	return salary + bonus(records[index][0]);
+	return salary + addition(records[index][0]);
 }
 
-int Record::bonus(int id) {
+int Record::addition(int id) {
 	int bonus = 0;
 	string tmp;
 	ifstream f("Comment.txt");
