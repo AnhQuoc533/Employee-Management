@@ -65,7 +65,7 @@ void Staff::SaveInfortoTextfile(string waytoSave)
 	{
 		if (waytoSave == "Not overwrite")
 		{
-			if (fsave.tellp() != 0)
+			if (fsave.beg != fsave.end)
 			{
 				fsave << endl;
 			}
