@@ -65,12 +65,12 @@ void Staff::SaveInfortoTextfile(string waytoSave)
 	{
 		if (waytoSave == "Not overwrite")
 		{
-			if (fsave.beg != fsave.end)
+			if (fsave.tellp() != 0)
 			{
 				fsave << endl;
 			}
 		}
-		outputbox.display("Saving data to " + namefile + "....\nDO NOT shutdown the program while saving!");
+		outputbox.display("Saving data to information database....\nDO NOT shutdown the program while saving!");
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Save");
 		loader.load(30);
@@ -96,7 +96,7 @@ void Staff::SaveInfortoTextfile(string waytoSave)
 				fsave << endl;
 			}
 		}
-		outputbox.display("Finished saving data to file " + namefile + " succeeded.\nClosing the file....");
+		outputbox.display("Finished saving data to information database succeeded.");
 		fsave.close();
 		if (fsave.is_open())
 		{
@@ -112,7 +112,7 @@ void Staff::LoadInforInRecord()
 	fload.open(namefile);
 	if (!fload.is_open())
 	{
-		outputbox.display("Cannot open the file " + namefile);
+		outputbox.display("Cannot open the information database.");
 		return;
 	}
 	else
@@ -136,12 +136,12 @@ void Staff::LoadfromTextfile()
 	fload.open(namefile);
 	if (!fload.is_open())
 	{
-		outputbox.display("Cannot open the file " + namefile);
+		outputbox.display("Cannot open the information database.");
 		return;
 	}
 	else
 	{
-		outputbox.display("Opened file " + namefile + " succeeded.\nLoading data to the program....");
+		outputbox.display("Opened file the information database succeeded.\nLoading data to the program....");
 		screenctrl* screen = screenctrl::instance();
 		graphical_loader loader(2, screen->getbufferh() - 5, 20, "Load");
 		loader.load(30);
@@ -151,7 +151,7 @@ void Staff::LoadfromTextfile()
 			anEmpl.EInfor.No = (int)ListEmpl.size() + 1;
 			ListEmpl.push_back(anEmpl);
 		}
-		outputbox.display("Finished loading " + namefile + "\nClosing the file....");
+		outputbox.display("Finished loading data.");
 		fload.close();
 		if (fload.is_open())
 		{
@@ -208,7 +208,7 @@ void Staff::ImportListEmpfromCsv()
 		{
 			outputbox.display("Failed to close file " + namefile);
 		}
-		outputbox.display("Your data will be saved to a text file now.");
+		outputbox.display("Your data will be saved to the information database now.");
 		int choice = 0;
 		choice = mainmenu.operate("Saving Method", "Overwrite existing data\nAdd to existing data\n");
 		switch (choice + 1)
@@ -537,7 +537,7 @@ void Staff::Manage_Infor_Menu()
 {
 	int choice = 0;
 	while (true) {
-		choice = mainmenu.operate("LOAD DATA", "Import new list of employee from csv file\nLoad existed list of employee from database\nCreate new list of employee manually\nBack\n");
+		choice = mainmenu.operate("LOAD DATA", "Import new list of employee from csv file (only put data in csv file to the information database)\nLoad existed list of employee from database\nCreate new list of employee manually\nBack\n");
 		switch (choice + 1)
 		{
 			case 1:
