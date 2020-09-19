@@ -1063,15 +1063,20 @@ void Staff::view_cmt() {
 	ifstream f("Comment.txt");
 	string tmp;
 	if (f.is_open()) {
-		cout << "Month\t\tEmployee\t\tBonus/Fine\t\tComment";
+		cout << "Employee\t\tBonus/Fine\t\tComment";
 		while (f.good()) {
-			cout << endl;
-			for (int i = 0; i < 3; ++i) {
-				getline(f, tmp, ',');
+			getline(f, tmp, ',');
+			if (tmp == employeeRecords->month_record()) {
+				cout << endl;
+				for (int i = 0; i < 2; ++i) {
+					getline(f, tmp, ',');
+					cout << tmp << "\t\t";
+				}
+				getline(f, tmp);
 				cout << tmp << "\t\t";
 			}
-			getline(f, tmp);
-			cout << tmp << "\t\t";
+			else
+				getline(f, tmp);
 		}
 		f.close();
 	}

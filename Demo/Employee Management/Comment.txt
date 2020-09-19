@@ -1,5 +1,4 @@
-08-2020,19127454,50000,null
-09-2020,19127005,-250000,Bad attitude
-08-2020,19127005,-250000,Bad attitude
-09-2020,19127454,50000,null
-09-2020,19127146,-50000,hi
+08-2020,19127005,500000,You always find a way to get it done – and done well!
+09-2020,19127005,-250000,You have shown bad behavior to other employees.
+09-2020,19127454,100000,Keep up the great work!
+09-2020,19127146,-50000,You were late to submit the assignment once.
