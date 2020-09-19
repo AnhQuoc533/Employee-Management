@@ -200,10 +200,10 @@ int Record::calcSalary(int index)
 	{
 		salary += records[index][i] * 300000;
 	}
-	return salary + bonus(records[index][0]);
+	return salary + addition(records[index][0]);
 }
 
-int Record::bonus(int id) {
+int Record::addition(int id) {
 	int bonus = 0;
 	string tmp;
 	ifstream f("Comment.txt");
